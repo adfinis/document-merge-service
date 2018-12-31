@@ -2,5 +2,8 @@ django==1.11.17 # pyup: >=1.11,<1.12
 django-environ==0.4.5
 django-filter==2.0.0
 djangorestframework==3.9.0
+docx-mailmerge==0.4.0
+docxtpl==0.5.14
 psycopg2-binary==2.7.6.1
+python-docx==0.8.7
 uwsgi==2.0.17.1
