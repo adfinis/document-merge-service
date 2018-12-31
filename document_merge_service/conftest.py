@@ -4,7 +4,7 @@ import inspect
 import pytest
 from factory.base import FactoryMetaClass
 from pytest_factoryboy import register
-from rest_framework_jwt import test
+from rest_framework.test import APIClient
 
 
 def register_module(module):
@@ -16,19 +16,9 @@ def register_module(module):
             register(obj, base_name)
 
 
-register_module(
-    importlib.import_module(
-        ".api.factories", "document_merge_service"
-    )
-)
+register_module(importlib.import_module(".api.factories", "document_merge_service"))
 
 
 @pytest.fixture
 def client():
-    return test.APIJWTClient()
-
-
-@pytest.fixture
-def admin_client(db, admin_user, client):
-    client.login(username=admin_user.username, password="password")
-    return client
+    return APIClient()

@@ -1,4 +1,3 @@
-import datetime
 import os
 import re
 
@@ -29,8 +28,6 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=default(["*"]))
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
     "django.contrib.postgres",
     "document_merge_service.api.apps.DefaultConfig",
 ]
@@ -64,18 +61,6 @@ DATABASES = {
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
-    },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -86,47 +71,16 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-AUTH_USER_MODEL = "api.User"
-
 REST_FRAMEWORK = {
-    "EXCEPTION_HANDLER": "rest_framework_json_api.exceptions.exception_handler",
-    "DEFAULT_PAGINATION_CLASS": "rest_framework_json_api.pagination.JsonApiPageNumberPagination",
-    "DEFAULT_PARSER_CLASSES": (
-        "rest_framework_json_api.parsers.JSONParser",
-        "rest_framework.parsers.JSONParser",
-        "rest_framework.parsers.FormParser",
-        "rest_framework.parsers.MultiPartParser",
-    ),
-    "DEFAULT_RENDERER_CLASSES": (
-        "rest_framework_json_api.renderers.JSONRenderer",
-        "rest_framework.renderers.JSONRenderer",
-    ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
-    ),
-    "DEFAULT_METADATA_CLASS": "rest_framework_json_api.metadata.JSONAPIMetadata",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_FILTER_BACKENDS": (
-        "rest_framework_json_api.filters.QueryParameterValidationFilter",
-        "rest_framework_json_api.filters.OrderingFilter",
-        "rest_framework_json_api.django_filters.DjangoFilterBackend",
+        "rest_framework.rest_framework.filters.OrderingFilter",
+        "django_filters.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
     ),
-    "ORDERING_PARAM": "sort",
-    "TEST_REQUEST_RENDERER_CLASSES": (
-        "rest_framework_json_api.renderers.JSONRenderer",
-        "rest_framework.renderers.JSONRenderer",
-    ),
-    "TEST_REQUEST_DEFAULT_FORMAT": "vnd.api+json",
-}
-
-JSON_API_FORMAT_FIELD_NAMES = "dasherize"
-JSON_API_FORMAT_TYPES = "dasherize"
-JSON_API_PLURALIZE_TYPES = True
-
-JWT_AUTH = {
-    "JWT_EXPIRATION_DELTA": datetime.timedelta(minutes=30),
-    "JWT_ALLOW_REFRESH": True,
 }
 
 
