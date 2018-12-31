@@ -1,0 +1,22 @@
+[run]
+source=.
+
+[report]
+fail_under=100
+
+exclude_lines =
+    pragma: no cover
+    pragma: todo cover
+    def __str__
+    def __unicode__
+    def __repr__
+
+omit=
+    */migrations/*
+    */apps.py
+    manage.py
+    setup.py
+    document_merge_service/settings_*.py
+    document_merge_service/wsgi.py
+
+show_missing = True

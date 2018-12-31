@@ -1,0 +1,23 @@
+version: "3"
+services:
+  db:
+    environment:
+      - POSTGRES_PASSWORD=document_merge_service
+    ports:
+      - "5432:5432"
+  backend:
+    build:
+      context: .
+      args:
+        REQUIREMENTS: requirements-dev.txt
+    user: "${UID:?Set UID env variable to your user id}"
+    volumes:
+      - ./:/app
+    command:
+      [
+        "/bin/sh",
+        "-c",
+        "wait-for-it.sh db:5432 -- ./manage.py migrate && ./manage.py runserver 0.0.0.0:8000",
+      ]
+    environment:
+      - ENV=dev

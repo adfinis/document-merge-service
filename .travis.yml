@@ -1,0 +1,23 @@
+language: python
+
+python:
+  - "3.6"
+
+services:
+  - postgresql
+
+cache:
+  - pip
+
+install:
+  - echo "ENV=travis" > .env
+  - make install-dev
+
+before_script:
+  - psql -c "CREATE ROLE document_merge_service CREATEDB LOGIN PASSWORD 'document_merge_service';" -U postgres
+  - psql -c "CREATE DATABASE document_merge_service;" -U postgres
+
+script: make test
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
