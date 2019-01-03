@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
 
-from . import engines, models, serializers
+from . import engines, models, serializers, unoconv
 
 
 class TemplateView(viewsets.ModelViewSet):
@@ -28,15 +28,19 @@ class TemplateView(viewsets.ModelViewSet):
         response = HttpResponse()
         mime_type, _ = mimetypes.guess_type(template.template.name)
         extension = mimetypes.guess_extension(mime_type)
-        filename = "{0}.{1}".format(template.slug, extension)
-        response["Content-Disposition"] = 'attachment; filename="{0}"'.format(filename)
+        filename = f"{template.slug}.{extension}"
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
         response["Content-Type"] = mimetypes.guess_type(filename)[0]
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        buf = engine.merge(serializer.data["data"])
-        response.write(buf.read())
 
+        buf = engine.merge(serializer.data["data"])
+        convert = serializer.data.get("convert")
+        if convert:
+            buf = unoconv.convert(buf, convert)
+
+        response.write(buf.read())
         return response
 
 

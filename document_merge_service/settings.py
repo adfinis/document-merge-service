@@ -136,3 +136,9 @@ DEFAULT_FILE_STORAGE = env.str(
     "FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
 )
 MEDIA_ROOT = env.str("MEDIA_ROOT", "")
+
+# Unoconv webservice
+# https://github.com/zrrrzzt/tfk-api-unoconv
+
+UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
+UNOCONV_URL = env.str("UNOCONV_URL", default=None)
