@@ -8,6 +8,7 @@ setup(
     author="Adfinis SyGroup AG",
     author_email="https://adfinis-sygroup.ch/",
     description="Merge Document Template Service",
-    url="https://adfinis-sygroup.ch/",
+    url="https://github.com/adfinis-sygroup/document-merge-service",
+    license="MIT",
     packages=find_packages(),
 )

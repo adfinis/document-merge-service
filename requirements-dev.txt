@@ -1,5 +1,6 @@
 -r requirements.txt
 black==18.9b0
+dj-inmemorystorage==1.4.1
 factory-boy==2.11.1
 flake8==3.6.0
 flake8-debugger==3.1.0
@@ -14,3 +15,4 @@ pytest-django==3.4.4
 pytest-env==0.6.2
 pytest-factoryboy==2.0.2
 pytest-randomly==1.2.3
+snapshottest==0.5.0

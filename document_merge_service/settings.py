@@ -28,7 +28,10 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=default(["*"]))
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.postgres",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "django_filters",
     "document_merge_service.api.apps.DefaultConfig",
 ]
 
@@ -41,21 +44,34 @@ MIDDLEWARE = [
 ROOT_URLCONF = "document_merge_service.urls"
 WSGI_APPLICATION = "document_merge_service.wsgi.application"
 
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.messages.context_processors.messages",
+            ]
+        },
+    }
+]
+
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
     "default": {
-        "ENGINE": env.str(
-            "DATABASE_ENGINE", default="django.db.backends.postgresql_psycopg2"
+        "ENGINE": env.str("DATABASE_ENGINE", default="django.db.backends.sqlite3"),
+        "NAME": env.str(
+            "DATABASE_NAME", default="/var/lib/document-merge-service/data/sqlite3.db"
         ),
-        "NAME": env.str("DATABASE_NAME", default="document_merge_service"),
-        "USER": env.str("DATABASE_USER", default="document_merge_service"),
-        "PASSWORD": env.str(
-            "DATABASE_PASSWORD", default=default("document_merge_service")
-        ),
-        "HOST": env.str("DATABASE_HOST", default="localhost"),
+        "USER": env.str("DATABASE_USER", default=""),
+        "PASSWORD": env.str("DATABASE_PASSWORD", default=""),
+        "HOST": env.str("DATABASE_HOST", default=""),
         "PORT": env.str("DATABASE_PORT", default=""),
         "OPTIONS": env.dict("DATABASE_OPTIONS", default={}),
     }
@@ -76,11 +92,13 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 100,
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_AUTHENTICATION_CLASSES": [],
+    "UNAUTHENTICATED_USER": None,
     "DEFAULT_FILTER_BACKENDS": (
-        "rest_framework.rest_framework.filters.OrderingFilter",
-        "django_filters.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+        "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
     ),
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 
 
@@ -104,3 +122,17 @@ def parse_admins(admins):
 
 
 ADMINS = parse_admins(env.list("ADMINS", default=[]))
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+
+STATIC_URL = "/static/"
+STATIC_ROOT = env.str("STATIC_ROOT", None)
+
+# Media files
+
+DEFAULT_FILE_STORAGE = env.str(
+    "FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
+)
+MEDIA_ROOT = env.str("MEDIA_ROOT", "")
