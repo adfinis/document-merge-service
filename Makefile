@@ -9,3 +9,6 @@ start: ## Start the development server
 
 test: ## Test the project
 	@docker-compose exec document-merge-service sh -c "black --check . && flake8 && pytest --no-cov-on-fail --cov --create-db"
+
+shell: ## Shell into document merge service
+	@docker-compose exec document-merge-service bash
