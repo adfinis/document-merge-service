@@ -140,17 +140,3 @@ def test_template_merge_as_pdf_without_unoconv(db, client, template, settings):
         client.post(
             url, data={"data": {"test": "Test input"}, "convert": "pdf"}, format="json"
         )
-
-
-@pytest.mark.parametrize(
-    "template__engine,template__template",
-    [(models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"))],
-)
-def test_template_merge_invalid_request(db, client, template, settings):
-    settings.UNOCONV_URL = settings.UNOCONV_URL + "/invalid"
-    url = reverse("template-merge", args=[template.pk])
-
-    response = client.post(
-        url, data={"data": {"test": "Test input"}, "convert": "pdf"}, format="json"
-    )
-    assert response.status_code == status.HTTP_400_BAD_REQUEST

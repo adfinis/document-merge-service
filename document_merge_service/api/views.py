@@ -1,12 +1,14 @@
 import mimetypes
 
+import requests
+from django.conf import settings
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
 
-from . import engines, models, serializers, unoconv
+from . import engines, models, serializers
 
 
 class TemplateView(viewsets.ModelViewSet):
@@ -35,12 +37,17 @@ class TemplateView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        buf = engine.merge(serializer.data["data"])
+        response = engine.merge(serializer.data["data"], response)
         convert = serializer.data.get("convert")
         if convert:
-            buf = unoconv.convert(buf, convert)
+            url = f"{settings.UNOCONV_URL}/unoconv/{convert}"
+            requests_response = requests.post(url, files={"file": response.content})
+            return HttpResponse(
+                content=requests_response.content,
+                status=requests_response.status_code,
+                content_type=requests_response.headers["Content-Type"],
+            )
 
-        response.write(buf.read())
         return response
 
 
