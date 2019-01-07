@@ -1,6 +1,7 @@
 import io
 
 import pytest
+from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
 from docx import Document
 from lxml import etree
@@ -112,3 +113,33 @@ def test_template_merge_docx(db, client, template, snapshot):
             output.write(response.content)
         print("Template output changed. Check file at %s" % output.name)
         raise
+
+
+@pytest.mark.parametrize(
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"))],
+)
+def test_template_merge_as_pdf(db, client, template):
+    url = reverse("template-merge", args=[template.pk])
+
+    response = client.post(
+        url, data={"data": {"test": "Test input"}, "convert": "pdf"}, format="json"
+    )
+    assert response.status_code == status.HTTP_200_OK
+    assert response["Content-Type"] == "application/pdf"
+    assert f"{template.pk}.pdf" in response["Content-Disposition"]
+    assert response.content[0:4] == b"%PDF"
+
+
+@pytest.mark.parametrize(
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"))],
+)
+def test_template_merge_as_pdf_without_unoconv(db, client, template, settings):
+    settings.UNOCONV_URL = None
+    url = reverse("template-merge", args=[template.pk])
+
+    with pytest.raises(ImproperlyConfigured):
+        client.post(
+            url, data={"data": {"test": "Test input"}, "convert": "pdf"}, format="json"
+        )
