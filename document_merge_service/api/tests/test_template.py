@@ -126,6 +126,9 @@ def test_template_merge_as_pdf(db, client, template):
         url, data={"data": {"test": "Test input"}, "convert": "pdf"}, format="json"
     )
     assert response.status_code == status.HTTP_200_OK
+    assert response["Content-Type"] == "application/pdf"
+    assert f"{template.pk}.pdf" in response["Content-Disposition"]
+    assert response.content[0:4] == b"%PDF"
 
 
 @pytest.mark.parametrize(
