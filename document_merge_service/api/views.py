@@ -27,27 +27,31 @@ class TemplateView(viewsets.ModelViewSet):
         template = self.get_object()
         engine = engines.get_engine(template.engine, template.template)
 
-        response = HttpResponse()
-        mime_type, _ = mimetypes.guess_type(template.template.name)
-        extension = mimetypes.guess_extension(mime_type)
-        filename = f"{template.slug}.{extension}"
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'
-        response["Content-Type"] = mimetypes.guess_type(filename)[0]
+        content_type, _ = mimetypes.guess_type(template.template.name)
+        response = HttpResponse(content_type or "application/force-download")
+        extension = mimetypes.guess_extension(content_type)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         response = engine.merge(serializer.data["data"], response)
         convert = serializer.data.get("convert")
+
         if convert:
             url = f"{settings.UNOCONV_URL}/unoconv/{convert}"
             requests_response = requests.post(url, files={"file": response.content})
-            return HttpResponse(
+            fmt = settings.UNOCONV_FORMATS[convert]
+            extension = fmt["extension"]
+            content_type = fmt["mime"]
+
+            response = HttpResponse(
                 content=requests_response.content,
                 status=requests_response.status_code,
-                content_type=requests_response.headers["Content-Type"],
+                content_type=content_type,
             )
 
+        filename = f"{template.slug}.{extension}"
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
 
 
