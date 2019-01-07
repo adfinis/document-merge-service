@@ -144,7 +144,7 @@ MEDIA_ROOT = env.str("MEDIA_ROOT", "")
 # https://github.com/zrrrzzt/tfk-api-unoconv
 
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
-UNOCONV_URL = env.str("UNOCONV_URL", default=None)
+UNOCONV_URL = env.str("UNOCONV_URL", default="").rstrip("/")
 
 
 def get_unoconv_formats():

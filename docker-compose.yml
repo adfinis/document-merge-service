@@ -2,6 +2,8 @@ version: "3"
 services:
   document-merge-service:
     image: adfinissygroup/document-merge-service
+    depends_on:
+      - unoconv
     ports:
       - "8000:8000"
     volumes:
