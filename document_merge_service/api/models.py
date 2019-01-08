@@ -20,3 +20,4 @@ class Template(models.Model):
     description = models.TextField(default="")
     template = models.FileField(max_length=1024)
     engine = models.CharField(max_length=20, choices=ENGINE_CHOICES_TUPLE)
+    group = models.CharField(max_length=255, db_index=True, blank=True, null=True)

@@ -103,22 +103,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 100,
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "document_merge_service.api.authentication.OIDCAuthentication"
-    ],
-    "UNAUTHENTICATED_USER": "document_merge_service.api.authentication.AnonymousUser",
-    "DEFAULT_FILTER_BACKENDS": (
-        "rest_framework.filters.OrderingFilter",
-        "django_filters.rest_framework.DjangoFilterBackend",
-        "rest_framework.filters.SearchFilter",
-    ),
-    "TEST_REQUEST_DEFAULT_FORMAT": "json",
-}
-
 
 def parse_admins(admins):
     """
@@ -182,7 +166,10 @@ def get_unoconv_formats():
 
 UNOCONV_FORMATS = UNOCONV_URL and get_unoconv_formats()
 
-# OpenID connect
+# Authentication
+
+REQUIRE_AUTHENTICATION = env.bool("REQUIRE_AUTHENTICATION", False)
+GROUP_ACCESS_ONLY = env.bool("GROUP_ACCESS_ONLY", False)
 
 OIDC_VERIFY_ALGORITHM = env.list("OIDC_VERIFY_ALGORITHM", default="HS256")
 OIDC_CLIENT = env.str("OIDC_CLIENT", default=None)
@@ -195,3 +182,25 @@ OIDC_VALIDATE_CLAIMS_OPTIONS = env.dict(
 OIDC_GROUPS_CLAIM = env.str(
     "OIDC_GROUPS_CLAIM", default="document_merge_service_groups"
 )
+
+
+# Rest framework
+# https://www.django-rest-framework.org/api-guide/settings/
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_PERMISSION_CLASSES": [
+        "document_merge_service.api.permissions.AsConfigured"
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "document_merge_service.api.authentication.OIDCAuthentication"
+    ],
+    "UNAUTHENTICATED_USER": "document_merge_service.api.authentication.AnonymousUser",
+    "DEFAULT_FILTER_BACKENDS": (
+        "rest_framework.filters.OrderingFilter",
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+    ),
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
+}

@@ -11,24 +11,23 @@ class AnonymousUser(object):
     def __init__(self):
         self.username = None
         self.groups = []
-        self.group = None
 
     @property
-    def is_authenticated(self):  # pragma: no cover
+    def group(self):
+        return self.groups and self.groups[0]
+
+    @property
+    def is_authenticated(self):
         return False
 
     def __str__(self):
         return "AnonymousUser"
 
 
-class OIDCUser(object):
+class OIDCUser(AnonymousUser):
     def __init__(self, decoded_token):
         self.username = decoded_token["sub"]
         self.groups = decoded_token.get(settings.OIDC_GROUPS_CLAIM) or []
-
-    @property
-    def group(self):
-        return self.groups and self.groups[0]
 
     @property
     def is_authenticated(self):
@@ -86,7 +85,7 @@ class OIDCAuthentication(authentication.BaseAuthentication):
         if jwt_value is None:
             return None
 
-        for rnd in range(2):
+        for retry in range(2):
             try:
                 decoded_token = self.decode_token(
                     jwt_value,
@@ -96,7 +95,7 @@ class OIDCAuthentication(authentication.BaseAuthentication):
                 msg = _("Invalid Authorization header. JWT has expired.")
                 raise exceptions.AuthenticationFailed(msg)
             except JWTError:
-                if rnd == 0 and settings.OIDC_VERIFY_ALGORITHM.startswith("RS"):
+                if retry == 0 and settings.OIDC_VERIFY_ALGORITHM.startswith("RS"):
                     # try again with refreshed keys
                     cache.delete("authentication.keys")
                     continue

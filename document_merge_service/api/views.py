@@ -18,6 +18,14 @@ class TemplateView(viewsets.ModelViewSet):
     ordering_fields = ("slug", "description")
     ordering = ("slug",)
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if settings.GROUP_ACCESS_ONLY:
+            queryset = queryset.filter(group__in=self.request.user.groups)
+
+        return queryset
+
     @action(
         methods=["post"],
         detail=True,
