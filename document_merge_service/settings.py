@@ -81,6 +81,19 @@ DATABASES = {
 }
 
 
+# Cache
+# https://docs.djangoproject.com/en/1.11/ref/settings/#caches
+
+CACHES = {
+    "default": {
+        "BACKEND": env.str(
+            "CACHE_BACKEND", default="django.core.cache.backends.locmem.LocMemCache"
+        ),
+        "LOCATION": env.str("CACHE_LOCATION", ""),
+    }
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -94,8 +107,10 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 100,
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
-    "DEFAULT_AUTHENTICATION_CLASSES": [],
-    "UNAUTHENTICATED_USER": None,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "document_merge_service.api.authentication.OIDCAuthentication"
+    ],
+    "UNAUTHENTICATED_USER": "document_merge_service.api.authentication.AnonymousUser",
     "DEFAULT_FILTER_BACKENDS": (
         "rest_framework.filters.OrderingFilter",
         "django_filters.rest_framework.DjangoFilterBackend",
@@ -166,3 +181,17 @@ def get_unoconv_formats():
 
 
 UNOCONV_FORMATS = UNOCONV_URL and get_unoconv_formats()
+
+# OpenID connect
+
+OIDC_VERIFY_ALGORITHM = env.list("OIDC_VERIFY_ALGORITHM", default="HS256")
+OIDC_CLIENT = env.str("OIDC_CLIENT", default=None)
+OIDC_JWKS_ENDPOINT = env.str("OIDC_JWKS_ENDPOINT", default=None)
+OIDC_SECRET_KEY = env.str("OIDC_SECRET_KEY", default=SECRET_KEY)
+OIDC_VERIFY_SSL = env.bool("OIDC_VERIFY_SSL", default=True)
+OIDC_VALIDATE_CLAIMS_OPTIONS = env.dict(
+    "OIDC_VALIDATE_CLAIMS_OPTIONS", cast={"value": bool}, default=None
+)
+OIDC_GROUPS_CLAIM = env.str(
+    "OIDC_GROUPS_CLAIM", default="document_merge_service_groups"
+)
