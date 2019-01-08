@@ -37,6 +37,14 @@ And merge template with:
 curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}}' http://localhost:8000/api/v1/template/test-template/merge/ > output.docx
 ```
 
+Additionally you can also convert output to pdf or other types supported by unoconv:
+
+```bash
+curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}, "convert": "pdf"}' http://localhost:8000/api/v1/template/test-template/merge/ > output.pdf
+```
+
+For this [unoconv service](#unoconv) needs to be configured.
+
 ### Supported engines
 
 Following template engines are currently supported:
@@ -64,6 +72,11 @@ Per default [Sqlite3](https://sqlite.org/) is used as database for simple deploy
 * `DATABASE_NAME`: Name of database to use
 * `DATABASE_USER`: Username to use when connecting to the database
 * `DATABASE_PASSWORD`: Password to use when connecting to database
+
+#### Unoconv
+
+* `UNOCONV_URL`: url to [tfk-api-unoconv service](https://github.com/zrrrzzt/tfk-api-unoconv) (e.g. http://localhost:3000)
+* `UNOCONV_ALLOWED_TYPES`: list of types allowed to convert to. See [supported formats](https://github.com/zrrrzzt/tfk-api-unoconv#formats) (default: ['pdf'])
 
 ## Contributing
 

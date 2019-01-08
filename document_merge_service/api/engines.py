@@ -1,4 +1,3 @@
-import io
 import zipfile
 
 from docx import Document
@@ -23,13 +22,10 @@ class DocxTemplateEngine(DocxValidator):
     def __init__(self, template):
         self.template = template
 
-    def merge(self, data):
+    def merge(self, data, buf):
         doc = DocxTemplate(self.template)
         doc.render(data)
-        buf = io.BytesIO()
         doc.save(buf)
-        buf.seek(0)
-
         return buf
 
 
@@ -37,12 +33,10 @@ class DocxMailmergeEngine(DocxValidator):
     def __init__(self, template):
         self.template = template
 
-    def merge(self, data):
+    def merge(self, data, buf):
         with MailMerge(self.template) as document:
             document.merge(**data)
-            buf = io.BytesIO()
             document.write(buf)
-            buf.seek(0)
             return buf
 
 

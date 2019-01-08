@@ -2,6 +2,9 @@ import os
 import re
 
 import environ
+import requests
+from django.core.exceptions import ImproperlyConfigured
+from rest_framework import status
 
 env = environ.Env()
 django_root = environ.Path(__file__) - 2
@@ -136,3 +139,30 @@ DEFAULT_FILE_STORAGE = env.str(
     "FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
 )
 MEDIA_ROOT = env.str("MEDIA_ROOT", "")
+
+# Unoconv webservice
+# https://github.com/zrrrzzt/tfk-api-unoconv
+
+UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
+UNOCONV_URL = env.str("UNOCONV_URL", default="").rstrip("/")
+
+
+def get_unoconv_formats():
+    resp = requests.get(f"{UNOCONV_URL}/unoconv/formats")
+    if resp.status_code != status.HTTP_200_OK:
+        raise ImproperlyConfigured(
+            f"Configured unoconv service {UNOCONV_URL} doesn't respond correctly"
+        )
+
+    formats = {fmt["format"]: fmt for fmt in resp.json().get("document", [])}
+    not_supported = set(UNOCONV_ALLOWED_TYPES) - formats.keys()
+
+    if not_supported:
+        raise ImproperlyConfigured(
+            f"Unoconv doesn't support types {', '.join(not_supported)}."
+        )
+
+    return formats
+
+
+UNOCONV_FORMATS = UNOCONV_URL and get_unoconv_formats()
