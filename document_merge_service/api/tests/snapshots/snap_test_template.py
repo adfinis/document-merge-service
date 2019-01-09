@@ -7,21 +7,6 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots["test_template_list[test-slug-docx-template] 1"] = {
-    "count": 1,
-    "next": None,
-    "previous": None,
-    "results": [
-        {
-            "description": """Shake recent former. Star very capital morning option. Interesting station story.
-Where during teach country talk across drop. Central meeting anyone remember. There today material minute ago get.""",
-            "engine": "docx-template",
-            "slug": "test-slug",
-            "template": None,
-        }
-    ],
-}
-
 snapshots[
     "test_template_merge_docx[TestNameTemplate-docx-template-template__template0] 1"
 ] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">

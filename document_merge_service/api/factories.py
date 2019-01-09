@@ -9,6 +9,7 @@ class TemplateFactory(DjangoModelFactory):
     description = Faker("text")
     engine = Faker("word", ext_word_list=models.Template.ENGINE_CHOICES_LIST)
     template = None
+    group = None
 
     class Meta:
         model = models.Template

@@ -78,6 +78,19 @@ Per default [Sqlite3](https://sqlite.org/) is used as database for simple deploy
 * `UNOCONV_URL`: url to [tfk-api-unoconv service](https://github.com/zrrrzzt/tfk-api-unoconv) (e.g. http://localhost:3000)
 * `UNOCONV_ALLOWED_TYPES`: list of types allowed to convert to. See [supported formats](https://github.com/zrrrzzt/tfk-api-unoconv#formats) (default: ['pdf'])
 
+#### Authentication / Authorization
+
+Per default no authentication is needed. To protect api, integrate it with your [IAM](https://en.wikipedia.org/wiki/Identity_management) supporting Open ID Connect. If not availbale you might consider using [Keycloak](https://www.keycloak.org/).
+
+* `REQUIRE_AUTHENTICATION`: Force authentication to be required (default: False)
+* `GROUP_ACCESS_ONLY`: Force visibility to templates of group only. See also `OIDC_GROUPS_CLAIM`. (default: False)
+* `OIDC_VERIFY_ALGORITHM`: Token verification algorithm (default: HS256)
+* `OIDC_CLIENT`: Client name
+* `OIDC_JWKS_ENDPOINT`: End point of JWKS in case a asymentric algorithm is used.
+* `OIDC_SECRET_KEY`: Secret key when symmetric algorithm is used (defaults to `SECRET_KEY`)
+* `OIDC_VALIDATE_CLAIMS_OPTIONS` dict of verify signature options. See [options parameter](https://python-jose.readthedocs.io/en/latest/jwt/api.html?highlight=decode_token#jose.jwt.decode) for details.
+* `OIDC_GROUPS_CLAIM`: Name of claim to be used to define group membership (default: document_merge_service_groups)
+
 ## Contributing
 
 Look at our [contributing guidelines](CONTRIBUTION.md) to start with your first contribution.

@@ -12,14 +12,18 @@ from .data import django_file
 
 
 @pytest.mark.parametrize(
-    "template__slug,template__engine", [("test-slug", models.Template.DOCX_TEMPLATE)]
+    "template__group,group_access_only,size",
+    [(None, False, 1), ("admin", True, 1), ("unknown", True, 0), ("unknown", False, 1)],
 )
-def test_template_list(db, client, template, snapshot):
+def test_template_list(
+    db, admin_client, template, snapshot, size, group_access_only, settings
+):
+    settings.GROUP_ACCESS_ONLY = group_access_only
     url = reverse("template-list")
 
-    response = client.get(url)
+    response = admin_client.get(url)
     assert response.status_code == status.HTTP_200_OK
-    snapshot.assert_match(response.json())
+    assert response.json()["count"] == size
 
 
 def test_template_detail(db, client, template):
@@ -30,13 +34,31 @@ def test_template_detail(db, client, template):
 
 
 @pytest.mark.parametrize(
-    "template_name,status_code",
+    "template_name,status_code,group,require_authentication,authenticated",
     [
-        ("docx-template.docx", status.HTTP_201_CREATED),
-        ("test.txt", status.HTTP_400_BAD_REQUEST),
+        ("docx-template.docx", status.HTTP_201_CREATED, None, False, False),
+        ("docx-template.docx", status.HTTP_201_CREATED, None, True, True),
+        ("docx-template.docx", status.HTTP_401_UNAUTHORIZED, None, True, False),
+        ("docx-template.docx", status.HTTP_400_BAD_REQUEST, "unknown", True, True),
+        ("docx-template.docx", status.HTTP_201_CREATED, "admin", True, True),
+        ("test.txt", status.HTTP_400_BAD_REQUEST, None, False, False),
     ],
 )
-def test_template_create(db, client, template_name, status_code):
+def test_template_create(
+    db,
+    client,
+    admin_client,
+    template_name,
+    status_code,
+    group,
+    require_authentication,
+    settings,
+    authenticated,
+):
+    if authenticated:
+        client = admin_client
+
+    settings.REQUIRE_AUTHENTICATION = require_authentication
     url = reverse("template-list")
 
     template_file = django_file(template_name)
@@ -45,6 +67,8 @@ def test_template_create(db, client, template_name, status_code):
         "template": template_file.file,
         "engine": models.Template.DOCX_TEMPLATE,
     }
+    if group:
+        data["group"] = group
     response = client.post(url, data=data, format="multipart")
     assert response.status_code == status_code
 
