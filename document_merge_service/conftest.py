@@ -2,6 +2,7 @@ import importlib
 import inspect
 
 import pytest
+from django.core.cache import cache
 from factory.base import FactoryMetaClass
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
@@ -29,6 +30,11 @@ class TestUser(AnonymousUser):
     @property
     def is_authenticated(self):
         return True
+
+
+@pytest.fixture(scope="function", autouse=True)
+def _autoclear_cache():
+    cache.clear()
 
 
 @pytest.fixture

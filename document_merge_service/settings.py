@@ -90,6 +90,7 @@ CACHES = {
             "CACHE_BACKEND", default="django.core.cache.backends.locmem.LocMemCache"
         ),
         "LOCATION": env.str("CACHE_LOCATION", ""),
+        "TIMEOUT": env.int("CACHE_TIMEOUT", 300),
     }
 }
 
@@ -171,14 +172,8 @@ UNOCONV_FORMATS = UNOCONV_URL and get_unoconv_formats()
 REQUIRE_AUTHENTICATION = env.bool("REQUIRE_AUTHENTICATION", False)
 GROUP_ACCESS_ONLY = env.bool("GROUP_ACCESS_ONLY", False)
 
-OIDC_VERIFY_ALGORITHM = env.list("OIDC_VERIFY_ALGORITHM", default="HS256")
-OIDC_CLIENT = env.str("OIDC_CLIENT", default=None)
-OIDC_JWKS_ENDPOINT = env.str("OIDC_JWKS_ENDPOINT", default=None)
-OIDC_SECRET_KEY = env.str("OIDC_SECRET_KEY", default=SECRET_KEY)
+OIDC_USERINFO_ENDPOINT = env.str("OIDC_USERINFO_ENDPOINT", default=None)
 OIDC_VERIFY_SSL = env.bool("OIDC_VERIFY_SSL", default=True)
-OIDC_VALIDATE_CLAIMS_OPTIONS = env.dict(
-    "OIDC_VALIDATE_CLAIMS_OPTIONS", cast={"value": bool}, default=None
-)
 OIDC_GROUPS_CLAIM = env.str(
     "OIDC_GROUPS_CLAIM", default="document_merge_service_groups"
 )
@@ -194,7 +189,7 @@ REST_FRAMEWORK = {
         "document_merge_service.api.permissions.AsConfigured"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "document_merge_service.api.authentication.OIDCAuthentication"
+        "document_merge_service.api.authentication.BearerTokenAuthentication"
     ],
     "UNAUTHENTICATED_USER": "document_merge_service.api.authentication.AnonymousUser",
     "DEFAULT_FILTER_BACKENDS": (
