@@ -86,12 +86,12 @@ Per default no authentication is needed. To protect api, integrate it with your 
 * `GROUP_ACCESS_ONLY`: Force visibility to templates of group only. See also `OIDC_GROUPS_CLAIM`. (default: False)
 * `OIDC_USERINFO_ENDPOINT`: Url of userinfo endpoint as [described](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo)
 * `OIDC_GROUPS_CLAIM`: Name of claim to be used to define group membership (default: document_merge_service_groups)
+* `OIDC_BEARER_TOKEN_REVALIDATION_TIME`: Time in seconds before bearer token validity is verified again. For best security token is validated on each request per default. It might be helpful though in case of slow Open ID Connect provider to cache it. It uses [cache](#cache) mechanism for memorizing userinfo result. Number has to be lower than access token expiration time. (default: 0)
 
 #### Cache
 
 * `CACHE_BACKEND`: [cache backend](https://docs.djangoproject.com/en/1.11/ref/settings/#backend) to use (default: django.core.cache.backends.locmem.LocMemCache)
 * `CACHE_LOCATION`: [location](https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-CACHES-LOCATION) of cache to use
-* `CACHE_TIMEOUT`: number of seconds before a cache entry is considered stale. (default: 300)
 
 ## Contributing
 
