@@ -28,6 +28,24 @@ DEBUG = env.bool("DEBUG", default=default(True, False))
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=default(["*"]))
 
 
+# Database
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+DATABASES = {
+    "default": {
+        "ENGINE": env.str("DATABASE_ENGINE", default="django.db.backends.sqlite3"),
+        "NAME": env.str(
+            "DATABASE_NAME", default="/var/lib/document-merge-service/data/sqlite3.db"
+        ),
+        "USER": env.str("DATABASE_USER", default=""),
+        "PASSWORD": env.str("DATABASE_PASSWORD", default=""),
+        "HOST": env.str("DATABASE_HOST", default=""),
+        "PORT": env.str("DATABASE_PORT", default=""),
+        "OPTIONS": env.dict("DATABASE_OPTIONS", default={}),
+    }
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +55,9 @@ INSTALLED_APPS = [
     "django_filters",
     "document_merge_service.api.apps.DefaultConfig",
 ]
+
+if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
+    INSTALLED_APPS.append("django.contrib.postgres")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -61,24 +82,6 @@ TEMPLATES = [
         },
     }
 ]
-
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": env.str("DATABASE_ENGINE", default="django.db.backends.sqlite3"),
-        "NAME": env.str(
-            "DATABASE_NAME", default="/var/lib/document-merge-service/data/sqlite3.db"
-        ),
-        "USER": env.str("DATABASE_USER", default=""),
-        "PASSWORD": env.str("DATABASE_PASSWORD", default=""),
-        "HOST": env.str("DATABASE_HOST", default=""),
-        "PORT": env.str("DATABASE_PORT", default=""),
-        "OPTIONS": env.dict("DATABASE_OPTIONS", default={}),
-    }
-}
 
 
 # Cache

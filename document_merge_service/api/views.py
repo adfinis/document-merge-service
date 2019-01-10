@@ -14,7 +14,7 @@ from . import engines, models, serializers
 class TemplateView(viewsets.ModelViewSet):
     queryset = models.Template.objects
     serializer_class = serializers.TemplateSerializer
-    filterset_fields = {"slug": ["exact"], "description": ["icontains"]}
+    filterset_fields = {"slug": ["exact"], "description": ["icontains", "search"]}
     ordering_fields = ("slug", "description")
     ordering = ("slug",)
 
