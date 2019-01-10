@@ -1,72 +1,37 @@
 import json
-import time
 
 import pytest
-from django.conf import settings
-from jose import jwt
-from rest_framework import exceptions
+from django.core.cache import cache
+from rest_framework import exceptions, status
 
 from .. import authentication
 
-KEYS = {
-    "keys": [
-        {
-            "kty": "RSA",
-            "alg": "RS256",
-            "use": "sig",
-            "kid": "3e52a77bd1b480d14e070fcd40554f79",
-            "n": "7P5mh6TCYUPFPAeig-3ZqaqGgXnQuNcRGNowCgAUg8XJ2mfL0F07M27hTOmJIv15j68s3tkk1MEOy4xq436ArgKfy7utrTzOf9kC9maVg1w1RwXiprVzRAR0yM3gfn3hAlQ2TBaI7_ICasJgXpM1BC6q-baLUy9DqobhoprqpvE",
-            "e": "AQAB",
-        }
-    ]
-}
-
-
-def expired_token():
-    token = {
-        "iss": settings.OIDC_JWKS_ENDPOINT,
-        "sub": "1",
-        "aud": settings.OIDC_CLIENT,
-        "exp": time.time() - 60 * 60 * 24,
-    }
-
-    return f'Bearer {jwt.encode(token, settings.OIDC_SECRET_KEY, algorithm="HS256")}'
-
-
-def valid_token():
-    token = {
-        "iss": settings.OIDC_JWKS_ENDPOINT,
-        "sub": "1",
-        "aud": settings.OIDC_CLIENT,
-        "exp": time.time() + 60 * 60 * 24,
-        settings.OIDC_GROUPS_CLAIM: ["test"],
-    }
-
-    return f'Bearer {jwt.encode(token, settings.OIDC_SECRET_KEY, algorithm="HS256")}'
-
 
 @pytest.mark.parametrize(
-    "token,algorithm,error",
+    "authentication_header,status_code,error",
     [
-        ("", "", False),
-        ("Bearer", "RS256", True),
-        ("Bearer Too many params", "RS256", True),
-        ("Basic Auth", "", True),
-        ("Bearer InvalidToken", "RS256", True),
-        (expired_token(), "HS256", True),
-        (valid_token(), "HS256", False),
+        ("", status.HTTP_200_OK, False),
+        ("Bearer", status.HTTP_200_OK, True),
+        ("Bearer Too many params", status.HTTP_200_OK, True),
+        ("Basic Auth", status.HTTP_200_OK, True),
+        ("Bearer Token", status.HTTP_200_OK, False),
+        ("Bearer Token", status.HTTP_502_BAD_GATEWAY, True),
     ],
 )
-def test_oidc_authentication_authenticate(
-    rf, token, algorithm, error, requests_mock, settings
+def test_bearer_token_authentication_authenticate(
+    rf, authentication_header, error, requests_mock, settings, status_code
 ):
-    settings.OIDC_VERIFY_ALGORITHM = algorithm
-    requests_mock.get(settings.OIDC_JWKS_ENDPOINT, text=json.dumps(KEYS))
+    userinfo = {"sub": "1", settings.OIDC_GROUPS_CLAIM: ["test"]}
+    requests_mock.get(
+        settings.OIDC_USERINFO_ENDPOINT,
+        status_code=status_code,
+        text=json.dumps(userinfo),
+    )
 
-    request = rf.get("/openid", HTTP_AUTHORIZATION=token)
+    request = rf.get("/openid", HTTP_AUTHORIZATION=authentication_header)
 
     try:
-        result = authentication.OIDCAuthentication().authenticate(request)
+        result = authentication.BearerTokenAuthentication().authenticate(request)
     except exceptions.AuthenticationFailed:
         assert error
     else:
@@ -74,11 +39,12 @@ def test_oidc_authentication_authenticate(
             user, auth = result
             assert user.is_authenticated
             assert user.group == "test"
+            assert cache.get("authentication.userinfo.Token") == userinfo
 
 
-def test_oidc_authentication_header(rf):
+def test_bearer_token_authentication_header(rf):
     request = rf.get("/openid")
     assert (
-        authentication.OIDCAuthentication().authenticate_header(request)
-        == "Bearer realm=document-merge-service"
+        authentication.BearerTokenAuthentication().authenticate_header(request)
+        == "Bearer realm=mock://document-merge-service.github.com/openid/userinfo"
     )

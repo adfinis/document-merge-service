@@ -1,9 +1,10 @@
+import functools
+
 import requests
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.encoding import smart_text
 from django.utils.translation import ugettext as _
-from jose import ExpiredSignatureError, JWTError, jwt
 from rest_framework import authentication, exceptions
 
 
@@ -25,9 +26,9 @@ class AnonymousUser(object):
 
 
 class OIDCUser(AnonymousUser):
-    def __init__(self, decoded_token):
-        self.username = decoded_token["sub"]
-        self.groups = decoded_token.get(settings.OIDC_GROUPS_CLAIM) or []
+    def __init__(self, userinfo):
+        self.username = userinfo["sub"]
+        self.groups = userinfo.get(settings.OIDC_GROUPS_CLAIM) or []
 
     @property
     def is_authenticated(self):
@@ -37,10 +38,10 @@ class OIDCUser(AnonymousUser):
         return self.username
 
 
-class OIDCAuthentication(authentication.BaseAuthentication):
+class BearerTokenAuthentication(authentication.BaseAuthentication):
     header_prefix = "Bearer"
 
-    def get_jwt_value(self, request):
+    def get_bearer_token(self, request):
         auth = authentication.get_authorization_header(request).split()
 
         if not auth:
@@ -61,49 +62,34 @@ class OIDCAuthentication(authentication.BaseAuthentication):
 
         return auth[1]
 
-    def get_json(self, url):
-        response = requests.get(url, verify=settings.OIDC_VERIFY_SSL)
-        response.raise_for_status()
-        return response.json()
-
-    def decode_token(self, token, key):
-        return jwt.decode(
-            token=token,
-            key=key,
-            options=settings.OIDC_VALIDATE_CLAIMS_OPTIONS,
-            algorithms=[settings.OIDC_VERIFY_ALGORITHM],
-            audience=settings.OIDC_CLIENT,
+    def get_userinfo(self, token):
+        response = requests.get(
+            settings.OIDC_USERINFO_ENDPOINT,
+            verify=settings.OIDC_VERIFY_SSL,
+            headers={"Authorization": f"Bearer {smart_text(token)}"},
         )
 
-    def keys(self):
-        if settings.OIDC_VERIFY_ALGORITHM.startswith("RS"):
-            return self.get_json(settings.OIDC_JWKS_ENDPOINT)
-        return settings.OIDC_SECRET_KEY
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as e:
+            raise exceptions.AuthenticationFailed(
+                f"Retrieving userinfo from {settings.OIDC_USERINFO_ENDPOINT} "
+                f"failed with error '{str(e)}'."
+            )
+
+        return response.json()
 
     def authenticate(self, request):
-        jwt_value = self.get_jwt_value(request)
-        if jwt_value is None:
+        token = self.get_bearer_token(request)
+        if token is None:
             return None
 
-        for retry in range(2):
-            try:
-                decoded_token = self.decode_token(
-                    jwt_value,
-                    cache.get_or_set("authentication.keys", self.keys, timeout=None),
-                )
-            except ExpiredSignatureError:
-                msg = _("Invalid Authorization header. JWT has expired.")
-                raise exceptions.AuthenticationFailed(msg)
-            except JWTError:
-                if retry == 0 and settings.OIDC_VERIFY_ALGORITHM.startswith("RS"):
-                    # try again with refreshed keys
-                    cache.delete("authentication.keys")
-                    continue
+        userinfo_method = functools.partial(self.get_userinfo, token=token)
+        userinfo = cache.get_or_set(
+            f"authentication.userinfo.{smart_text(token)}", userinfo_method
+        )
 
-                msg = _("Invalid Authorization Token.")
-                raise exceptions.AuthenticationFailed(msg)
-
-        return OIDCUser(decoded_token), decoded_token
+        return OIDCUser(userinfo), token
 
     def authenticate_header(self, request):
-        return f"{self.header_prefix} realm={settings.OIDC_CLIENT}"
+        return f"{self.header_prefix} realm={settings.OIDC_USERINFO_ENDPOINT}"
