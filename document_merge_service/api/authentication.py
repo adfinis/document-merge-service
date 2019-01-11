@@ -86,7 +86,9 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
 
         userinfo_method = functools.partial(self.get_userinfo, token=token)
         userinfo = cache.get_or_set(
-            f"authentication.userinfo.{smart_text(token)}", userinfo_method
+            f"authentication.userinfo.{smart_text(token)}",
+            userinfo_method,
+            timeout=settings.OIDC_BEARER_TOKEN_REVALIDATION_TIME,
         )
 
         return OIDCUser(userinfo), token
