@@ -4,7 +4,7 @@ django-filter==2.0.0
 djangorestframework==3.9.1
 docx-mailmerge==0.4.0
 docxtpl==0.5.16
-mysqlclient==1.3.14
+mysqlclient==1.4.0
 psycopg2-binary==2.7.6.1
 python-memcached==1.59
 requests==2.21.0
