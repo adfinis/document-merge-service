@@ -1,3 +1,4 @@
+import hashlib
 import json
 
 import pytest
@@ -39,7 +40,12 @@ def test_bearer_token_authentication_authenticate(
             user, auth = result
             assert user.is_authenticated
             assert user.group == "test"
-            assert cache.get("authentication.userinfo.Token") == userinfo
+            assert (
+                cache.get(
+                    f"authentication.userinfo.{hashlib.sha256(b'Token').hexdigest()}"
+                )
+                == userinfo
+            )
 
 
 def test_bearer_token_authentication_header(rf):
