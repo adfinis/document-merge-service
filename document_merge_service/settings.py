@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "document_merge_service.api.apps.DefaultConfig",
+    "corsheaders",
 ]
 
 if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
@@ -61,6 +62,7 @@ if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.locale.LocaleMiddleware",
 ]
@@ -95,6 +97,14 @@ CACHES = {
         "LOCATION": env.str("CACHE_LOCATION", ""),
     }
 }
+
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = env.bool("CORS_ORIGIN_ALLOW_ALL", False)
+CORS_ORIGIN_REGEX_WHITELIST = [r"^(https?://)?127\.0\.0\.1:\d{4}$"]
+CORS_ORIGIN_REGEX_WHITELIST += env.list(
+    "CORS_ORIGIN_REGEX_WHITELIST", default=[r"^(https?://)?127\.0\.0\.1:\d{4}$"]
+)
 
 
 # Internationalization
