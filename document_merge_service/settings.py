@@ -104,7 +104,7 @@ CORS_ORIGIN_ALLOW_ALL = env.bool("CORS_ORIGIN_ALLOW_ALL", False)
 CORS_ORIGIN_REGEX_WHITELIST = (
     (
         r"{0}".format(
-            env.str("CORS_ORIGIN_REGEX_WHITELIST", r"^(http://)?127\.0\.0\.1:\d{4}$")
+            env.str("CORS_ORIGIN_REGEX_WHITELIST", r"^(https?://)?127\.0\.0\.1:\d{4}$")
         )
     ),
 )
