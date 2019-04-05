@@ -93,6 +93,10 @@ Per default no authentication is needed. To protect api, integrate it with your 
 * `CACHE_BACKEND`: [cache backend](https://docs.djangoproject.com/en/1.11/ref/settings/#backend) to use (default: django.core.cache.backends.locmem.LocMemCache)
 * `CACHE_LOCATION`: [location](https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-CACHES-LOCATION) of cache to use
 
+#### CORS
+* `CORS_ORIGIN_ALLOW_ALL`: [allow all](https://github.com/ottoyiu/django-cors-headers#cors_origin_allow_all)
+* `CORS_ORIGIN_REGEX_WHITELIST`: [regex whitelist](https://github.com/ottoyiu/django-cors-headers#cors_origin_regex_whitelist) defaults to "^(http://)?127\.0\.0\.1:\d{4}$"
+
 ## Contributing
 
 Look at our [contributing guidelines](CONTRIBUTION.md) to start with your first contribution.
