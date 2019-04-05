@@ -127,6 +127,10 @@ def test_template_merge_docx(db, client, template, snapshot):
 
     response = client.post(url, data={"data": {"test": "Test input"}}, format="json")
     assert response.status_code == status.HTTP_200_OK
+    assert (
+        response._headers["content-type"][1]
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
 
     docx = Document(io.BytesIO(response.content))
     xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
