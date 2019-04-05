@@ -95,7 +95,7 @@ Per default no authentication is needed. To protect api, integrate it with your 
 
 #### CORS
 * `CORS_ORIGIN_ALLOW_ALL`: [allow all](https://github.com/ottoyiu/django-cors-headers#cors_origin_allow_all)
-* `CORS_ORIGIN_REGEX_WHITELIST`: [regex whitelist](https://github.com/ottoyiu/django-cors-headers#cors_origin_regex_whitelist) defaults to "^(http://)?127\.0\.0\.1:\d{4}$"
+* `CORS_ORIGIN_REGEX_WHITELIST`: [regex whitelist](https://github.com/ottoyiu/django-cors-headers#cors_origin_regex_whitelist) defaults to "^(https?://)?127\.0\.0\.1:\d{4}$"
 
 ## Contributing
 
