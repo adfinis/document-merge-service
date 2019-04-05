@@ -36,7 +36,9 @@ class TemplateView(viewsets.ModelViewSet):
         engine = engines.get_engine(template.engine, template.template)
 
         content_type, _ = mimetypes.guess_type(template.template.name)
-        response = HttpResponse(content_type or "application/force-download")
+        response = HttpResponse(
+            content_type=content_type or "application/force-download"
+        )
         extension = mimetypes.guess_extension(content_type)
 
         serializer = self.get_serializer(data=request.data)
