@@ -101,12 +101,9 @@ CACHES = {
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = env.bool("CORS_ORIGIN_ALLOW_ALL", False)
-CORS_ORIGIN_REGEX_WHITELIST = (
-    (
-        r"{0}".format(
-            env.str("CORS_ORIGIN_REGEX_WHITELIST", r"^(https?://)?127\.0\.0\.1:\d{4}$")
-        )
-    ),
+CORS_ORIGIN_REGEX_WHITELIST = [r"^(https?://)?127\.0\.0\.1:\d{4}$"]
+CORS_ORIGIN_REGEX_WHITELIST += env.list(
+    "CORS_ORIGIN_REGEX_WHITELIST", default=[r"^(https?://)?127\.0\.0\.1:\d{4}$"]
 )
 
 
