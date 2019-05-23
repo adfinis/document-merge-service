@@ -171,3 +171,24 @@ def test_template_merge_as_pdf_without_unoconv(db, client, template, settings):
         client.post(
             url, data={"data": {"test": "Test input"}, "convert": "pdf"}, format="json"
         )
+
+
+@pytest.mark.parametrize(
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template-loopcontrols.docx"))],
+)
+def test_template_merge_jinja_extensions_docx(db, client, template, settings, snapshot):
+    settings.DOCXTEMPLATE_JINJA_EXTENSIONS = ["jinja2.ext.loopcontrols"]
+
+    url = reverse("template-merge", args=[template.pk])
+
+    response = client.post(url, data={"data": {"test": "Test input"}}, format="json")
+    assert response.status_code == status.HTTP_200_OK
+    assert (
+        response._headers["content-type"][1]
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
+    docx = Document(io.BytesIO(response.content))
+    xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
+    snapshot.assert_match(xml)

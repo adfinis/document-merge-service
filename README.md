@@ -78,6 +78,9 @@ Per default [Sqlite3](https://sqlite.org/) is used as database for simple deploy
 * `UNOCONV_URL`: url to [tfk-api-unoconv service](https://github.com/zrrrzzt/tfk-api-unoconv) (e.g. http://localhost:3000)
 * `UNOCONV_ALLOWED_TYPES`: list of types allowed to convert to. See [supported formats](https://github.com/zrrrzzt/tfk-api-unoconv#formats) (default: ['pdf'])
 
+#### python-docx-template
+* `DOCXTEMPLATE_JINJA_EXTENSIONS`: list of [jinja2 extensions](http://jinja.pocoo.org/docs/2.10/extensions/) to load
+
 #### Authentication / Authorization
 
 Per default no authentication is needed. To protect api, integrate it with your [IAM](https://en.wikipedia.org/wiki/Identity_management) supporting Open ID Connect. If not availbale you might consider using [Keycloak](https://www.keycloak.org/).
