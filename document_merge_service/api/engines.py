@@ -1,5 +1,7 @@
 import zipfile
 
+import jinja2
+from django.conf import settings
 from docx import Document
 from docxtpl import DocxTemplate
 from mailmerge import MailMerge
@@ -24,7 +26,10 @@ class DocxTemplateEngine(DocxValidator):
 
     def merge(self, data, buf):
         doc = DocxTemplate(self.template)
-        doc.render(data)
+        jinja_env = jinja2.Environment(
+            extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS
+        )
+        doc.render(data, jinja_env)
         doc.save(buf)
         return buf
 

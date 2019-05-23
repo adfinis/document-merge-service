@@ -179,6 +179,11 @@ def get_unoconv_formats():
 
 UNOCONV_FORMATS = UNOCONV_URL and get_unoconv_formats()
 
+# Jinja2
+DOCXTEMPLATE_JINJA_EXTENSIONS = env.list(
+    "DOCXTEMPLATE_JINJA_EXTENSIONS", default=default([])
+)
+
 # Authentication
 
 REQUIRE_AUTHENTICATION = env.bool("REQUIRE_AUTHENTICATION", False)
