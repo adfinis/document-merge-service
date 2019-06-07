@@ -34,6 +34,7 @@ def emptystring(value):
 
 jinja_env = jinja2.Environment()
 jinja_env.filters["date"] = dateformat
+jinja_env.filters["datetime"] = datetimeformat
 jinja_env.filters["emptystring"] = emptystring
 
 
