@@ -9,6 +9,28 @@ from rest_framework import exceptions
 
 from . import models
 
+# Custom filters
+import jinja2
+from datetime import datetime
+def dateformat(value, format='%d.%m.%Y'):
+    if value is None:
+        return ""
+    else:
+        return datetime.strptime(value, "%Y-%m-%d").strftime(format)
+def datetimeformat(value, in_format='%H:%M %Y-%m-%d', out_format='%H:%M %d.%m.%Y'):
+    if value is None:
+        return ""
+    else:
+        return datetime.strptime(value, in_format).strftime(out_format)
+def emptystring(value):
+    if value is None:
+        return ""
+    else:
+        return value
+jinja_env = jinja2.Environment()
+jinja_env.filters['date'] = dateformat
+jinja_env.filters['emptystring'] = emptystring
+# /Custom filters
 
 class DocxValidator:
     def validate(self):
