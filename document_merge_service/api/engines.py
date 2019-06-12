@@ -32,12 +32,6 @@ def emptystring(value):
         return value
 
 
-jinja_env = jinja2.Environment()
-jinja_env.filters["date"] = dateformat
-jinja_env.filters["datetime"] = datetimeformat
-jinja_env.filters["emptystring"] = emptystring
-
-
 class DocxValidator:
     def validate(self):
         try:
@@ -54,9 +48,14 @@ class DocxTemplateEngine(DocxValidator):
 
     def merge(self, data, buf):
         doc = DocxTemplate(self.template)
+
         jinja_env = jinja2.Environment(
             extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS
         )
+        jinja_env.filters["date"] = dateformat
+        jinja_env.filters["datetime"] = datetimeformat
+        jinja_env.filters["emptystring"] = emptystring
+
         doc.render(data, jinja_env)
         doc.save(buf)
         return buf
