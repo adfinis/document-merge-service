@@ -143,11 +143,19 @@ def test_template_merge_docx(db, client, template, snapshot):
         raise
 
 
+# This needs a strange parametrization. If `unoconv_local` is in a separate
+# `parametrize()`, the template filename in the second test will be appended with a
+# hash and the test fails
 @pytest.mark.parametrize(
-    "template__engine,template__template",
-    [(models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"))],
+    "template__engine,template__template,unoconv_local",
+    [
+        (models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"), True),
+        (models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"), False),
+    ],
 )
-def test_template_merge_as_pdf(db, client, template):
+def test_template_merge_as_pdf(db, settings, unoconv_local, client, template):
+    settings.UNOCONV_LOCAL = unoconv_local
+    settings.UNOCONV_URL = "" if unoconv_local else "http://unoconv:3000"
     url = reverse("template-merge", args=[template.pk])
 
     response = client.post(
