@@ -192,3 +192,31 @@ def test_template_merge_jinja_extensions_docx(db, client, template, settings, sn
     docx = Document(io.BytesIO(response.content))
     xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
     snapshot.assert_match(xml)
+
+
+@pytest.mark.parametrize(
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template-filters.docx"))],
+)
+def test_template_merge_jinja_filters_docx(db, client, template, snapshot):
+    url = reverse("template-merge", args=[template.pk])
+
+    data = {
+        "data": {
+            "test_date": "1984-09-15",
+            "test_datetime": "1984-09-15 23:23",
+            "test_datetime2": "23:23-1984-09-15",
+            "test_none": None,
+        }
+    }
+
+    response = client.post(url, data=data, format="json")
+    assert response.status_code == status.HTTP_200_OK
+    assert (
+        response._headers["content-type"][1]
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
+    docx = Document(io.BytesIO(response.content))
+    xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
+    snapshot.assert_match(xml)
