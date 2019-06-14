@@ -4,7 +4,9 @@ services:
     build:
       context: .
       args:
-        REQUIREMENTS: requirements-dev.txt
+        - REQUIREMENTS=requirements-dev.txt
+        - UID=$UID
+        - UNOCONV_LOCAL=true
     user: "${UID:?Set UID env variable to your user id}"
     volumes:
       - ./:/app

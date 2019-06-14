@@ -53,7 +53,7 @@ class TemplateMergeSerializer(serializers.Serializer):
     )
 
     def validate_convert(self, value):
-        if not settings.UNOCONV_URL:
+        if not settings.UNOCONV_URL and not settings.UNOCONV_LOCAL:
             raise ImproperlyConfigured(
                 "To use conversion you need to configure `UNOCONV_URL`"
             )

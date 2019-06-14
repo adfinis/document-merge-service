@@ -6,6 +6,7 @@ from mailmerge import MailMerge
 from rest_framework import exceptions
 
 from . import models
+from .jinja import get_jinja_env
 
 
 class DocxValidator:
@@ -24,7 +25,8 @@ class DocxTemplateEngine(DocxValidator):
 
     def merge(self, data, buf):
         doc = DocxTemplate(self.template)
-        doc.render(data)
+
+        doc.render(data, get_jinja_env())
         doc.save(buf)
         return buf
 
