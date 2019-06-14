@@ -1,13 +1,12 @@
 import zipfile
 
-import jinja2
-from django.conf import settings
 from docx import Document
 from docxtpl import DocxTemplate
 from mailmerge import MailMerge
 from rest_framework import exceptions
 
 from . import models
+from .jinja import get_jinja_env
 
 
 class DocxValidator:
@@ -26,10 +25,8 @@ class DocxTemplateEngine(DocxValidator):
 
     def merge(self, data, buf):
         doc = DocxTemplate(self.template)
-        jinja_env = jinja2.Environment(
-            extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS
-        )
-        doc.render(data, jinja_env)
+
+        doc.render(data, get_jinja_env())
         doc.save(buf)
         return buf
 
