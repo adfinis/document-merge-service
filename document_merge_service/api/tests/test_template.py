@@ -127,6 +127,10 @@ def test_template_merge_docx(db, client, template, snapshot):
 
     response = client.post(url, data={"data": {"test": "Test input"}}, format="json")
     assert response.status_code == status.HTTP_200_OK
+    assert (
+        response._headers["content-type"][1]
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
 
     docx = Document(io.BytesIO(response.content))
     xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
@@ -139,11 +143,19 @@ def test_template_merge_docx(db, client, template, snapshot):
         raise
 
 
+# This needs a strange parametrization. If `unoconv_local` is in a separate
+# `parametrize()`, the template filename in the second test will be appended with a
+# hash and the test fails
 @pytest.mark.parametrize(
-    "template__engine,template__template",
-    [(models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"))],
+    "template__engine,template__template,unoconv_local",
+    [
+        (models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"), True),
+        (models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"), False),
+    ],
 )
-def test_template_merge_as_pdf(db, client, template):
+def test_template_merge_as_pdf(db, settings, unoconv_local, client, template):
+    settings.UNOCONV_LOCAL = unoconv_local
+    settings.UNOCONV_URL = "" if unoconv_local else "http://unoconv:3000"
     url = reverse("template-merge", args=[template.pk])
 
     response = client.post(
@@ -167,3 +179,52 @@ def test_template_merge_as_pdf_without_unoconv(db, client, template, settings):
         client.post(
             url, data={"data": {"test": "Test input"}, "convert": "pdf"}, format="json"
         )
+
+
+@pytest.mark.parametrize(
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template-loopcontrols.docx"))],
+)
+def test_template_merge_jinja_extensions_docx(db, client, template, settings, snapshot):
+    settings.DOCXTEMPLATE_JINJA_EXTENSIONS = ["jinja2.ext.loopcontrols"]
+
+    url = reverse("template-merge", args=[template.pk])
+
+    response = client.post(url, data={"data": {"test": "Test input"}}, format="json")
+    assert response.status_code == status.HTTP_200_OK
+    assert (
+        response._headers["content-type"][1]
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
+    docx = Document(io.BytesIO(response.content))
+    xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
+    snapshot.assert_match(xml)
+
+
+@pytest.mark.parametrize(
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template-filters.docx"))],
+)
+def test_template_merge_jinja_filters_docx(db, client, template, snapshot):
+    url = reverse("template-merge", args=[template.pk])
+
+    data = {
+        "data": {
+            "test_date": "1984-09-15",
+            "test_datetime": "1984-09-15 23:23",
+            "test_datetime2": "23:23-1984-09-15",
+            "test_none": None,
+        }
+    }
+
+    response = client.post(url, data=data, format="json")
+    assert response.status_code == status.HTTP_200_OK
+    assert (
+        response._headers["content-type"][1]
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
+    docx = Document(io.BytesIO(response.content))
+    xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
+    snapshot.assert_match(xml)

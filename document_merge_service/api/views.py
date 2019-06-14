@@ -1,4 +1,5 @@
 import mimetypes
+from tempfile import NamedTemporaryFile
 
 import requests
 from django.conf import settings
@@ -9,6 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
 
 from . import engines, models, serializers
+from .unoconv import Unoconv
 
 
 class TemplateView(viewsets.ModelViewSet):
@@ -36,7 +38,9 @@ class TemplateView(viewsets.ModelViewSet):
         engine = engines.get_engine(template.engine, template.template)
 
         content_type, _ = mimetypes.guess_type(template.template.name)
-        response = HttpResponse(content_type or "application/force-download")
+        response = HttpResponse(
+            content_type=content_type or "application/force-download"
+        )
         extension = mimetypes.guess_extension(content_type)
 
         serializer = self.get_serializer(data=request.data)
@@ -46,17 +50,35 @@ class TemplateView(viewsets.ModelViewSet):
         convert = serializer.data.get("convert")
 
         if convert:
-            url = f"{settings.UNOCONV_URL}/unoconv/{convert}"
-            requests_response = requests.post(url, files={"file": response.content})
-            fmt = settings.UNOCONV_FORMATS[convert]
-            extension = fmt["extension"]
-            content_type = fmt["mime"]
+            if settings.UNOCONV_LOCAL:
+                with NamedTemporaryFile("wb") as tmp:
+                    tmp.write(response.content)
+                    unoconv = Unoconv(
+                        pythonpath=settings.UNOCONV_PYTHON,
+                        unoconvpath=settings.UNOCONV_PATH,
+                    )
+                    result = unoconv.process(tmp.name, convert)
+                extension = convert
+                status = 500
+                if result.returncode == 0:
+                    status = 200
+                response = HttpResponse(
+                    content=result.stdout,
+                    status=status,
+                    content_type=result.content_type,
+                )
+            else:
+                url = f"{settings.UNOCONV_URL}/unoconv/{convert}"
+                requests_response = requests.post(url, files={"file": response.content})
+                fmt = settings.UNOCONV_FORMATS[convert]
+                extension = fmt["extension"]
+                content_type = fmt["mime"]
 
-            response = HttpResponse(
-                content=requests_response.content,
-                status=requests_response.status_code,
-                content_type=content_type,
-            )
+                response = HttpResponse(
+                    content=requests_response.content,
+                    status=requests_response.status_code,
+                    content_type=content_type,
+                )
 
         filename = f"{template.slug}.{extension}"
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
