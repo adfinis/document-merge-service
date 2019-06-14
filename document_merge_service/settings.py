@@ -6,6 +6,8 @@ import requests
 from django.core.exceptions import ImproperlyConfigured
 from rest_framework import status
 
+from .api.unoconv import Unoconv
+
 env = environ.Env()
 django_root = environ.Path(__file__) - 2
 
@@ -54,6 +56,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "document_merge_service.api.apps.DefaultConfig",
+    "corsheaders",
 ]
 
 if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
@@ -61,6 +64,7 @@ if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.locale.LocaleMiddleware",
 ]
@@ -95,6 +99,14 @@ CACHES = {
         "LOCATION": env.str("CACHE_LOCATION", ""),
     }
 }
+
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = env.bool("CORS_ORIGIN_ALLOW_ALL", False)
+CORS_ORIGIN_REGEX_WHITELIST = [r"^(https?://)?127\.0\.0\.1:\d{4}$"]
+CORS_ORIGIN_REGEX_WHITELIST += env.list(
+    "CORS_ORIGIN_REGEX_WHITELIST", default=[r"^(https?://)?127\.0\.0\.1:\d{4}$"]
+)
 
 
 # Internationalization
@@ -147,6 +159,9 @@ MEDIA_ROOT = env.str("MEDIA_ROOT", "")
 
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
 UNOCONV_URL = env.str("UNOCONV_URL", default="").rstrip("/")
+UNOCONV_LOCAL = env.bool("UNOCONV_LOCAL", default=False)
+UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3.5")
+UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
 
 
 def get_unoconv_formats():
@@ -167,7 +182,29 @@ def get_unoconv_formats():
     return formats
 
 
-UNOCONV_FORMATS = UNOCONV_URL and get_unoconv_formats()
+def get_unoconv_formats_local():
+    uno = Unoconv(pythonpath=UNOCONV_PYTHON, unoconvpath=UNOCONV_PATH)
+    formats = uno.get_formats()
+    not_supported = set(UNOCONV_ALLOWED_TYPES) - formats
+
+    if not_supported:
+        raise ImproperlyConfigured(
+            f"Unoconv doesn't support types {', '.join(not_supported)}."
+        )
+
+    return formats
+
+
+UNOCONV_FORMATS = False
+if UNOCONV_LOCAL:  # pragma: no cover
+    UNOCONV_FORMATS = get_unoconv_formats_local()
+elif UNOCONV_URL:
+    UNOCONV_FORMATS = get_unoconv_formats()
+
+# Jinja2
+DOCXTEMPLATE_JINJA_EXTENSIONS = env.list(
+    "DOCXTEMPLATE_JINJA_EXTENSIONS", default=default([])
+)
 
 # Authentication
 

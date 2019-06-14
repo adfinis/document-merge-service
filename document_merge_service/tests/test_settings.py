@@ -4,8 +4,11 @@ from django.core.exceptions import ImproperlyConfigured
 from .. import settings
 
 
-def test_get_unoconv_formats():
-    formats = settings.get_unoconv_formats()
+@pytest.mark.parametrize(
+    "format_function", ["get_unoconv_formats", "get_unoconv_formats_local"]
+)
+def test_get_unoconv_formats(format_function):
+    formats = getattr(settings, format_function)()
     assert "pdf" in formats
 
 
@@ -16,8 +19,11 @@ def test_get_unoconv_formats_invalid_url(monkeypatch):
         settings.get_unoconv_formats()
 
 
-def test_get_unoconv_formats_invalid_format(monkeypatch):
+@pytest.mark.parametrize(
+    "format_function", ["get_unoconv_formats", "get_unoconv_formats_local"]
+)
+def test_get_unoconv_formats_invalid_format(monkeypatch, format_function):
     monkeypatch.setattr(settings, "UNOCONV_ALLOWED_TYPES", ["invalid"])
 
     with pytest.raises(ImproperlyConfigured):
-        settings.get_unoconv_formats()
+        getattr(settings, format_function)()
