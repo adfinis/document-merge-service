@@ -2,13 +2,18 @@ FROM python:3.6
 
 WORKDIR /app
 
+ARG UNOCONV_LOCAL=false
+ARG UID=901
+
 RUN wget -q https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -P /usr/local/bin \
 && chmod +x /usr/local/bin/wait-for-it.sh \
 && mkdir -p /app /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static \
-&& useradd -u 901 -r document-merge-service --create-home \
+&& useradd -u $UID -r document-merge-service --create-home \
+&& mkdir /home/document-merge-service/.config \
+&& chmod -R 770 /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service \
+&& bash -c 'if [ "$UNOCONV_LOCAL" = true ]; then apt-get update && apt-get install -y unoconv libreoffice-script-provider-python; fi' \
 # all project specific folders need to be accessible by newly created user but also for unknown users (when UID is set manually). Such users are in group root.
-&& chown -R document-merge-service:root /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service \
-&& chmod -R 770 /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service
+&& chown -R document-merge-service:root /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service
 
 # needs to be set for users with manually set UID
 ENV HOME=/home/document-merge-service
@@ -23,7 +28,6 @@ ENV MEDIA_ROOT /var/lib/document-merge-service/media
 ARG REQUIREMENTS=requirements.txt
 COPY requirements.txt requirements-dev.txt $APP_HOME/
 RUN pip install --upgrade --no-cache-dir --requirement $REQUIREMENTS --disable-pip-version-check
-
 COPY . $APP_HOME
 
 RUN ENV=docker ./manage.py collectstatic --noinput \
