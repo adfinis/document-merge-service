@@ -213,12 +213,22 @@ GROUP_ACCESS_ONLY = env.bool("GROUP_ACCESS_ONLY", False)
 
 OIDC_USERINFO_ENDPOINT = env.str("OIDC_USERINFO_ENDPOINT", default=None)
 OIDC_VERIFY_SSL = env.bool("OIDC_VERIFY_SSL", default=True)
-OIDC_GROUPS_CLAIM = env.str(
-    "OIDC_GROUPS_CLAIM", default="document_merge_service_groups"
-)
+OIDC_GROUPS_CLAIM = env.str("OIDC_GROUPS_CLAIM", default="")
+OIDC_GROUPS_API = env.str("OIDC_GROUPS_API", default="")
+OIDC_GROUPS_API_VERIFY_SSL = env.str("OIDC_GROUPS_API_VERIFY_SSL", default=True)
+OIDC_GROUPS_API_JSONPATH = env.str("OIDC_GROUPS_API_JSONPATH", default="")
+OIDC_GROUPS_API_HEADERS = [
+    header.upper()
+    for header in env.list("OIDC_GROUPS_API_HEADERS", default=["AUTHORIZATION"])
+]
 OIDC_BEARER_TOKEN_REVALIDATION_TIME = env.int(
     "OIDC_BEARER_TOKEN_REVALIDATION_TIME", default=0
 )
+
+if OIDC_GROUPS_API and not OIDC_GROUPS_API_JSONPATH:  # pragma: no cover
+    raise ImproperlyConfigured(
+        f"OIDC_GROUSP_API` is set to {OIDC_GROUPS_API} but no `OIDC_GROUPS_API_JSONPATH` is configured."
+    )
 
 
 # Rest framework
