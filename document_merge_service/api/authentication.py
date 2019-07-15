@@ -89,7 +89,7 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
             if key.startswith("HTTP_") and key[5:] in settings.OIDC_GROUPS_API_HEADERS
         }
 
-        # replae placerholders
+        # replace placeholders
         groups_api = settings.OIDC_GROUPS_API
         for key, value in userinfo.items():
             groups_api = groups_api.replace("{" + key + "}", value)
