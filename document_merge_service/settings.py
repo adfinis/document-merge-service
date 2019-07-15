@@ -160,7 +160,7 @@ MEDIA_ROOT = env.str("MEDIA_ROOT", "")
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
 UNOCONV_URL = env.str("UNOCONV_URL", default="").rstrip("/")
 UNOCONV_LOCAL = env.bool("UNOCONV_LOCAL", default=False)
-UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3.5")
+UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3")
 UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
 
 
