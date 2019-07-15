@@ -7,8 +7,8 @@ from docx import Document
 from lxml import etree
 from rest_framework import status
 
-from .data import django_file
 from .. import models
+from .data import django_file
 
 
 @pytest.mark.parametrize(
