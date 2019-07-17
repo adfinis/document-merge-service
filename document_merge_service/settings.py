@@ -216,7 +216,9 @@ OIDC_VERIFY_SSL = env.bool("OIDC_VERIFY_SSL", default=True)
 OIDC_GROUPS_CLAIM = env.str("OIDC_GROUPS_CLAIM", default="")
 OIDC_GROUPS_API = env.str("OIDC_GROUPS_API", default="")
 OIDC_GROUPS_API_VERIFY_SSL = env.str("OIDC_GROUPS_API_VERIFY_SSL", default=True)
-OIDC_GROUPS_API_JSONPATH = env.str("OIDC_GROUPS_API_JSONPATH", default="")
+# environ interprets leading jsonpath dollar to be an proxied environ var
+# which is not the case
+OIDC_GROUPS_API_JSONPATH = os.environ.get("OIDC_GROUPS_API_JSONPATH", "")
 OIDC_GROUPS_API_HEADERS = [
     header.upper()
     for header in env.list("OIDC_GROUPS_API_HEADERS", default=["AUTHORIZATION"])
