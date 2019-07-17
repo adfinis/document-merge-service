@@ -461,6 +461,18 @@ snapshots[
   <w:p>
     <w:pPr>
       <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t>23:24</w:t>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
@@ -469,7 +481,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t>23:23 15.09.1984</w:t>
+      <w:t>15.09.1984, 23:23:00</w:t>
     </w:r>
   </w:p>
   <w:p>

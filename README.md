@@ -86,6 +86,15 @@ To scale the service a different database storage is needed. Any database suppor
 #### python-docx-template
 * `DOCXTEMPLATE_JINJA_EXTENSIONS`: list of [jinja2 extensions](http://jinja.pocoo.org/docs/2.10/extensions/) to load
 
+In python-docx-template following additional custom filters are implemented:
+
+* datetimeformat(value, format, locale)
+* dateformat(value, format, locale)
+* timeformat(value, format, locale)
+* emptystring(value) - converts None to empty string or leaves strings as is
+
+For formatting use babel and its uniode compatible [format](http://babel.pocoo.org/en/latest/dates.html#date-fields).
+
 #### Authentication / Authorization
 
 Per default no authentication is needed. To protect api, integrate it with your [IAM](https://en.wikipedia.org/wiki/Identity_management) supporting Open ID Connect. If not availbale you might consider using [Keycloak](https://www.keycloak.org/).

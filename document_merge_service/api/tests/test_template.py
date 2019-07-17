@@ -226,12 +226,14 @@ def test_template_merge_jinja_extensions_docx(db, client, template, settings, sn
     "template__engine,template__template",
     [(models.Template.DOCX_TEMPLATE, django_file("docx-template-filters.docx"))],
 )
-def test_template_merge_jinja_filters_docx(db, client, template, snapshot):
+def test_template_merge_jinja_filters_docx(db, client, template, snapshot, settings):
+    settings.LANGUAGE_CODE = "de-ch"
     url = reverse("template-merge", args=[template.pk])
 
     data = {
         "data": {
             "test_date": "1984-09-15",
+            "test_time": "23:24",
             "test_datetime": "1984-09-15 23:23",
             "test_datetime2": "23:23-1984-09-15",
             "test_none": None,
