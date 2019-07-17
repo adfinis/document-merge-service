@@ -15,13 +15,33 @@ from .data import django_file
     "template__group,group_access_only,size",
     [(None, False, 1), ("admin", True, 1), ("unknown", True, 0), ("unknown", False, 1)],
 )
-def test_template_list(
+def test_template_list_group_access(
     db, admin_client, template, snapshot, size, group_access_only, settings
 ):
     settings.GROUP_ACCESS_ONLY = group_access_only
     url = reverse("template-list")
 
     response = admin_client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["count"] == size
+
+
+@pytest.mark.parametrize("template__description", ["test description"])
+@pytest.mark.parametrize(
+    "query_params,size",
+    [
+        ({"description__icontains": "test"}, 1),
+        ({"description__search": "test"}, 1),
+        ({"description__icontains": "unknown"}, 0),
+        ({"description__search": "unknown"}, 0),
+    ],
+)
+def test_template_list_query_params(
+    db, admin_client, template, snapshot, size, query_params
+):
+    url = reverse("template-list")
+
+    response = admin_client.get(url, data=query_params)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["count"] == size
 

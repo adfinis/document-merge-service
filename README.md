@@ -64,7 +64,9 @@ Different environment variable types are explained at [django-environ](https://g
 
 #### Database
 
-Per default [Sqlite3](https://sqlite.org/) is used as database for simple deployment. To scale service a different database storage is needed. Any database supported by [Django](https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-DATABASE-ENGINE) can be used.
+Per default [Sqlite3](https://sqlite.org/) is used as database for simple deployment and stored at `/var/lib/document-merge-service/data/sqlite3.db`. Create a volume to make it persistent.
+
+To scale service a different database storage is needed. Any database supported by [Django](https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-DATABASE-ENGINE) can be used.
 
 * `DATABASE_ENGINE`: Database backend to use.
 * `DATABASE_HOST`: Host to use when connecting to database
