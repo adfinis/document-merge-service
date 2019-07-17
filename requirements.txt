@@ -1,10 +1,11 @@
 django==1.11.22
-django_cors_headers==2.5.2
+django_cors_headers==3.0.2
 django-environ==0.4.5
-django-filter==2.1.0
-djangorestframework==3.9.4
+django-filter==2.2.0
+djangorestframework==3.10.0
 docx-mailmerge==0.4.0
 docxtpl==0.6.3
+jsonpath==0.82
 mysqlclient==1.4.2.post1
 psycopg2-binary==2.8.3
 python-memcached==1.59

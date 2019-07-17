@@ -160,7 +160,7 @@ MEDIA_ROOT = env.str("MEDIA_ROOT", "")
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
 UNOCONV_URL = env.str("UNOCONV_URL", default="").rstrip("/")
 UNOCONV_LOCAL = env.bool("UNOCONV_LOCAL", default=False)
-UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3.5")
+UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3")
 UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
 
 
@@ -213,12 +213,24 @@ GROUP_ACCESS_ONLY = env.bool("GROUP_ACCESS_ONLY", False)
 
 OIDC_USERINFO_ENDPOINT = env.str("OIDC_USERINFO_ENDPOINT", default=None)
 OIDC_VERIFY_SSL = env.bool("OIDC_VERIFY_SSL", default=True)
-OIDC_GROUPS_CLAIM = env.str(
-    "OIDC_GROUPS_CLAIM", default="document_merge_service_groups"
-)
+OIDC_GROUPS_CLAIM = env.str("OIDC_GROUPS_CLAIM", default="")
+OIDC_GROUPS_API = env.str("OIDC_GROUPS_API", default="")
+OIDC_GROUPS_API_VERIFY_SSL = env.str("OIDC_GROUPS_API_VERIFY_SSL", default=True)
+# environ interprets leading jsonpath dollar to be an proxied environ var
+# which is not the case
+OIDC_GROUPS_API_JSONPATH = os.environ.get("OIDC_GROUPS_API_JSONPATH", "")
+OIDC_GROUPS_API_HEADERS = [
+    header.upper()
+    for header in env.list("OIDC_GROUPS_API_HEADERS", default=["AUTHORIZATION"])
+]
 OIDC_BEARER_TOKEN_REVALIDATION_TIME = env.int(
     "OIDC_BEARER_TOKEN_REVALIDATION_TIME", default=0
 )
+
+if OIDC_GROUPS_API and not OIDC_GROUPS_API_JSONPATH:  # pragma: no cover
+    raise ImproperlyConfigured(
+        f"OIDC_GROUSP_API` is set to {OIDC_GROUPS_API} but no `OIDC_GROUPS_API_JSONPATH` is configured."
+    )
 
 
 # Rest framework

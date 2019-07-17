@@ -1,7 +1,7 @@
 # Document Merge Service
 
 [![Build Status](https://travis-ci.com/adfinis-sygroup/document-merge-service.svg?branch=master)](https://travis-ci.com/adfinis-sygroup/document-merge-service)
-[![Pyup](https://pyup.io/repos/github/adfinis-sygroup/document-merge-service/shield.svg)](https://pyup.io/account/repos/github/adfinis-sygroup/document-merge-service/)
+![Dependabot](https://badgen.net/dependabot/adfinis-sygroup/document-merge-service/?icon=dependabot)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/adfinis-sygroup/document-merge-service)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -89,9 +89,14 @@ Per default [Sqlite3](https://sqlite.org/) is used as database for simple deploy
 Per default no authentication is needed. To protect api, integrate it with your [IAM](https://en.wikipedia.org/wiki/Identity_management) supporting Open ID Connect. If not availbale you might consider using [Keycloak](https://www.keycloak.org/).
 
 * `REQUIRE_AUTHENTICATION`: Force authentication to be required (default: False)
-* `GROUP_ACCESS_ONLY`: Force visibility to templates of group only. See also `OIDC_GROUPS_CLAIM`. (default: False)
+* `GROUP_ACCESS_ONLY`: Force visibility to templates of group only. See also `OIDC_GROUPS_CLAIM` or `OIDC_GROUPS_API` (default: False)
 * `OIDC_USERINFO_ENDPOINT`: Url of userinfo endpoint as [described](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo)
+* `OIDC_VERIFY_SSL`: Verify ssl certificate of oidc userinfo endpoint (default: True)
 * `OIDC_GROUPS_CLAIM`: Name of claim to be used to define group membership (default: document_merge_service_groups)
+* `OIDC_GROUPS_API`: In case authorization is done in a different service than your OpenID Connect provider you may specify an API endpoint returning JSON which is called after authentication. Use `{sub}` as placeholder for username. Replace `sub` with any claim name. Example: https://example.net/users/{sub}/
+* `OIDC_GROUPS_API_VERIFY_SSL`: Verify ssl certificate of groups api endpoint (default: True)
+* `OIDC_GROUPS_API_JSONPATH`: [Json path expression](https://goessner.net/articles/JsonPath/index.html) to match groups in json returned by `OIDC_GROUPS_API`. See also [JSONPath online evaluator](https://jsonpath.com/)
+* `OIDC_GROUPS_API_HEADER`: List of headers which are passed on to groups api. (default: ['AUTHENTICATION'])
 * `OIDC_BEARER_TOKEN_REVALIDATION_TIME`: Time in seconds before bearer token validity is verified again. For best security token is validated on each request per default. It might be helpful though in case of slow Open ID Connect provider to cache it. It uses [cache](#cache) mechanism for memorizing userinfo result. Number has to be lower than access token expiration time. (default: 0)
 
 #### Cache
