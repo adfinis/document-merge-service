@@ -11,7 +11,7 @@ RUN wget -q https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-
 && useradd -u $UID -r document-merge-service --create-home \
 && mkdir /home/document-merge-service/.config \
 && chmod -R 770 /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service \
-&& bash -c 'if [ "$UNOCONV_LOCAL" = true ]; then apt-get update && apt-get install -y unoconv libreoffice-script-provider-python; fi' \
+&& bash -c 'if [ "$UNOCONV_LOCAL" = true ]; then apt-get update && apt-get install -y --no-install-recommends unoconv libreoffice-writer && rm -rf /var/lib/apt/lists/*; fi' \
 # all project specific folders need to be accessible by newly created user but also for unknown users (when UID is set manually). Such users are in group root.
 && chown -R document-merge-service:root /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service
 
