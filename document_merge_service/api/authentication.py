@@ -90,7 +90,8 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
 
         # replace placeholders
         groups_api = settings.OIDC_GROUPS_API
-        for key, value in userinfo.items():
+        placeholders = {k: v for k, v in userinfo.items() if isinstance(v, str)}
+        for key, value in placeholders.items():
             groups_api = groups_api.replace("{" + key + "}", value)
 
         response = requests.get(
