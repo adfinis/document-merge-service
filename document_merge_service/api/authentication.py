@@ -82,16 +82,16 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
         return response.json()
 
     def get_groups_from_api(self, request, userinfo):
-        # django prepends HTTP_ to all headers
         headers = {
-            key[5:]: value
-            for key, value in request.META.items()
-            if key.startswith("HTTP_") and key[5:] in settings.OIDC_GROUPS_API_HEADERS
+            key: value
+            for key, value in request.headers.items()
+            if key.upper() in settings.OIDC_GROUPS_API_HEADERS
         }
 
         # replace placeholders
         groups_api = settings.OIDC_GROUPS_API
-        for key, value in userinfo.items():
+        placeholders = {k: v for k, v in userinfo.items() if isinstance(v, str)}
+        for key, value in placeholders.items():
             groups_api = groups_api.replace("{" + key + "}", value)
 
         response = requests.get(

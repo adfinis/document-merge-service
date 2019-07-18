@@ -3,6 +3,7 @@ from tempfile import NamedTemporaryFile
 
 import requests
 from django.conf import settings
+from django.db.models import Q
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
 from rest_framework import viewsets
@@ -24,7 +25,9 @@ class TemplateView(viewsets.ModelViewSet):
         queryset = super().get_queryset()
 
         if settings.GROUP_ACCESS_ONLY:
-            queryset = queryset.filter(group__in=self.request.user.groups)
+            queryset = queryset.filter(
+                Q(group__in=self.request.user.groups or []) | Q(group__isnull=True)
+            )
 
         return queryset
 
