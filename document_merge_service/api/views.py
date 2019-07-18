@@ -26,7 +26,7 @@ class TemplateView(viewsets.ModelViewSet):
 
         if settings.GROUP_ACCESS_ONLY:
             queryset = queryset.filter(
-                Q(group__in=self.request.user.groups) | Q(group__isnull=True)
+                Q(group__in=self.request.user.groups or []) | Q(group__isnull=True)
             )
 
         return queryset
