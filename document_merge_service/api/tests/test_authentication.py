@@ -75,7 +75,7 @@ def test_bearer_token_authentication_authenticate_groups_api(
     )
     settings.OIDC_GROUPS_API_JSONPATH = "$..*"
 
-    userinfo = {"sub": "1"}
+    userinfo = {"sub": "1", "groups": []}
     requests_mock.get(
         settings.OIDC_USERINFO_ENDPOINT,
         request_headers={"Authorization": "Bearer Token"},
