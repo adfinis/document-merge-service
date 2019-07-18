@@ -13,13 +13,23 @@ from .data import django_file
 
 @pytest.mark.parametrize(
     "template__group,group_access_only,size",
-    [(None, False, 1), ("admin", True, 1), ("unknown", True, 0), ("unknown", False, 1)],
+    [(None, False, 2), ("admin", True, 2), ("unknown", True, 1), ("unknown", False, 2)],
 )
 def test_template_list_group_access(
-    db, admin_client, template, snapshot, size, group_access_only, settings
+    db,
+    admin_client,
+    template,
+    template_factory,
+    snapshot,
+    size,
+    group_access_only,
+    settings,
 ):
     settings.GROUP_ACCESS_ONLY = group_access_only
     url = reverse("template-list")
+
+    # add a global template (no group)
+    template_factory()
 
     response = admin_client.get(url)
     assert response.status_code == status.HTTP_200_OK
