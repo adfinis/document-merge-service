@@ -105,6 +105,7 @@ Per default no authentication is needed. To protect api, integrate it with your 
 * `OIDC_VERIFY_SSL`: Verify ssl certificate of oidc userinfo endpoint (default: True)
 * `OIDC_GROUPS_CLAIM`: Name of claim to be used to define group membership (default: document_merge_service_groups)
 * `OIDC_GROUPS_API`: In case authorization is done in a different service than your OpenID Connect provider you may specify an API endpoint returning JSON which is called after authentication. Use `{sub}` as placeholder for username. Replace `sub` with any claim name. Example: https://example.net/users/{sub}/
+* `OIDC_GROUPS_API_REVALIDATION_TIME`: Time in seconds before groups api is called again.
 * `OIDC_GROUPS_API_VERIFY_SSL`: Verify ssl certificate of groups api endpoint (default: True)
 * `OIDC_GROUPS_API_JSONPATH`: [Json path expression](https://goessner.net/articles/JsonPath/index.html) to match groups in json returned by `OIDC_GROUPS_API`. See also [JSONPath online evaluator](https://jsonpath.com/)
 * `OIDC_GROUPS_API_HEADER`: List of headers which are passed on to groups api. (default: ['AUTHENTICATION'])

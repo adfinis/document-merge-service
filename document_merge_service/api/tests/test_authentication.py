@@ -74,6 +74,7 @@ def test_bearer_token_authentication_authenticate_groups_api(
         "mock://document-merge-service.github.com/user/{sub}/groups"
     )
     settings.OIDC_GROUPS_API_JSONPATH = "$..*"
+    settings.OIDC_GROUPS_API_REVALIDATION_TIME = 60
 
     userinfo = {"sub": "1", "groups": []}
     requests_mock.get(
