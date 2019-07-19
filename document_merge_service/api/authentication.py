@@ -133,7 +133,7 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
             groups = cache.get_or_set(
                 f"authentication.groups.{hashsum_token}",
                 groups_api_method,
-                timeout=settings.OIDC_BEARER_TOKEN_REVALIDATION_TIME,
+                timeout=settings.OIDC_GROUPS_API_REVALIDATION_TIME,
             )
 
         return AuthenticatedUser(userinfo["sub"], groups), token

@@ -215,6 +215,9 @@ OIDC_USERINFO_ENDPOINT = env.str("OIDC_USERINFO_ENDPOINT", default=None)
 OIDC_VERIFY_SSL = env.bool("OIDC_VERIFY_SSL", default=True)
 OIDC_GROUPS_CLAIM = env.str("OIDC_GROUPS_CLAIM", default="")
 OIDC_GROUPS_API = env.str("OIDC_GROUPS_API", default="")
+OIDC_GROUPS_API_REVALIDATION_TIME = env.int(
+    "OIDC_GROUPS_API_REVALIDATION_TIME", default=0
+)
 OIDC_GROUPS_API_VERIFY_SSL = env.str("OIDC_GROUPS_API_VERIFY_SSL", default=True)
 # environ interprets leading jsonpath dollar to be an proxied environ var
 # which is not the case
