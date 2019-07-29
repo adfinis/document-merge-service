@@ -1,6 +1,7 @@
 version: "3"
 services:
   document-merge-service:
+    image: adfinissygroup/document-merge-service:dev
     build:
       context: .
       args:
