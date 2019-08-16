@@ -44,10 +44,17 @@ def emptystring(value):
     return value
 
 
+def getwithdefault(value, default=""):
+    if value is None:
+        return default
+    return value
+
+
 def get_jinja_env():
     jinja_env = Environment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
     jinja_env.filters["date"] = dateformat
     jinja_env.filters["datetime"] = datetimeformat
     jinja_env.filters["time"] = timeformat
     jinja_env.filters["emptystring"] = emptystring
+    jinja_env.filters["getwithdefault"] = getwithdefault
     return jinja_env

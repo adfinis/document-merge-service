@@ -91,7 +91,8 @@ In python-docx-template following additional custom filters are implemented:
 * datetimeformat(value, format, locale)
 * dateformat(value, format, locale)
 * timeformat(value, format, locale)
-* emptystring(value) - converts None to empty string or leaves strings as is
+* getwithdefault(value, default) - converts None to empty string (or provided default value) or leaves strings as is
+* emptystring(value) - converts None to empty string or leaves strings as is (deprecated in favor of getwithdefault)
 
 For formatting use babel and its uniode compatible [format](http://babel.pocoo.org/en/latest/dates.html#date-fields).
 

@@ -499,15 +499,37 @@ snapshots[
   <w:p>
     <w:pPr>
       <w:pStyle w:val="Normal"/>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
+      <w:rPr/>
     </w:pPr>
     <w:r>
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
       <w:t/>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t/>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t xml:space="preserve">something</w:t>
     </w:r>
   </w:p>
   <w:p>
