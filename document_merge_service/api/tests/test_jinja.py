@@ -1,6 +1,6 @@
 import pytest
 
-from ..jinja import dateformat, datetimeformat, emptystring, timeformat
+from ..jinja import dateformat, datetimeformat, emptystring, getwithdefault, timeformat
 
 
 @pytest.mark.parametrize(
@@ -31,4 +31,13 @@ def test_timeformat(inp, expected, locale):
 @pytest.mark.parametrize("inp,expected", [("text", "text"), (None, "")])
 def test_emptystring(inp, expected):
     formatted = emptystring(inp)
+    assert formatted == expected
+
+
+@pytest.mark.parametrize(
+    "inp,default,expected",
+    [("text", "", "text"), (None, "", ""), (None, "something", "something")],
+)
+def test_getwithdefault(inp, default, expected):
+    formatted = getwithdefault(inp, default=default)
     assert formatted == expected
