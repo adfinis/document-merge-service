@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext as _
 from rest_framework import exceptions, serializers
 
@@ -51,11 +50,3 @@ class TemplateMergeSerializer(serializers.Serializer):
         choices=settings.UNOCONV_ALLOWED_TYPES,
         help_text="Optionally convert result document to this type.",
     )
-
-    def validate_convert(self, value):
-        if not settings.UNOCONV_URL and not settings.UNOCONV_LOCAL:
-            raise ImproperlyConfigured(
-                "To use conversion you need to configure `UNOCONV_URL`"
-            )
-
-        return value

@@ -19,7 +19,10 @@ services:
       # - ALLOWED_HOSTS=
   # optional unoconv service for conversion
   unoconv:
-    image: zrrrzzt/docker-unoconv-webservice:8.9.4
+    build:
+      context: unoconv
+    ports:
+      - "2002:2002"
 
 volumes:
   dbdata:

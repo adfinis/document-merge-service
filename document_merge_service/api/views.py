@@ -1,7 +1,6 @@
 import mimetypes
 from tempfile import NamedTemporaryFile
 
-import requests
 from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse
@@ -53,35 +52,22 @@ class TemplateView(viewsets.ModelViewSet):
         convert = serializer.data.get("convert")
 
         if convert:
-            if settings.UNOCONV_LOCAL:
-                with NamedTemporaryFile("wb") as tmp:
-                    tmp.write(response.content)
-                    unoconv = Unoconv(
-                        pythonpath=settings.UNOCONV_PYTHON,
-                        unoconvpath=settings.UNOCONV_PATH,
-                    )
-                    result = unoconv.process(tmp.name, convert)
-                extension = convert
-                status = 500
-                if result.returncode == 0:
-                    status = 200
-                response = HttpResponse(
-                    content=result.stdout,
-                    status=status,
-                    content_type=result.content_type,
+            with NamedTemporaryFile("wb") as tmp:
+                tmp.write(response.content)
+                unoconv = Unoconv(
+                    pythonpath=settings.UNOCONV_PYTHON,
+                    unoconvpath=settings.UNOCONV_PATH,
+                    server=settings.UNOCONV_SERVER,
+                    port=settings.UNOCONV_PORT,
                 )
-            else:
-                url = f"{settings.UNOCONV_URL}/unoconv/{convert}"
-                requests_response = requests.post(url, files={"file": response.content})
-                fmt = settings.UNOCONV_FORMATS[convert]
-                extension = fmt["extension"]
-                content_type = fmt["mime"]
-
-                response = HttpResponse(
-                    content=requests_response.content,
-                    status=requests_response.status_code,
-                    content_type=content_type,
-                )
+                result = unoconv.process(tmp.name, convert)
+            extension = convert
+            status = 500
+            if result.returncode == 0:
+                status = 200
+            response = HttpResponse(
+                content=result.stdout, status=status, content_type=result.content_type
+            )
 
         filename = f"{template.slug}.{extension}"
         response["Content-Disposition"] = f'attachment; filename="{filename}"'

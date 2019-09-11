@@ -1,7 +1,6 @@
 import io
 
 import pytest
-from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
 from docx import Document
 from lxml import etree
@@ -184,8 +183,6 @@ def test_template_merge_docx(db, client, template, snapshot):
     ],
 )
 def test_template_merge_as_pdf(db, settings, unoconv_local, client, template):
-    settings.UNOCONV_LOCAL = unoconv_local
-    settings.UNOCONV_URL = "" if unoconv_local else "http://unoconv:3000"
     url = reverse("template-merge", args=[template.pk])
 
     response = client.post(
@@ -195,20 +192,6 @@ def test_template_merge_as_pdf(db, settings, unoconv_local, client, template):
     assert response["Content-Type"] == "application/pdf"
     assert f"{template.pk}.pdf" in response["Content-Disposition"]
     assert response.content[0:4] == b"%PDF"
-
-
-@pytest.mark.parametrize(
-    "template__engine,template__template",
-    [(models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"))],
-)
-def test_template_merge_as_pdf_without_unoconv(db, client, template, settings):
-    settings.UNOCONV_URL = None
-    url = reverse("template-merge", args=[template.pk])
-
-    with pytest.raises(ImproperlyConfigured):
-        client.post(
-            url, data={"data": {"test": "Test input"}, "convert": "pdf"}, format="json"
-        )
 
 
 @pytest.mark.parametrize(

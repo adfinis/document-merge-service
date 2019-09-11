@@ -77,11 +77,11 @@ To scale the service a different database storage is needed. Any database suppor
 
 #### Unoconv
 
-* `UNOCONV_URL`: url to [tfk-api-unoconv service](https://github.com/zrrrzzt/tfk-api-unoconv) (e.g. http://localhost:3000)
-* `UNOCONV_ALLOWED_TYPES`: list of types allowed to convert to. See [supported formats](https://github.com/zrrrzzt/tfk-api-unoconv#formats) (default: ['pdf'])
-* `UNOCONV_LOCAL`: boolean to indicate if a local unoconv CLI should be used instead of the webservice. Defaults to `False`
-* `UNOCONV_PYTHON`: string (only needed if `UNOCONV_LOCAL` is `True`) defaults to "/usr/bin/python3.5"
-* `UNOCONV_PATH`: string (only needed if `UNOCONV_LOCAL` is `True`) defaults to "/usr/bin/unoconv"
+* `UNOCONV_ALLOWED_TYPES`: list of types allowed to convert to. See `unoconv --show` (default: ['pdf'])
+* `UNOCONV_SERVER`: hostname or ip of unoconv listener. Defaults to `None`.
+* `UNOCONV_PORT`: port of unoconv listener. Only relevant if `UNOCONV_SERVER` is set. Defaults to `2002`.
+* `UNOCONV_PYTHON`: string defaults to "/usr/bin/python3.5"
+* `UNOCONV_PATH`: string defaults to "/usr/bin/unoconv"
 
 #### python-docx-template
 * `DOCXTEMPLATE_JINJA_EXTENSIONS`: list of [jinja2 extensions](http://jinja.pocoo.org/docs/2.10/extensions/) to load
