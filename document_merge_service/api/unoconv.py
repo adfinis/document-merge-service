@@ -9,15 +9,39 @@ UnoconvResult = namedtuple(
 
 
 class Unoconv:
-    def __init__(self, pythonpath, unoconvpath):
+    def __init__(self, pythonpath, unoconvpath, server=None, port=2002):
+        """
+        Convert documents with unoconv command-line utility.
+
+        :param filename: str() - path to the python interpreter
+        :param convert: str() - path to the unoconv binary
+        :param connection: str() - connection string to an unoconv listener
+        """
         self.pythonpath = pythonpath
         self.unoconvpath = unoconvpath
+        self.server = server
+        self.port = port
+
+    @property
+    def cmd(self):
+        cmd = [self.pythonpath, self.unoconvpath]
+
+        if self.server:  # pragma: no cover
+            cmd.extend(
+                [
+                    "--server",
+                    self.server,
+                    "--port",
+                    self.port,
+                    "--no-launch",  # Crash if no listener is found.
+                ]
+            )
+
+        return cmd
 
     def get_formats(self):
         p = subprocess.run(
-            [self.pythonpath, self.unoconvpath, "--show"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            self.cmd + ["--show"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
         if not p.returncode == 0:  # pragma: no cover
             raise Exception("Failed to fetch the formats from unoconv!")
@@ -41,14 +65,7 @@ class Unoconv:
         """
         # unoconv MUST be running with the same python version as libreoffice
         p = subprocess.run(
-            [
-                self.pythonpath,
-                self.unoconvpath,
-                "--format",
-                convert,
-                "--stdout",
-                filename,
-            ],
+            self.cmd + ["--format", convert, "--stdout", filename],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )

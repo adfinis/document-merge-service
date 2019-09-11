@@ -12,3 +12,6 @@ test: ## Test the project
 
 shell: ## Shell into document merge service
 	@docker-compose exec document-merge-service bash
+
+format: ## Format python code with black
+	@docker-compose exec document-merge-service black .
