@@ -247,6 +247,7 @@ def test_template_merge_jinja_filters_docx(db, client, template, snapshot, setti
             "test_datetime": "1984-09-15 23:23",
             "test_datetime2": "23:23-1984-09-15",
             "test_none": None,
+            "test_richtext": "This is\na test.",
         }
     }
 
