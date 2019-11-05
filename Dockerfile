@@ -37,4 +37,4 @@ RUN ENV=docker ./manage.py collectstatic --noinput \
 USER document-merge-service
 EXPOSE 8000
 
-CMD /bin/sh -c "./manage.py migrate && uwsgi"
+CMD /bin/sh -c "wait-for-it.sh $DATABASE_HOST:${DATABASE_PORT:-5432} -- ./manage.py migrate && uwsgi"
