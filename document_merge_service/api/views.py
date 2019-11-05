@@ -6,6 +6,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
+from docxtpl import RichText
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
@@ -48,6 +49,11 @@ class TemplateView(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        if isinstance(serializer.data["data"], dict):
+            for key, value in serializer.data["data"].items():
+                if isinstance(value, str) and "\n" in value:
+                    serializer.data["data"].update({key: RichText(value)})
 
         response = engine.merge(serializer.data["data"], response)
         convert = serializer.data.get("convert")

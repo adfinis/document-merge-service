@@ -538,6 +538,28 @@ snapshots[
       <w:rPr/>
     </w:pPr>
     <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t xml:space="preserve"/>
+    </w:r>
+    <w:r>
+      <w:t xml:space="preserve">This is</w:t>
+      <w:br/>
+      <w:t xml:space="preserve">a test.</w:t>
+    </w:r>
+    <w:r>
+      <w:t xml:space="preserve"/>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+    </w:pPr>
+    <w:r>
       <w:rPr/>
     </w:r>
   </w:p>
