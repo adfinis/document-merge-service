@@ -15,6 +15,14 @@ from . import engines, models, serializers
 from .unoconv import Unoconv
 
 
+def walk_nested(data, fn):
+    if isinstance(data, dict):
+        return {key: walk_nested(value, fn) for (key, value) in data.items()}
+    if isinstance(data, list):
+        return [walk_nested(value, fn) for value in data]
+    return fn(data)
+
+
 class TemplateView(viewsets.ModelViewSet):
     queryset = models.Template.objects
     serializer_class = serializers.TemplateSerializer
@@ -50,12 +58,14 @@ class TemplateView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if isinstance(serializer.data["data"], dict):
-            for key, value in serializer.data["data"].items():
-                if isinstance(value, str) and "\n" in value:
-                    serializer.data["data"].update({key: RichText(value)})
+        def transform(value):
+            if isinstance(value, str) and "\n" in value:
+                return RichText(value)
+            return value
 
-        response = engine.merge(serializer.data["data"], response)
+        data = walk_nested(serializer.data["data"], transform)
+
+        response = engine.merge(data, response)
         convert = serializer.data.get("convert")
 
         if convert:

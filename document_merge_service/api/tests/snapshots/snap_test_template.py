@@ -8,6 +8,150 @@ from snapshottest import Snapshot
 snapshots = Snapshot()
 
 snapshots[
+    "test_template_merge_jinja_filters_docx[docx-template-template__template0] 1"
+] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t>15.09.1984</w:t>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t>1984</w:t>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t>23:24</w:t>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t>15.09.1984, 23:23:00</w:t>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t>23:23</w:t>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t/>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t/>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t xml:space="preserve">something</w:t>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t xml:space="preserve"/>
+    </w:r>
+    <w:r>
+      <w:t xml:space="preserve">This is</w:t>
+      <w:br/>
+      <w:t xml:space="preserve">a test.</w:t>
+    </w:r>
+    <w:r>
+      <w:t xml:space="preserve"/>
+    </w:r>
+  </w:p>
+  <w:p>
+    <w:pPr>
+      <w:pStyle w:val="Normal"/>
+      <w:rPr/>
+    </w:pPr>
+    <w:r>
+      <w:rPr/>
+    </w:r>
+  </w:p>
+  <w:sectPr>
+    <w:type w:val="nextPage"/>
+    <w:pgSz w:w="11906" w:h="16838"/>
+    <w:pgMar w:left="1134" w:right="1134" w:header="0" w:top="1134" w:footer="0" w:bottom="1134" w:gutter="0"/>
+    <w:pgNumType w:fmt="decimal"/>
+    <w:formProt w:val="false"/>
+    <w:textDirection w:val="lrTb"/>
+    <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
+  </w:sectPr>
+</w:body>
+"""
+
+snapshots[
     "test_template_merge_docx[TestNameTemplate-docx-template-template__template0] 1"
 ] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
   <w:p>
@@ -412,152 +556,6 @@ snapshots[
     <w:pPr>
       <w:pStyle w:val="Normal"/>
       <w:rPr/>
-    </w:pPr>
-    <w:r>
-      <w:rPr/>
-    </w:r>
-  </w:p>
-  <w:sectPr>
-    <w:type w:val="nextPage"/>
-    <w:pgSz w:w="11906" w:h="16838"/>
-    <w:pgMar w:left="1134" w:right="1134" w:header="0" w:top="1134" w:footer="0" w:bottom="1134" w:gutter="0"/>
-    <w:pgNumType w:fmt="decimal"/>
-    <w:formProt w:val="false"/>
-    <w:textDirection w:val="lrTb"/>
-    <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
-  </w:sectPr>
-</w:body>
-"""
-
-snapshots[
-    "test_template_merge_jinja_filters_docx[docx-template-template__template0] 1"
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t>15.09.1984</w:t>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr/>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t>1984</w:t>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr/>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t>23:24</w:t>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t>15.09.1984, 23:23:00</w:t>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr/>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t>23:23</w:t>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr/>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t/>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr/>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t/>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr/>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t xml:space="preserve">something</w:t>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr/>
-    </w:pPr>
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
-      <w:t xml:space="preserve"/>
-    </w:r>
-    <w:r>
-      <w:t xml:space="preserve">This is</w:t>
-      <w:br/>
-      <w:t xml:space="preserve">a test.</w:t>
-    </w:r>
-    <w:r>
-      <w:t xml:space="preserve"/>
-    </w:r>
-  </w:p>
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Normal"/>
-      <w:rPr>
-        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
-      </w:rPr>
     </w:pPr>
     <w:r>
       <w:rPr/>
