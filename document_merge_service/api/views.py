@@ -6,21 +6,12 @@ from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
-from docxtpl import RichText
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
 
 from . import engines, models, serializers
 from .unoconv import Unoconv
-
-
-def walk_nested(data, fn):
-    if isinstance(data, dict):
-        return {key: walk_nested(value, fn) for (key, value) in data.items()}
-    if isinstance(data, list):
-        return [walk_nested(value, fn) for value in data]
-    return fn(data)
 
 
 class TemplateView(viewsets.ModelViewSet):
@@ -58,14 +49,7 @@ class TemplateView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        def transform(value):
-            if isinstance(value, str) and "\n" in value:
-                return RichText(value)
-            return value
-
-        data = walk_nested(serializer.data["data"], transform)
-
-        response = engine.merge(data, response)
+        response = engine.merge(serializer.data["data"], response)
         convert = serializer.data.get("convert")
 
         if convert:

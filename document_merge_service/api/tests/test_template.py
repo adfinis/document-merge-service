@@ -8,7 +8,7 @@ from lxml import etree
 from rest_framework import status
 
 from .. import models
-from ..views import walk_nested
+from ..engines import apply_nested
 from .data import django_file
 
 
@@ -248,7 +248,7 @@ def test_template_merge_jinja_filters_docx(db, client, template, snapshot, setti
             "test_datetime": "1984-09-15 23:23",
             "test_datetime2": "23:23-1984-09-15",
             "test_none": None,
-            "test_richtext": {"nested": "This is\na test."},
+            "test_nested": {"multiline": "This is\na test."},
         }
     }
 
@@ -264,12 +264,12 @@ def test_template_merge_jinja_filters_docx(db, client, template, snapshot, setti
     snapshot.assert_match(xml)
 
 
-def test_walk_nested_datastructure():
-    assert walk_nested({"x": "y", "foo": {"baz": "buzz"}}, lambda x: x.upper()) == {
+def test_apply_nested_datastructure():
+    assert apply_nested({"x": "y", "foo": {"baz": "buzz"}}, lambda x: x.upper()) == {
         "x": "Y",
         "foo": {"baz": "BUZZ"},
     }
 
-    assert walk_nested(
+    assert apply_nested(
         {"x": "y", "foo": ["bar", {"baz": "buzz"}]}, lambda x: x.upper()
     ) == {"x": "Y", "foo": ["BAR", {"baz": "BUZZ"}]}
