@@ -5,6 +5,10 @@ from django.utils.translation import to_locale
 from jinja2 import Environment
 
 
+def _parse(value):
+    return parse(str(value))
+
+
 def dateformat(value, format="medium", locale=None):
     if value is None:
         return ""
@@ -12,7 +16,7 @@ def dateformat(value, format="medium", locale=None):
     if locale is None:
         locale = to_locale(settings.LANGUAGE_CODE)
 
-    parsed_value = parse(value)
+    parsed_value = _parse(value)
     return format_date(parsed_value, format, locale=locale)
 
 
@@ -23,7 +27,7 @@ def datetimeformat(value, format="medium", locale=None):
     if locale is None:
         locale = to_locale(settings.LANGUAGE_CODE)
 
-    parsed_value = parse(value)
+    parsed_value = _parse(value)
     return format_datetime(parsed_value, format, locale=locale)
 
 
@@ -34,7 +38,7 @@ def timeformat(value, format="medium", locale=None):
     if locale is None:
         locale = to_locale(settings.LANGUAGE_CODE)
 
-    parsed_value = parse(value)
+    parsed_value = _parse(value)
     return format_time(parsed_value, format, locale=locale)
 
 
