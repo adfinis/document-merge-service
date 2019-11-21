@@ -18,5 +18,6 @@ omit=
     setup.py
     document_merge_service/settings_*.py
     document_merge_service/wsgi.py
+    document_merge_service/document_merge_service_metadata.py
 
 show_missing = True
