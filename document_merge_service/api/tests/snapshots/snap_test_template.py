@@ -111,14 +111,15 @@ snapshots[
       <w:pStyle w:val="Normal"/>
       <w:rPr/>
     </w:pPr>
+    <w:bookmarkStart w:id="1" w:name="__DdeLink__36_792793898"/>
     <w:r>
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t>This is</w:t>
-      <w:br/>
-      <w:t xml:space="preserve">a test.</w:t>
+      <w:t>This is
+a test.</w:t>
     </w:r>
+    <w:bookmarkEnd w:id="1"/>
   </w:p>
   <w:p>
     <w:pPr>
@@ -126,7 +127,12 @@ snapshots[
       <w:rPr/>
     </w:pPr>
     <w:r>
-      <w:rPr/>
+      <w:rPr>
+        <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
+      </w:rPr>
+      <w:t>This is</w:t>
+      <w:br/>
+      <w:t xml:space="preserve">a test.</w:t>
     </w:r>
   </w:p>
   <w:sectPr>
