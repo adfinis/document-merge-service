@@ -24,6 +24,10 @@ before_install:
   # set UID to run docker service with
   - echo "UID=$(id --user)" > .env
 
-install: make start
+install:
+  - make start
+  - npm install @commitlint/{config-conventional,travis-cli}
 
-script: make test
+script:
+  - ./node_modules/.bin/commitlint-travis
+  - make test
