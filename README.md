@@ -125,7 +125,7 @@ Users of nginx/apache must ensure to have matching CORS configurations.
 
 ## Contributing
 
-Look at our [contributing guidelines](CONTRIBUTION.md) to start with your first contribution.
+Look at our [contributing guidelines](CONTRIBUTIONG.md) to start with your first contribution.
 
 ## License
 
