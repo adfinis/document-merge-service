@@ -26,7 +26,7 @@ class Unoconv:
     def cmd(self):
         cmd = [self.pythonpath, self.unoconvpath]
 
-        if self.server:  # pragma: no cover
+        if self.server:
             cmd.extend(
                 [
                     "--server",
