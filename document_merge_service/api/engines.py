@@ -1,8 +1,7 @@
 import zipfile
-from functools import singledispatch
 
 from docx import Document
-from docxtpl import DocxTemplate, Listing
+from docxtpl import DocxTemplate
 from mailmerge import MailMerge
 from rest_framework import exceptions
 
@@ -20,35 +19,11 @@ class DocxValidator:
         self.template.seek(0)
 
 
-@singledispatch
-def apply_nested(data, fn):
-    """Apply fn to every primitive value in nested data."""
-    return fn(data)
-
-
-@apply_nested.register(dict)
-def _(data, fn):
-    return {key: apply_nested(value, fn) for (key, value) in data.items()}
-
-
-@apply_nested.register(list)
-def _(data, fn):
-    return [apply_nested(value, fn) for value in data]
-
-
 class DocxTemplateEngine(DocxValidator):
     def __init__(self, template):
         self.template = template
 
     def merge(self, data, buf):
-        def transform(value):
-            """Transform value for multiline support."""
-            if value is None:
-                return None
-            return Listing(value)
-
-        data = apply_nested(data, transform)
-
         doc = DocxTemplate(self.template)
 
         doc.render(data, get_jinja_env())
