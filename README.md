@@ -88,6 +88,7 @@ To scale the service a different database storage is needed. Any database suppor
 
 In python-docx-template following additional custom filters are implemented:
 
+* multiline(value) - wraps the value in a [Listing](https://docxtpl.readthedocs.io/en/latest/#escaping-newline-new-paragraph-listing) for multiline support
 * datetimeformat(value, format, locale)
 * dateformat(value, format, locale)
 * timeformat(value, format, locale)

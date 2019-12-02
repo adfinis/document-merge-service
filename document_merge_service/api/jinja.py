@@ -2,6 +2,7 @@ from babel.dates import format_date, format_datetime, format_time
 from dateutil.parser import parse
 from django.conf import settings
 from django.utils.translation import to_locale
+from docxtpl import Listing
 from jinja2 import Environment
 
 
@@ -54,6 +55,10 @@ def getwithdefault(value, default=""):
     return value
 
 
+def multiline(value):
+    return Listing(value)
+
+
 def get_jinja_env():
     jinja_env = Environment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
     jinja_env.filters["date"] = dateformat
@@ -61,4 +66,5 @@ def get_jinja_env():
     jinja_env.filters["time"] = timeformat
     jinja_env.filters["emptystring"] = emptystring
     jinja_env.filters["getwithdefault"] = getwithdefault
+    jinja_env.filters["multiline"] = multiline
     return jinja_env
