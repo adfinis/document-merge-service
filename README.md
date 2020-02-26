@@ -78,9 +78,6 @@ To scale the service a different database storage is needed. Any database suppor
 #### Unoconv
 
 * `UNOCONV_ALLOWED_TYPES`: list of types allowed to convert to. See `unoconv --show` (default: ['pdf'])
-* `UNOCONV_SERVER`: hostname or ip of unoconv listener. If no server is specified a local unoconv
-   listener inside the container is used. Defaults to `None`.
-* `UNOCONV_PORT`: port of unoconv listener. Only relevant if `UNOCONV_SERVER` is set. Defaults to `2002`.
 * `UNOCONV_PYTHON`: string defaults to "/usr/bin/python3.5"
 * `UNOCONV_PATH`: string defaults to "/usr/bin/unoconv"
 

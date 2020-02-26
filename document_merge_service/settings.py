@@ -153,19 +153,12 @@ DEFAULT_FILE_STORAGE = env.str(
 MEDIA_ROOT = env.str("MEDIA_ROOT", "")
 
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
-UNOCONV_SERVER = env.str("UNOCONV_SERVER", default=None)
-UNOCONV_PORT = env.str("UNOCONV_PORT", default=2002)
 UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3")
 UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
 
 
 def get_unoconv_formats():
-    uno = Unoconv(
-        pythonpath=UNOCONV_PYTHON,
-        unoconvpath=UNOCONV_PATH,
-        server=UNOCONV_SERVER,
-        port=UNOCONV_PORT,
-    )
+    uno = Unoconv(pythonpath=UNOCONV_PYTHON, unoconvpath=UNOCONV_PATH)
     formats = uno.get_formats()
     not_supported = set(UNOCONV_ALLOWED_TYPES) - formats
 

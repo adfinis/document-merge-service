@@ -15,35 +15,14 @@ def run_subprocess(cmd):
 
 
 class Unoconv:
-    def __init__(self, pythonpath, unoconvpath, server=None, port=2002):
+    def __init__(self, pythonpath, unoconvpath):
         """
         Convert documents with unoconv command-line utility.
 
-        :param filename: str() - path to the python interpreter
-        :param convert: str() - path to the unoconv binary
-        :param connection: str() - connection string to an unoconv listener
+        :param pythonpath: str() - path to the python interpreter
+        :param unoconvpath: str() - path to the unoconv binary
         """
-        self.pythonpath = pythonpath
-        self.unoconvpath = unoconvpath
-        self.server = server
-        self.port = port
-
-    @property
-    def cmd(self):
-        cmd = [self.pythonpath, self.unoconvpath]
-
-        if self.server:
-            cmd.extend(
-                [
-                    "--server",
-                    self.server,
-                    "--port",
-                    self.port,
-                    "--no-launch",  # Crash if no listener is found.
-                ]
-            )
-
-        return cmd
+        self.cmd = [pythonpath, unoconvpath]
 
     def get_formats(self):
         p = run_subprocess(self.cmd + ["--show"])
