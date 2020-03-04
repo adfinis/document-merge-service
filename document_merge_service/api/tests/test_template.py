@@ -1,4 +1,5 @@
 import io
+import json
 
 import pytest
 from django.urls import reverse
@@ -6,7 +7,7 @@ from docx import Document
 from lxml import etree
 from rest_framework import status
 
-from .. import models
+from .. import models, serializers
 from .data import django_file
 
 
@@ -173,6 +174,137 @@ def test_template_create(
 
 
 @pytest.mark.parametrize(
+    "template_name,available_placeholders,sample_data,expect_missing_placeholders,engine,status_code",
+    [
+        (
+            "docx-template-placeholdercheck.docx",
+            ["foo", "bar", "baz"],
+            None,
+            ["bar.some_attr", "list", "list[]", "list[].attribute"],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_400_BAD_REQUEST,
+        ),
+        (
+            "docx-template-placeholdercheck.docx",
+            ["foo", "bar", "baz", "bar.some_attr", "list[].attribute"],
+            None,
+            [],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_201_CREATED,
+        ),
+        (
+            "docx-template-placeholdercheck.docx",
+            None,
+            {
+                "foo": "hello",
+                "bar": {
+                    "some_attr": True,
+                    "list": [{"attribute": "value"}, {"attribute": "value2"}],
+                },
+                "baz": "1234",
+                "list": [{"attribute": "value"}],
+            },
+            [],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_201_CREATED,
+        ),
+        (
+            "docx-template-placeholdercheck.docx",
+            None,
+            {
+                "foo": "hello",
+                "bar": {
+                    "some_attr": True,
+                    "list": [{"attribute": "value"}, {"attribute": "value2"}],
+                },
+            },
+            ["baz", "list", "list[]", "list[].attribute"],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_400_BAD_REQUEST,
+        ),
+        (
+            "docx-mailmerge.docx",
+            None,
+            {
+                "foo": "hello",
+                "bar": {
+                    "some_attr": True,
+                    "list": [{"attribute": "value"}, {"attribute": "value2"}],
+                },
+            },
+            ["test"],
+            models.Template.DOCX_MAILMERGE,
+            status.HTTP_400_BAD_REQUEST,
+        ),
+        (
+            "docx-mailmerge.docx",
+            None,
+            {"test": "hello"},
+            [],
+            models.Template.DOCX_MAILMERGE,
+            status.HTTP_201_CREATED,
+        ),
+        (
+            "docx-mailmerge.docx",
+            ["test", "blah"],
+            {"test": "hello"},
+            [],
+            models.Template.DOCX_MAILMERGE,
+            status.HTTP_400_BAD_REQUEST,
+        ),
+    ],
+)
+def test_template_create_with_available_placeholders(
+    db,
+    admin_client,
+    engine,
+    template_name,
+    available_placeholders,
+    sample_data,
+    status_code,
+    settings,
+    expect_missing_placeholders,
+):
+
+    settings.DOCXTEMPLATE_JINJA_EXTENSIONS = ["jinja2.ext.loopcontrols"]
+    url = reverse("template-list")
+
+    template_file = django_file(template_name)
+    data = {"slug": "test-slug", "template": template_file.file, "engine": engine}
+    if sample_data:
+        data["sample_data"] = json.dumps(sample_data)
+    if available_placeholders:
+        data["available_placeholders"] = available_placeholders
+
+    response = admin_client.post(url, data=data, format="multipart")
+    assert response.status_code == status_code, response.json()
+
+    if status_code == status.HTTP_400_BAD_REQUEST:
+        resp = response.json()
+        expect_missing_str = "; ".join(expect_missing_placeholders)
+
+        if sample_data and available_placeholders:
+            # validation only allows one of these two params
+            assert (
+                resp["non_field_errors"][0]
+                == "Only one of available_placeholders and sample_data is allowed"
+            )
+        else:
+            # we expect some missing placeholders
+            assert (
+                resp["non_field_errors"][0]
+                == f"Template uses unavailable placeholders: {expect_missing_str}"
+            )
+
+    if status_code == status.HTTP_201_CREATED:
+        data = response.json()
+        template_link = data["template"]
+        response = admin_client.get(template_link)
+        assert response.status_code == status.HTTP_200_OK
+        Document(io.BytesIO(response.content))
+
+
+@pytest.mark.parametrize(
     "template_name,status_code",
     [
         ("docx-template.docx", status.HTTP_200_OK),
@@ -307,3 +439,41 @@ def test_template_merge_jinja_filters_docx(db, client, template, snapshot, setti
     docx = Document(io.BytesIO(response.content))
     xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
     snapshot.assert_match(xml)
+
+
+@pytest.mark.parametrize(
+    "sample,expected",
+    [
+        ({"foo": {"bar": ["foo", "blah"]}}, ["foo", "foo.bar", "foo.bar[]"]),
+        (
+            {
+                "this": {
+                    "is": {
+                        "a": [
+                            {
+                                "list": {
+                                    "with": {
+                                        "a": ["nested", "object", "and", "a", "list"]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            [
+                "this",
+                "this.is",
+                "this.is.a",
+                "this.is.a[]",
+                "this.is.a[].list",
+                "this.is.a[].list.with",
+                "this.is.a[].list.with.a",
+                "this.is.a[].list.with.a[]",
+            ],
+        ),
+    ],
+)
+def test_sample_to_placeholders(sample, expected):
+    ts = serializers.TemplateSerializer()
+    assert ts._sample_to_placeholders(sample) == sorted(expected)

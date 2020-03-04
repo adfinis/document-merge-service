@@ -25,13 +25,52 @@ You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8
 
 ### Usage
 
+#### Upload and validation of templates
+
 Upload templates using the following:
 
 ```bash
 curl --form template=@docx-template.docx --form name="Test Template" --form engine=docx-template http://localhost:8000/api/v1/template/
 ```
 
-And merge template with:
+**Hint:**
+
+You can enable additional validation of the template against a list of available
+placeholders by filling the `available_placeholders` attribute:
+
+```json
+    {
+        "slug": ...,
+        "available_placeholders": [
+            "foo", "bar",
+            "a_list[].property",
+            "a_nested.object.with.property"
+        ]
+    }
+```
+
+The above would only allow templates that use the given list of placeholders,
+and reject templates that use an unknown placeholder name (such as "baz" in
+this case)
+
+Alternatively, you can also provide example data for a test render to
+the same effect, in JSON format:
+
+```json
+    {
+        "slug": ...,
+        "sample_data": json.dumps(
+            {
+                "foo": "hello",
+                "bar": "another value"
+            }
+        )
+    }
+```
+
+#### Merging a template
+
+After uploading successfully, you can merge a template with the following call:
 
 ```bash
 curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}}' http://localhost:8000/api/v1/template/test-template/merge/ > output.docx
