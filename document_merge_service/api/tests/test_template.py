@@ -63,20 +63,87 @@ def test_template_detail(db, client, template):
 
 
 @pytest.mark.parametrize(
-    "template_name,status_code,group,require_authentication,authenticated",
+    "template_name,engine,status_code,group,require_authentication,authenticated",
     [
-        ("docx-template.docx", status.HTTP_201_CREATED, None, False, False),
-        ("docx-template.docx", status.HTTP_201_CREATED, None, True, True),
-        ("docx-template.docx", status.HTTP_401_UNAUTHORIZED, None, True, False),
-        ("docx-template.docx", status.HTTP_400_BAD_REQUEST, "unknown", True, True),
-        ("docx-template.docx", status.HTTP_201_CREATED, "admin", True, True),
-        ("test.txt", status.HTTP_400_BAD_REQUEST, None, False, False),
+        (
+            "docx-template.docx",
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_201_CREATED,
+            None,
+            False,
+            False,
+        ),
+        (
+            "docx-template.docx",
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_201_CREATED,
+            None,
+            True,
+            True,
+        ),
+        (
+            "docx-template.docx",
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_401_UNAUTHORIZED,
+            None,
+            True,
+            False,
+        ),
+        (
+            "docx-template.docx",
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_400_BAD_REQUEST,
+            "unknown",
+            True,
+            True,
+        ),
+        (
+            "docx-template.docx",
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_201_CREATED,
+            "admin",
+            True,
+            True,
+        ),
+        (
+            "docx-mailmerge.docx",
+            models.Template.DOCX_MAILMERGE,
+            status.HTTP_201_CREATED,
+            "admin",
+            True,
+            True,
+        ),
+        (
+            "docx-mailmerge-syntax.docx",
+            models.Template.DOCX_MAILMERGE,
+            status.HTTP_400_BAD_REQUEST,
+            "admin",
+            True,
+            True,
+        ),
+        (
+            "docx-template-syntax.docx",
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_400_BAD_REQUEST,
+            "admin",
+            True,
+            True,
+        ),
+        (
+            "test.txt",
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_400_BAD_REQUEST,
+            None,
+            False,
+            False,
+        ),
     ],
 )
 def test_template_create(
     db,
     client,
     admin_client,
+    engine,
     template_name,
     status_code,
     group,
@@ -91,11 +158,7 @@ def test_template_create(
     url = reverse("template-list")
 
     template_file = django_file(template_name)
-    data = {
-        "slug": "test-slug",
-        "template": template_file.file,
-        "engine": models.Template.DOCX_TEMPLATE,
-    }
+    data = {"slug": "test-slug", "template": template_file.file, "engine": engine}
     if group:
         data["group"] = group
     response = client.post(url, data=data, format="multipart")
