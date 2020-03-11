@@ -57,8 +57,6 @@ class TemplateView(viewsets.ModelViewSet):
                 unoconv = Unoconv(
                     pythonpath=settings.UNOCONV_PYTHON,
                     unoconvpath=settings.UNOCONV_PATH,
-                    server=settings.UNOCONV_SERVER,
-                    port=settings.UNOCONV_PORT,
                 )
                 result = unoconv.process(tmp.name, convert)
             extension = convert
