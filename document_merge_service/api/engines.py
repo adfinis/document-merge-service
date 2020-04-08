@@ -11,24 +11,25 @@ from . import models
 from .jinja import get_jinja_env
 
 
-class _MagicPlaceholder:
-    def __init__(self, parent=None, name=None):
+class _MagicPlaceholder(str):
+    def __new__(cls, parent=None, name=None):
+        self = str.__new__(cls, name if name else "")
         self._parent = parent
-        self._name = name
         self._reports = parent._reports if parent else set()
 
-        if str(self):
-            self._reports.add(str(self))
+        if self != "":
+            self._reports.add(self)
+        return self
 
     @property
     def reports(self):
         return list(self._reports)
 
+    def __iter__(self):
+        return (x for x in [_MagicPlaceholder(parent=self, name=f"{self}[]")])
+
     def __getitem__(self, idx):
-        if type(idx) is int:
-            if idx >= 2:
-                raise IndexError()
-            return _MagicPlaceholder(parent=self, name=f"{self}[]")
+        assert isinstance(idx, str)
         return _MagicPlaceholder(parent=self, name=f"{self}.{idx}".strip("."))
 
     def __getattr__(self, attr):
@@ -37,8 +38,8 @@ class _MagicPlaceholder:
     def __len__(self):
         return 2
 
-    def __str__(self):
-        return self._name if self._name else ""
+    def __radd__(self, other):
+        return str(self) + str(other)
 
 
 class DocxValidator:
@@ -97,6 +98,7 @@ class DocxTemplateEngine(DocxValidator):
         self.template = template
 
     def validate_template_syntax(self, available_placeholders=None, sample_data=None):
+
         try:
             doc = DocxTemplate(self.template)
             root = _MagicPlaceholder()

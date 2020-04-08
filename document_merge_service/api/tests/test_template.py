@@ -367,6 +367,60 @@ def test_template_merge_docx(db, client, template, snapshot):
         raise
 
 
+@pytest.mark.parametrize(
+    "placeholder,template_content",
+    [
+        ("{{blah}}", {"blah": "blub"}),
+        ('{{NAME and ", represents " + NAME}}', {"NAME": "foo"},),
+        ('{{NAME and ", represents " + NAME}}', {"NAME": ""},),
+    ],
+)
+def test_merge_expression(
+    docx_template_with_placeholder, client, snapshot, placeholder, template_content
+):
+    """Test evaluation of some custom expressions.
+
+    Use this test to try out expressions without creating a new docx template for each
+    variant.
+    """
+    template = docx_template_with_placeholder(placeholder)
+
+    url = reverse("template-merge", args=[template.pk])
+
+    response = client.post(url, data={"data": template_content}, format="json")
+    assert response.status_code == status.HTTP_200_OK
+
+    docx = Document(io.BytesIO(response.content))
+    xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
+    try:
+        snapshot.assert_match(xml)
+    except AssertionError:  # pragma: no cover
+        with open(f"/tmp/{template.slug}.docx", "wb") as output:
+            output.write(response.content)
+        print("Template output changed. Check file at %s" % output.name)
+        raise
+
+
+@pytest.mark.parametrize(
+    "placeholder,template_content",
+    [
+        ("{{blah}}", {"blah": "blub"}),
+        ('{{NAME and ", represents " + NAME}}', {"NAME": "foo"},),
+        ('{{NAME and ", represents " + NAME}}', {"NAME": ""},),
+    ],
+)
+def test_validate_expression(
+    docx_template_with_placeholder, client, placeholder, template_content
+):
+    """Test validation of templates with custom expressions."""
+    template = docx_template_with_placeholder(placeholder)
+
+    serializer = serializers.TemplateSerializer()
+    serializer.instance = template
+
+    serializer.validate({"data": template_content})
+
+
 # This needs a strange parametrization. If `unoconv_local` is in a separate
 # `parametrize()`, the template filename in the second test will be appended with a
 # hash and the test fails
