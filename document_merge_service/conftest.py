@@ -1,5 +1,6 @@
 import importlib
 import inspect
+from io import BytesIO
 
 import pytest
 from django.core.cache import cache
@@ -7,7 +8,9 @@ from factory.base import FactoryMetaClass
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
+from .api import engines
 from .api.authentication import AnonymousUser
+from .api.tests.data import django_file
 
 
 def register_module(module):
@@ -57,3 +60,20 @@ def admin_client(db, admin_user):
     client = APIClient()
     client.force_authenticate(user=admin_user)
     return client
+
+
+@pytest.fixture
+def docx_template_with_placeholder(admin_client, template):
+    """Return a factory function to build a docx template with a given placeholder."""
+
+    engine = engines.get_engine(template.engine, django_file("docx-template.docx"))
+
+    def make_template(placeholder):
+        binary = BytesIO()
+        engine.merge({"test": placeholder}, binary)
+        binary.seek(0)
+        template.template.save("foo.docx", binary)
+        template.save()
+        return template
+
+    return make_template
