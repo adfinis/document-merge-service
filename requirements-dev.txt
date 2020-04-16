@@ -15,7 +15,7 @@ pytest-cov==2.8.1
 pytest-django==3.9.0
 pytest-env==0.6.2
 pytest-factoryboy==2.0.3
-pytest-randomly==3.2.1
+pytest-randomly==3.3.1
 requests-mock==1.7.0
 python-semantic-release==5.1.0
 snapshottest==0.5.1
