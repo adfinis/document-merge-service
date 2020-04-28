@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.0.1
+
+### Fix
+* Don't reject templates with complex syntax (fb56a42aee82f9261596f7546f52f8b9930292de)
+
 
 ## 4.0.0
 
