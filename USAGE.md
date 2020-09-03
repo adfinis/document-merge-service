@@ -231,6 +231,33 @@ Additionally, you can also convert output to pdf or other types supported by uno
 5031
 ```
 
+## Inline images
+
+The `docx-template` engine supports including inline images. Here is shown how one can
+use this feature.
+
+1. Include an image variable with the `image` filter: `{{ 'sunset.png' | image(50, 50) }}`
+2. Include the image files into a multipart request to the `merge` endpoint:
+
+```python
+>>> resp = requests.post(
+...     'http://localhost:8000/api/v1/template/my-template/merge/',
+...     data={
+...         'data': json.dumps({
+...              'foo': 'a value',
+...              'test': 'another value'
+...         }),
+...         'convert': 'pdf'
+...     },
+...     files=[
+...         {"sunset.png": open('sunset.png', 'rb')}
+...     ]
+... )
+```
+
+The value of the variable must be identical to the name of a file that has been provided.
+
+
 ## Maintenance / Cleanup
 
 The DMS allows REST verbs like `PATCH` and `DELETE` for updating and deleting

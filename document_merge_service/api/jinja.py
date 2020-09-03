@@ -1,9 +1,13 @@
+import imghdr
+
 from babel.dates import format_date, format_datetime, format_time
 from dateutil.parser import parse
 from django.conf import settings
 from django.utils.translation import to_locale
-from docxtpl import Listing
-from jinja2 import Environment
+from docx.shared import Mm
+from docxtpl import InlineImage, Listing
+from jinja2 import Environment, contextfilter
+from rest_framework.exceptions import ValidationError
 
 
 def parse_string(value):
@@ -59,6 +63,23 @@ def multiline(value):
     return Listing(value)
 
 
+@contextfilter
+def image(ctx, img_name, width=None, height=None):
+    tpl = ctx["_tpl"]
+
+    img = ctx.get(img_name)
+
+    if not img:
+        raise ValidationError(f'No file for image "{img_name}" provided!')
+
+    if imghdr.what(img) not in ["png", "jpg", "jpeg"]:
+        raise ValidationError("Only png and jpg images are supported!")
+
+    width = Mm(width) if width else None
+    height = Mm(height) if height else None
+    return InlineImage(tpl, img, width=width, height=height)
+
+
 def get_jinja_env():
     jinja_env = Environment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
     jinja_env.filters["date"] = dateformat
@@ -67,4 +88,5 @@ def get_jinja_env():
     jinja_env.filters["emptystring"] = emptystring
     jinja_env.filters["getwithdefault"] = getwithdefault
     jinja_env.filters["multiline"] = multiline
+    jinja_env.filters["image"] = image
     return jinja_env

@@ -85,6 +85,18 @@ class TemplateSerializer(serializers.ModelSerializer):
         )
 
 
+class CustomFileField(serializers.FileField):
+    """
+    Custom FileField.
+
+    `to_representation()` of this FileField returns the file object instead of just the
+    filename.
+    """
+
+    def to_representation(self, value):
+        return value or None
+
+
 class TemplateMergeSerializer(serializers.Serializer):
     data = serializers.JSONField(
         required=True, help_text="Data as json used for merging"
@@ -94,4 +106,7 @@ class TemplateMergeSerializer(serializers.Serializer):
         required=False,
         choices=settings.UNOCONV_ALLOWED_TYPES,
         help_text="Optionally convert result document to this type.",
+    )
+    files = serializers.ListField(
+        child=CustomFileField(write_only=True, allow_empty_file=False), required=False
     )
