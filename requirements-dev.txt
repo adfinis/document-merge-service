@@ -17,5 +17,5 @@ pytest-env==0.6.2
 pytest-factoryboy==2.0.3
 pytest-randomly==3.4.1
 requests-mock==1.8.0
-python-semantic-release==6.1.0
+python-semantic-release==7.2.2
 snapshottest==0.5.1
