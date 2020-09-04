@@ -1,5 +1,5 @@
 babel==2.8.0
-django==2.2.12
+django==2.2.13
 django_cors_headers==3.2.1
 django-environ==0.4.5
 django-filter==2.2.0
