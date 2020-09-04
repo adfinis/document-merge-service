@@ -8,14 +8,10 @@ from . import engines, models
 
 
 class CurrentGroupDefault:
-    def set_context(self, serializer_field):
-        self.user = serializer_field.context["request"].user
+    requires_context = True
 
-    def __call__(self):
-        return self.user.group
-
-    def __str__(self):
-        return self.user.group
+    def __call__(self, serializer_field):
+        return serializer_field.context["request"].user.group
 
 
 class TemplateSerializer(serializers.ModelSerializer):
