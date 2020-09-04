@@ -18,7 +18,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t>15.09.1984</w:t>
+      <w:t xml:space="preserve">15.09.1984</w:t>
     </w:r>
   </w:p>
   <w:p>
@@ -30,7 +30,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t>1984</w:t>
+      <w:t xml:space="preserve">1984</w:t>
     </w:r>
   </w:p>
   <w:p>
@@ -42,7 +42,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t>23:24</w:t>
+      <w:t xml:space="preserve">23:24</w:t>
     </w:r>
   </w:p>
   <w:p>
@@ -54,7 +54,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t>15.09.1984, 23:23:00</w:t>
+      <w:t xml:space="preserve">15.09.1984, 23:23:00</w:t>
     </w:r>
   </w:p>
   <w:p>
@@ -66,7 +66,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t>23:23</w:t>
+      <w:t xml:space="preserve">23:23</w:t>
     </w:r>
   </w:p>
   <w:p>
@@ -78,7 +78,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -90,7 +90,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -114,7 +114,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t>This is</w:t>
+      <w:t xml:space="preserve">This is</w:t>
       <w:br/>
       <w:t xml:space="preserve">a test.</w:t>
     </w:r>
@@ -152,7 +152,7 @@ snapshots[
       <w:rPr>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t>Test</w:t>
+      <w:t xml:space="preserve">Test</w:t>
     </w:r>
     <w:r>
       <w:rPr>
@@ -202,7 +202,7 @@ snapshots[
         <w:spacing w:val="0"/>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -225,7 +225,7 @@ snapshots[
         <w:spacing w:val="0"/>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -261,7 +261,7 @@ snapshots[
         <w:spacing w:val="0"/>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -298,7 +298,7 @@ snapshots[
         <w:color w:val="B11414"/>
         <w:spacing w:val="0"/>
       </w:rPr>
-      <w:t>1</w:t>
+      <w:t xml:space="preserve">1</w:t>
     </w:r>
   </w:p>
   <w:p>
@@ -329,7 +329,7 @@ snapshots[
         <w:color w:val="B11414"/>
         <w:spacing w:val="0"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -365,7 +365,7 @@ snapshots[
         <w:spacing w:val="0"/>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -402,7 +402,7 @@ snapshots[
         <w:color w:val="B11414"/>
         <w:spacing w:val="0"/>
       </w:rPr>
-      <w:t>2</w:t>
+      <w:t xml:space="preserve">2</w:t>
     </w:r>
   </w:p>
   <w:p>
@@ -433,7 +433,7 @@ snapshots[
         <w:color w:val="B11414"/>
         <w:spacing w:val="0"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -469,7 +469,7 @@ snapshots[
         <w:spacing w:val="0"/>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -505,7 +505,7 @@ snapshots[
         <w:spacing w:val="0"/>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
   </w:p>
   <w:p>
@@ -574,7 +574,7 @@ snapshots[
       <w:rPr>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t>Test</w:t>
+      <w:t xml:space="preserve">Test</w:t>
     </w:r>
     <w:r>
       <w:rPr>
@@ -607,7 +607,7 @@ snapshots[
       <w:rPr>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t>Test</w:t>
+      <w:t xml:space="preserve">Test</w:t>
     </w:r>
     <w:r>
       <w:rPr>
@@ -640,7 +640,7 @@ snapshots[
       <w:rPr>
         <w:lang w:val="de-CH" w:eastAsia="zh-CN" w:bidi="hi-IN"/>
       </w:rPr>
-      <w:t>Test</w:t>
+      <w:t xml:space="preserve">Test</w:t>
     </w:r>
     <w:r>
       <w:rPr>
