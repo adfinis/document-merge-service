@@ -48,6 +48,13 @@ class TemplateView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        data = serializer.data["data"]
+        files = serializer.data.get("files")
+
+        if files is not None:
+            for file in files:
+                data[file.name] = file
+
         response = engine.merge(serializer.data["data"], response)
         convert = serializer.data.get("convert")
 

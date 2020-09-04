@@ -465,34 +465,72 @@ def test_template_merge_jinja_extensions_docx(db, client, template, settings, sn
 
 
 @pytest.mark.parametrize(
-    "template__engine,template__template",
-    [(models.Template.DOCX_TEMPLATE, django_file("docx-template-filters.docx"))],
+    "missing_file,wrong_mime,status_code",
+    [
+        (False, False, status.HTTP_200_OK),
+        (False, True, status.HTTP_400_BAD_REQUEST),
+        (True, False, status.HTTP_400_BAD_REQUEST),
+    ],
 )
-def test_template_merge_jinja_filters_docx(db, client, template, snapshot, settings):
+@pytest.mark.parametrize(
+    "template__engine", [models.Template.DOCX_TEMPLATE],
+)
+def test_template_merge_jinja_filters_docx(
+    db,
+    client,
+    template,
+    snapshot,
+    settings,
+    tmp_path,
+    missing_file,
+    wrong_mime,
+    status_code,
+):
     settings.LANGUAGE_CODE = "de-ch"
     url = reverse("template-merge", args=[template.pk])
 
+    # Couldn't put this into `parametrize`. For some reason, in the second run, the
+    # template name is extended with a seemingly random string.
+    template.template = django_file("docx-template-filters.docx")
+    template.save()
+
     data = {
-        "data": {
-            "test_date": "1984-09-15",
-            "test_time": "23:24",
-            "test_datetime": "1984-09-15 23:23",
-            "test_datetime2": "23:23-1984-09-15",
-            "test_none": None,
-            "test_nested": {"multiline": "This is\na test."},
-        }
+        "data": json.dumps(
+            {
+                "test_date": "1984-09-15",
+                "test_time": "23:24",
+                "test_datetime": "1984-09-15 23:23",
+                "test_datetime2": "23:23-1984-09-15",
+                "test_none": None,
+                "test_nested": {"multiline": "This is\na test."},
+            }
+        ),
     }
 
-    response = client.post(url, data=data, format="json")
-    assert response.status_code == status.HTTP_200_OK
-    assert (
-        response._headers["content-type"][1]
-        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    )
+    if not missing_file:
+        file = django_file("python-powered.png").file
+        if wrong_mime:
+            # create a file with the correct filename (python-powered.png) but with
+            # the contents of a docx.
+            file = tmp_path / "python-powered.png"
+            for line in template.template.file:
+                file.write_bytes(line)
+            file = file.open("rb")
 
-    docx = Document(io.BytesIO(response.content))
-    xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
-    snapshot.assert_match(xml)
+        data["files"] = [file]
+
+    response = client.post(url, data=data, format="multipart")
+    assert response.status_code == status_code
+
+    if status_code == status.HTTP_200_OK:
+        assert (
+            response._headers["content-type"][1]
+            == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+
+        docx = Document(io.BytesIO(response.content))
+        xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
+        snapshot.assert_match(xml)
 
 
 @pytest.mark.parametrize(

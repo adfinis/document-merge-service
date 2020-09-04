@@ -125,6 +125,7 @@ class DocxTemplateEngine(DocxValidator):
 
     def merge(self, data, buf):
         doc = DocxTemplate(self.template)
+        data["_tpl"] = doc
 
         doc.render(data, get_jinja_env())
         doc.save(buf)
