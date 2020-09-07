@@ -12,4 +12,4 @@ psycopg2-binary==2.8.5
 python-dateutil==2.8.1
 python-memcached==1.59
 requests==2.23.0
-uwsgi==2.0.18
+uwsgi==2.0.19.1
