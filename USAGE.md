@@ -249,13 +249,13 @@ use this feature.
 ...         }),
 ...         'convert': 'pdf'
 ...     },
-...     files=[
-...         {"sunset.png": open('sunset.png', 'rb')}
-...     ]
+...     files=(
+...         ("files", ("sunset.png", open('sunset.png', 'rb')),
+...     ),
 ... )
 ```
 
-The value of the variable must be identical to the name of a file that has been provided.
+The value passed to the `image` filter must be identical to the name of a file that has been provided.
 
 
 ## Maintenance / Cleanup
