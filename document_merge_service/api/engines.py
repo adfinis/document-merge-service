@@ -106,9 +106,12 @@ class DocxTemplateEngine(DocxValidator):
             ph = {
                 name: root[name] for name in doc.get_undeclared_template_variables(env)
             }
+            ph["_tpl"] = doc
+
             doc.render(ph, env)
 
             if sample_data:
+                sample_data["_tpl"] = doc
                 doc.render(sample_data, env)
 
             self.validate_available_placeholders(

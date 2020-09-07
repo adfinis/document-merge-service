@@ -128,7 +128,7 @@ snapshots[
       <w:rPr>
         <w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/>
       </w:rPr>
-      <w:t/>
+      <w:t xml:space="preserve"/>
     </w:r>
     <w:r>
       <w:drawing>
