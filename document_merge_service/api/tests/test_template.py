@@ -371,8 +371,14 @@ def test_template_merge_docx(db, client, template, snapshot):
     "placeholder,template_content",
     [
         ("{{blah}}", {"blah": "blub"}),
-        ('{{NAME and ", represents " + NAME}}', {"NAME": "foo"},),
-        ('{{NAME and ", represents " + NAME}}', {"NAME": ""},),
+        (
+            '{{NAME and ", represents " + NAME}}',
+            {"NAME": "foo"},
+        ),
+        (
+            '{{NAME and ", represents " + NAME}}',
+            {"NAME": ""},
+        ),
     ],
 )
 def test_merge_expression(
@@ -405,8 +411,14 @@ def test_merge_expression(
     "placeholder,template_content",
     [
         ("{{blah}}", {"blah": "blub"}),
-        ('{{NAME and ", represents " + NAME}}', {"NAME": "foo"},),
-        ('{{NAME and ", represents " + NAME}}', {"NAME": ""},),
+        (
+            '{{NAME and ", represents " + NAME}}',
+            {"NAME": "foo"},
+        ),
+        (
+            '{{NAME and ", represents " + NAME}}',
+            {"NAME": ""},
+        ),
     ],
 )
 def test_validate_expression(
@@ -473,7 +485,8 @@ def test_template_merge_jinja_extensions_docx(db, client, template, settings, sn
     ],
 )
 @pytest.mark.parametrize(
-    "template__engine", [models.Template.DOCX_TEMPLATE],
+    "template__engine",
+    [models.Template.DOCX_TEMPLATE],
 )
 def test_template_merge_jinja_filters_docx(
     db,
