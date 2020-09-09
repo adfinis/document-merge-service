@@ -250,7 +250,7 @@ use this feature.
 ...         'convert': 'pdf'
 ...     },
 ...     files=(
-...         ("files", ("sunset.png", open('sunset.png', 'rb')),
+...         ("files", ("sunset.png", open('sunset.png', 'rb'))),
 ...     ),
 ... )
 ```
