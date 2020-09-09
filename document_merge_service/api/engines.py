@@ -1,4 +1,5 @@
 import io
+import re
 import zipfile
 
 from docx import Document
@@ -9,6 +10,7 @@ from rest_framework import exceptions
 
 from . import models
 from .jinja import get_jinja_env
+from .tests.data import django_file
 
 
 class _MagicPlaceholder(str):
@@ -106,6 +108,15 @@ class DocxTemplateEngine(DocxValidator):
             ph = {
                 name: root[name] for name in doc.get_undeclared_template_variables(env)
             }
+
+            xml = doc.get_xml()
+            xml = doc.patch_xml(xml)
+            image_match = re.match(r".*{{\s?(\S*)\s?\|\s?image\(.*", xml)
+            images = image_match.groups() if image_match else []
+            for image in images:
+                cleaned_image = image.strip('"').strip("'")
+                ph[root[cleaned_image]] = django_file("black.png").file
+
             ph["_tpl"] = doc
 
             doc.render(ph, env)

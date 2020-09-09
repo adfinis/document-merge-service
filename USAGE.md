@@ -184,6 +184,18 @@ As you can see, the validation went through this time, as our sample data
 covers all placeholders used in the template. Of course, the template
 isn't required to use all placeholders available!
 
+If you use a Template with the DocxTpl syntax that uses [inline images](#inline-images),
+you also need to include the corresponding files along the `sample_data`. So the `files`
+in the example above would become something like:
+
+```python
+...     files=(
+...         ("template", open('docx-mailmerge.docx', 'rb'))),
+...         ("files", ("sunset1.png", open('sunset1.png', 'rb'))),
+...         ("files", ("sunset2.png", open('sunset2.png', 'rb'))),
+...     ),
+```
+
 
 ## Merging templates
 

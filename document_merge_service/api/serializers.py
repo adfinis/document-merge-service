@@ -7,6 +7,18 @@ from rest_framework import exceptions, serializers
 from . import engines, models
 
 
+class CustomFileField(serializers.FileField):
+    """
+    Custom FileField.
+
+    `to_representation()` of this FileField returns the file object instead of just the
+    filename.
+    """
+
+    def to_representation(self, value):
+        return value or None
+
+
 class CurrentGroupDefault:
     requires_context = True
 
@@ -18,6 +30,9 @@ class TemplateSerializer(serializers.ModelSerializer):
     group = serializers.CharField(allow_null=True, default=CurrentGroupDefault())
     available_placeholders = serializers.ListField(allow_null=True, required=False)
     sample_data = serializers.JSONField(allow_null=True, required=False)
+    files = serializers.ListField(
+        child=CustomFileField(write_only=True, allow_empty_file=False), required=False
+    )
 
     def validate_group(self, group):
         request = self.context["request"]
@@ -53,13 +68,27 @@ class TemplateSerializer(serializers.ModelSerializer):
 
         available_placeholders = data.pop("available_placeholders", None)
         sample_data = data.pop("sample_data", None)
+        files = data.pop("files", None)
 
         if sample_data and available_placeholders:
             raise exceptions.ValidationError(
                 "Only one of available_placeholders and sample_data is allowed"
             )
+        elif files and engine != models.Template.DOCX_TEMPLATE:
+            raise exceptions.ValidationError(
+                f'Files are only accepted with the "{models.Template.DOCX_TEMPLATE}"'
+                f" engine"
+            )
         elif sample_data:
+            if files:
+                for file in files:
+                    sample_data[file.name] = file
+
             available_placeholders = self._sample_to_placeholders(sample_data)
+        elif files:
+            raise exceptions.ValidationError(
+                "Files are only accepted when also providing sample_data"
+            )
 
         engine = engines.get_engine(engine, template)
         engine.validate(
@@ -78,19 +107,8 @@ class TemplateSerializer(serializers.ModelSerializer):
             "group",
             "available_placeholders",
             "sample_data",
+            "files",
         )
-
-
-class CustomFileField(serializers.FileField):
-    """
-    Custom FileField.
-
-    `to_representation()` of this FileField returns the file object instead of just the
-    filename.
-    """
-
-    def to_representation(self, value):
-        return value or None
 
 
 class TemplateMergeSerializer(serializers.Serializer):
