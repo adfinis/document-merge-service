@@ -8,9 +8,10 @@ from factory.base import FactoryMetaClass
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
+from document_merge_service.api.data import django_file
+
 from .api import engines
 from .api.authentication import AnonymousUser
-from .api.tests.data import django_file
 
 
 def register_module(module):

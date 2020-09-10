@@ -7,8 +7,9 @@ from docx import Document
 from lxml import etree
 from rest_framework import status
 
+from document_merge_service.api.data import django_file
+
 from .. import models, serializers
-from .data import django_file
 
 
 @pytest.mark.parametrize(

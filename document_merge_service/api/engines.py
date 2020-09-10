@@ -8,9 +8,10 @@ from jinja2.exceptions import TemplateSyntaxError
 from mailmerge import MailMerge
 from rest_framework import exceptions
 
+from document_merge_service.api.data import django_file
+
 from . import models
 from .jinja import get_jinja_env
-from .tests.data import django_file
 
 
 class _MagicPlaceholder(str):
