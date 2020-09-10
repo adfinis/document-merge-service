@@ -521,11 +521,11 @@ def test_template_merge_jinja_filters_docx(
     }
 
     if not missing_file:
-        file = django_file("python-powered.png").file
+        file = django_file("black.png").file
         if wrong_mime:
-            # create a file with the correct filename (python-powered.png) but with
+            # create a file with the correct filename (black.png) but with
             # the contents of a docx.
-            file = tmp_path / "python-powered.png"
+            file = tmp_path / "black.png"
             for line in template.template.file:
                 file.write_bytes(line)
             file = file.open("rb")
