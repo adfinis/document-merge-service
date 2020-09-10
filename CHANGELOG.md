@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.1.0
+### Feature
+* Support inline images for docx-template (37e42724c75a5f5c8ab60ee45a2fd64118cdf407)
+
+### Fix
+* Correctly validate image placeholders (9617bd71db90901ae0e18c513bc28bb3225b7857)
+* Also add template to context in engine validation (639e9c27435873ca8680308684d799ea9da29d6a)
+
+
 ## 4.0.1
 
 ### Fix
