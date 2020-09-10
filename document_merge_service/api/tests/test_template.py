@@ -7,8 +7,9 @@ from docx import Document
 from lxml import etree
 from rest_framework import status
 
+from document_merge_service.api.data import django_file
+
 from .. import models, serializers
-from .data import django_file
 
 
 @pytest.mark.parametrize(
@@ -174,23 +175,79 @@ def test_template_create(
 
 
 @pytest.mark.parametrize(
-    "template_name,available_placeholders,sample_data,expect_missing_placeholders,engine,status_code",
+    "template_name,available_placeholders,sample_data,files,expect_missing_placeholders,engine,status_code",
     [
         (
             "docx-template-placeholdercheck.docx",
             ["foo", "bar", "baz"],
             None,
-            ["bar.some_attr", "list", "list[]", "list[].attribute"],
+            [],
+            [
+                "bar.some_attr",
+                "black.png",
+                "list",
+                "list[]",
+                "list[].attribute",
+            ],
             models.Template.DOCX_TEMPLATE,
             status.HTTP_400_BAD_REQUEST,
         ),
         (
             "docx-template-placeholdercheck.docx",
-            ["foo", "bar", "baz", "bar.some_attr", "list[].attribute"],
+            [
+                "foo",
+                "bar",
+                "baz",
+                "bar.some_attr",
+                "list[].attribute",
+                "black.png",
+            ],
             None,
+            [],
             [],
             models.Template.DOCX_TEMPLATE,
             status.HTTP_201_CREATED,
+        ),
+        (
+            "docx-template-placeholdercheck.docx",
+            [
+                "foo",
+                "bar",
+                "baz",
+                "bar.some_attr",
+                "list[].attribute",
+            ],
+            None,
+            [],
+            ["black.png"],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_400_BAD_REQUEST,
+        ),
+        (
+            "docx-template-placeholdercheck.docx",
+            None,
+            {
+                "foo": "hello",
+                "bar": {
+                    "some_attr": True,
+                    "list": [{"attribute": "value"}, {"attribute": "value2"}],
+                },
+                "baz": "1234",
+                "list": [{"attribute": "value"}],
+            },
+            [django_file("black.png").file],
+            [],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_201_CREATED,
+        ),
+        (
+            "docx-template-placeholdercheck.docx",
+            None,
+            {},
+            [django_file("black.png").file],
+            [],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_400_BAD_REQUEST,
         ),
         (
             "docx-template-placeholdercheck.docx",
@@ -205,8 +262,9 @@ def test_template_create(
                 "list": [{"attribute": "value"}],
             },
             [],
+            ["black.png"],
             models.Template.DOCX_TEMPLATE,
-            status.HTTP_201_CREATED,
+            status.HTTP_400_BAD_REQUEST,
         ),
         (
             "docx-template-placeholdercheck.docx",
@@ -218,6 +276,7 @@ def test_template_create(
                     "list": [{"attribute": "value"}, {"attribute": "value2"}],
                 },
             },
+            [django_file("black.png").file],
             ["baz", "list", "list[]", "list[].attribute"],
             models.Template.DOCX_TEMPLATE,
             status.HTTP_400_BAD_REQUEST,
@@ -232,6 +291,22 @@ def test_template_create(
                     "list": [{"attribute": "value"}, {"attribute": "value2"}],
                 },
             },
+            [],
+            ["test"],
+            models.Template.DOCX_MAILMERGE,
+            status.HTTP_400_BAD_REQUEST,
+        ),
+        (
+            "docx-mailmerge.docx",
+            None,
+            {
+                "foo": "hello",
+                "bar": {
+                    "some_attr": True,
+                    "list": [{"attribute": "value"}, {"attribute": "value2"}],
+                },
+            },
+            [],
             ["test"],
             models.Template.DOCX_MAILMERGE,
             status.HTTP_400_BAD_REQUEST,
@@ -241,6 +316,7 @@ def test_template_create(
             None,
             {"test": "hello"},
             [],
+            [],
             models.Template.DOCX_MAILMERGE,
             status.HTTP_201_CREATED,
         ),
@@ -248,6 +324,16 @@ def test_template_create(
             "docx-mailmerge.docx",
             ["test", "blah"],
             {"test": "hello"},
+            [],
+            [],
+            models.Template.DOCX_MAILMERGE,
+            status.HTTP_400_BAD_REQUEST,
+        ),
+        (
+            "docx-mailmerge.docx",
+            [],
+            {"test": "hello"},
+            [django_file("black.png").file],
             [],
             models.Template.DOCX_MAILMERGE,
             status.HTTP_400_BAD_REQUEST,
@@ -261,6 +347,7 @@ def test_template_create_with_available_placeholders(
     template_name,
     available_placeholders,
     sample_data,
+    files,
     status_code,
     settings,
     expect_missing_placeholders,
@@ -270,7 +357,12 @@ def test_template_create_with_available_placeholders(
     url = reverse("template-list")
 
     template_file = django_file(template_name)
-    data = {"slug": "test-slug", "template": template_file.file, "engine": engine}
+    data = {
+        "slug": "test-slug",
+        "template": template_file.file,
+        "files": files,
+        "engine": engine,
+    }
     if sample_data:
         data["sample_data"] = json.dumps(sample_data)
     if available_placeholders:
@@ -288,6 +380,16 @@ def test_template_create_with_available_placeholders(
             assert (
                 resp["non_field_errors"][0]
                 == "Only one of available_placeholders and sample_data is allowed"
+            )
+        elif engine == models.Template.DOCX_MAILMERGE and files:
+            assert (
+                resp["non_field_errors"][0]
+                == 'Files are only accepted with the "docx-template" engine'
+            )
+        elif not sample_data and files:
+            assert (
+                resp["non_field_errors"][0]
+                == "Files are only accepted when also providing sample_data"
             )
         else:
             # we expect some missing placeholders
@@ -521,11 +623,11 @@ def test_template_merge_jinja_filters_docx(
     }
 
     if not missing_file:
-        file = django_file("python-powered.png").file
+        file = django_file("black.png").file
         if wrong_mime:
-            # create a file with the correct filename (python-powered.png) but with
+            # create a file with the correct filename (black.png) but with
             # the contents of a docx.
-            file = tmp_path / "python-powered.png"
+            file = tmp_path / "black.png"
             for line in template.template.file:
                 file.write_bytes(line)
             file = file.open("rb")
