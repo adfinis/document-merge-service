@@ -1,11 +1,12 @@
 import mimetypes
 from tempfile import NamedTemporaryFile
 
+import jinja2
 from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
-from rest_framework import viewsets
+from rest_framework import exceptions, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
 
@@ -55,7 +56,13 @@ class TemplateView(viewsets.ModelViewSet):
             for file in files:
                 data[file.name] = file
 
-        response = engine.merge(serializer.data["data"], response)
+        try:
+            response = engine.merge(serializer.data["data"], response)
+        except jinja2.UndefinedError as exc:
+            raise exceptions.ValidationError(
+                f"Placeholder from template not found in data: {exc}"
+            )
+
         convert = serializer.data.get("convert")
 
         if convert:
