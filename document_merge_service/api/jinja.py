@@ -67,10 +67,14 @@ def multiline(value):
 def image(ctx, img_name, width=None, height=None):
     tpl = ctx["_tpl"]
 
+    if img_name not in ctx:
+        raise ValidationError(f'No file for image "{img_name}" provided!')
+
     img = ctx.get(img_name)
 
     if not img:
-        raise ValidationError(f'No file for image "{img_name}" provided!')
+        # Fallback to no image
+        return
 
     if imghdr.what(img) not in ["png", "jpg", "jpeg"]:
         raise ValidationError("Only png and jpg images are supported!")

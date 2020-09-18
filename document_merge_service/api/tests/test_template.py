@@ -649,6 +649,50 @@ def test_template_merge_jinja_filters_docx(
 
 
 @pytest.mark.parametrize(
+    "template__engine",
+    [models.Template.DOCX_TEMPLATE],
+)
+@pytest.mark.parametrize(
+    "file_value",
+    [None, ""],
+)
+def test_template_merge_file_reset(
+    db,
+    client,
+    template,
+    settings,
+    file_value,
+):
+    settings.LANGUAGE_CODE = "de-ch"
+    url = reverse("template-merge", args=[template.pk])
+
+    # Couldn't put this into `parametrize`. For some reason, in the second run, the
+    # template name is extended with a seemingly random string.
+    template.template = django_file("docx-template-filters.docx")
+    template.save()
+
+    data = {
+        "data": {
+            "test_date": "1984-09-15",
+            "test_time": "23:24",
+            "test_datetime": "1984-09-15 23:23",
+            "test_datetime2": "23:23-1984-09-15",
+            "test_none": None,
+            "test_nested": {"multiline": "This is\na test."},
+            "black.png": file_value,
+        }
+    }
+
+    response = client.post(url, data=data, format="json")
+    assert response.status_code == status.HTTP_200_OK
+
+    assert (
+        response._headers["content-type"][1]
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
+
+@pytest.mark.parametrize(
     "sample,expected",
     [
         ({"foo": {"bar": ["foo", "blah"]}}, ["foo", "foo.bar", "foo.bar[]"]),

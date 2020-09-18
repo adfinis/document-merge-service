@@ -269,6 +269,20 @@ use this feature.
 
 The value passed to the `image` filter must be identical to the name of a file that has been provided.
 
+If you want to merge a template with an image placeholder, but you don't want to render
+the image, you can add the filename as key to `data` and set it to `None` or `""`. In the
+example above, `data` would look like this:
+
+```python
+...     data={
+...         'data': json.dumps({
+...              'foo': 'a value',
+...              'test': 'another value',
+...              'sunset.png': None
+...         }),
+...         'convert': 'pdf'
+...     },
+```
 
 ## Maintenance / Cleanup
 
