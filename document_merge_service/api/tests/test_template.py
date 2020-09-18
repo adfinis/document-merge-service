@@ -728,3 +728,25 @@ def test_template_merge_file_reset(
 def test_sample_to_placeholders(sample, expected):
     ts = serializers.TemplateSerializer()
     assert ts._sample_to_placeholders(sample) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "template__engine,template__template",
+    [
+        (
+            models.Template.DOCX_TEMPLATE,
+            django_file("docx-template-placeholdercheck.docx"),
+        )
+    ],
+)
+def test_template_merge_missing_data(db, client, template, settings):
+    settings.DOCXTEMPLATE_JINJA_EXTENSIONS = ["jinja2.ext.loopcontrols"]
+
+    url = reverse("template-merge", args=[template.pk])
+
+    response = client.post(url, data={"data": {"blah": "Test input"}}, format="json")
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == [
+        "Placeholder from template not found in data: 'bar' is undefined"
+    ]
