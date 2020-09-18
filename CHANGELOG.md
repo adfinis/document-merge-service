@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.2.0
+
+### Feature
+* Handle None for images (fd6f55d61e1877e0203d7ee4212641816119077c)
+
+### Fix
+* Dont crash when accessing undefined value in template (f2bb378dbb51a61d3d4e1f01afcf2b3efd831aba)
+
+
 ## 4.1.0
 ### Feature
 * Support inline images for docx-template (37e42724c75a5f5c8ab60ee45a2fd64118cdf407)
