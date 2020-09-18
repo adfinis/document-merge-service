@@ -74,9 +74,5 @@ target/
 # Editor swap files
 *.swp
 
-# npm (used for commit linting)
-node_modules/
-package-lock.json
-
 # IDE specific configuration
 .idea/
