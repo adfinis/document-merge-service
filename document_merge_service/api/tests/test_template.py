@@ -252,6 +252,15 @@ def test_template_create(
         (
             "docx-template-placeholdercheck.docx",
             None,
+            {},
+            [],
+            [],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_201_CREATED,
+        ),
+        (
+            "docx-template-placeholdercheck.docx",
+            None,
             {
                 "foo": "hello",
                 "bar": {

@@ -76,6 +76,7 @@ def image(ctx, img_name, width=None, height=None):
         # Fallback to no image
         return
 
+    img.seek(0)  # needed in case image is referenced multiple times
     if imghdr.what(img) not in ["png", "jpg", "jpeg"]:
         raise ValidationError("Only png and jpg images are supported!")
 
