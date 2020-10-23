@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.1
+
+### Fix
+* Fix using same image multiple times in template (35b7ffb9cff7e4577f505823449874361d1557a2)
+
 ## 4.2.0
 
 ### Feature
