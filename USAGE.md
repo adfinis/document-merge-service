@@ -196,6 +196,18 @@ in the example above would become something like:
 ...     ),
 ```
 
+### Disabling template validation
+
+Sometimes, templates contain advanced syntax that cannot be correctly validated
+by the automatic mechanism. If you at the same time are also unable to provide
+usable sample data, you can disable template validation entirely.
+
+Please note that in this case, templates will be accepted that may cause errors
+when actually used, so make sure to test them after uploading!
+
+To disable template validation, pass in the additional parameter
+`disable_template_validation` with the value `true` on template upload.
+
 
 ## Merging templates
 

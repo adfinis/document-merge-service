@@ -175,6 +175,53 @@ def test_template_create(
 
 
 @pytest.mark.parametrize(
+    "status_code, disable_validation",
+    [
+        (
+            status.HTTP_400_BAD_REQUEST,
+            "false",
+        ),
+        (
+            status.HTTP_400_BAD_REQUEST,
+            "",
+        ),
+        (
+            status.HTTP_201_CREATED,
+            "true",
+        ),
+    ],
+)
+def test_disable_validation(
+    db,
+    status_code,
+    admin_client,
+    settings,
+    disable_validation,
+):
+    settings.REQUIRE_AUTHENTICATION = False
+    url = reverse("template-list")
+
+    template_file = django_file("docx-template-syntax.docx")
+    data = {
+        "slug": "test-slug",
+        "template": template_file.file,
+        "engine": models.Template.DOCX_TEMPLATE,
+    }
+    if disable_validation:
+        data["disable_template_validation"] = disable_validation
+
+    response = admin_client.post(url, data=data, format="multipart")
+    assert response.status_code == status_code
+
+    if status_code == status.HTTP_201_CREATED:
+        data = response.json()
+        template_link = data["template"]
+        response = admin_client.get(template_link)
+        assert response.status_code == status.HTTP_200_OK
+        Document(io.BytesIO(response.content))
+
+
+@pytest.mark.parametrize(
     "template_name,available_placeholders,sample_data,files,expect_missing_placeholders,engine,status_code",
     [
         (
