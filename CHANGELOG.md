@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.0
+
+### Feature
+* Allow disabling validation
+([`f371b33`](https://github.com/winged/document-merge-service/commit/f371b339d7434b01b2a024308fc58f0806d8a287))
+
 ## 4.2.1
 
 ### Fix
