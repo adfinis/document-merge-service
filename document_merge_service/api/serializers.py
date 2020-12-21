@@ -27,6 +27,9 @@ class CurrentGroupDefault:
 
 
 class TemplateSerializer(serializers.ModelSerializer):
+    disable_template_validation = serializers.BooleanField(
+        allow_null=True, default=False
+    )
     group = serializers.CharField(allow_null=True, default=CurrentGroupDefault())
     available_placeholders = serializers.ListField(allow_null=True, required=False)
     sample_data = serializers.JSONField(allow_null=True, required=False)
@@ -63,6 +66,12 @@ class TemplateSerializer(serializers.ModelSerializer):
         return sorted([x.replace(".[]", "[]") for x in _doc(sample_doc)])
 
     def validate(self, data):
+        if data.pop("disable_template_validation", False):
+            # Some template structures cannot be validated automatically,
+            # or it would be impossible or too much effort to provide accurate
+            # sample data. For those cases, we allow disabling the validation.
+            return data
+
         engine = data.get("engine", self.instance and self.instance.engine)
         template = data.get("template", self.instance and self.instance.template)
 
@@ -108,6 +117,7 @@ class TemplateSerializer(serializers.ModelSerializer):
             "available_placeholders",
             "sample_data",
             "files",
+            "disable_template_validation",
         )
 
 
