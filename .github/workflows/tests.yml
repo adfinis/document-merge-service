@@ -17,12 +17,37 @@ jobs:
           docker-compose up -d --build
       - name: Lint the code
         run: |
-          docker-compose exec -T document-merge-service black --check .
-          docker-compose exec -T document-merge-service flake8
           docker-compose exec -T document-merge-service ./manage.py makemigrations --check --dry-run --no-input
-          docker-compose exec -T document-merge-service reuse lint
       - name: Run pytest
         run: docker-compose exec -T document-merge-service pytest --no-cov-on-fail --cov --create-db -vv
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+      - name: Install black
+        run: pip install $(grep black requirements-dev.txt)
+      - name: Run black
+        run: black
+  flake8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+      - name: Install flake8
+        run: pip install $(grep flake8 requirements-dev.txt)
+      - name: Run flake8
+        run: flake8
   gitlint:
     runs-on: ubuntu-latest
     steps:
