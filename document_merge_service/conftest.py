@@ -8,6 +8,7 @@ from factory.base import FactoryMetaClass
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
+from document_merge_service.api import models
 from document_merge_service.api.data import django_file
 
 from .api import engines
@@ -66,10 +67,11 @@ def admin_client(db, admin_user):
 @pytest.fixture
 def docx_template_with_placeholder(admin_client, template):
     """Return a factory function to build a docx template with a given placeholder."""
-
-    engine = engines.get_engine(template.engine, django_file("docx-template.docx"))
+    template.engine = models.Template.DOCX_TEMPLATE
+    template.save()
 
     def make_template(placeholder):
+        engine = engines.get_engine(template.engine, django_file("docx-template.docx"))
         binary = BytesIO()
         engine.merge({"test": placeholder}, binary)
         binary.seek(0)
