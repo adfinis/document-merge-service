@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.4.0
+
+### Feature
+* run subprocesses with timeout and cleanup forks
+([`be092b4`](https://github.com/winged/document-merge-service/commit/be092b464d0120ce1d6e9bc8afdf4150cacd2710))
+
 ## 4.3.0
 
 ### Feature
