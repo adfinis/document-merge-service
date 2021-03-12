@@ -9,6 +9,32 @@ UnoconvResult = namedtuple(
     "UnoconvResult", ["stdout", "stderr", "returncode", "content_type"]
 )
 
+# in testing 2 seconds is enough
+_min_timeout = 2
+
+# terminate_then_kill() takes 1 second in the worst case, so we have to use two seconds,
+# or the timeout won't be triggered before harakiri.
+_ahead_of_harakiri = 2
+
+
+def get_default_timeout():
+    timeout = 55
+    try:  # pragma: no cover
+        import uwsgi
+
+        harakiri = uwsgi.opt.get("harakiri")
+        if harakiri:
+            try:
+                timeout = max(int(harakiri) - _ahead_of_harakiri, _min_timeout)
+            except ValueError:
+                pass
+    except ModuleNotFoundError:
+        pass
+    return timeout
+
+
+_default_timeout = get_default_timeout()
+
 
 def getpgid(proc):
     try:
@@ -85,7 +111,7 @@ def run(cmd):
         [str(arg) for arg in cmd],
         stdout=PIPE,
         stderr=PIPE,
-        timeout=55,
+        timeout=_default_timeout,
     )
 
 
