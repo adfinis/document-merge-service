@@ -462,6 +462,7 @@ def test_template_create_with_available_placeholders(
         Document(io.BytesIO(response.content))
 
 
+@pytest.mark.parametrize("template__engine", [models.Template.DOCX_TEMPLATE])
 @pytest.mark.parametrize(
     "template_name,status_code",
     [
