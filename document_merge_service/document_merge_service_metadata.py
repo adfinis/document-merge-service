@@ -2,6 +2,6 @@
 
 __title__ = "document_merge_service"
 __description__ = "Merge Document Template Service"
-__version__ = "4.3.0"
+__version__ = "4.4.0"
 __author__ = "Adfinis AG"
 __url__ = "https://github.com/adfinis-sygroup/document-merge-service"

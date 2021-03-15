@@ -2,7 +2,6 @@ import os
 import re
 import signal
 from collections import namedtuple
-from datetime import timedelta
 from mimetypes import guess_type
 from subprocess import PIPE, CalledProcessError, CompletedProcess, Popen, TimeoutExpired
 
@@ -10,11 +9,37 @@ UnoconvResult = namedtuple(
     "UnoconvResult", ["stdout", "stderr", "returncode", "content_type"]
 )
 
+# in testing 2 seconds is enough
+_min_timeout = 2
+
+# terminate_then_kill() takes 1 second in the worst case, so we have to use two seconds,
+# or the timeout won't be triggered before harakiri.
+_ahead_of_harakiri = 2
+
+
+def get_default_timeout():
+    timeout = 55
+    try:  # pragma: no cover
+        import uwsgi
+
+        harakiri = uwsgi.opt.get("harakiri")
+        if harakiri:
+            try:
+                timeout = max(int(harakiri) - _ahead_of_harakiri, _min_timeout)
+            except ValueError:
+                pass
+    except ModuleNotFoundError:
+        pass
+    return timeout
+
+
+_default_timeout = get_default_timeout()
+
 
 def getpgid(proc):
     try:
         return (proc, os.getpgid(proc.pid))
-    except ProcessLookupError:
+    except ProcessLookupError:  # pragma: no cover
         return (proc, None)
 
 
@@ -22,7 +47,7 @@ def kill(proc, sig):
     process, group = proc
     try:
         if group is None:
-            if process.returncode is None:
+            if process.returncode is None:  # pragma: no cover
                 os.kill(process.pid, sig)
         else:
             os.killpg(group, sig)
@@ -34,8 +59,8 @@ def terminate_then_kill(proc):
     process, _ = proc
     kill(proc, signal.SIGTERM)
     try:
-        process.wait(timeout=timedelta(seconds=1))
-    except TimeoutExpired:
+        process.wait(timeout=1)
+    except TimeoutExpired:  # pragma: no cover
         pass
     finally:
         kill(proc, signal.SIGKILL)
@@ -54,12 +79,12 @@ def run_fork_safe(
     Works like `subprocess.run`, but puts the subprocess and its children in a new
     process group, so orphan forks can be terminated, too.
     """
-    if input is not None:
+    if input is not None:  # pragma: no cover
         if kwargs.get("stdin") is not None:
             raise ValueError("stdin and input arguments may not both be used.")
         kwargs["stdin"] = PIPE
 
-    if capture_output:
+    if capture_output:  # pragma: no cover
         if kwargs.get("stdout") is not None or kwargs.get("stderr") is not None:
             raise ValueError(
                 "stdout and stderr arguments may not be used " "with capture_output."
@@ -74,7 +99,7 @@ def run_fork_safe(
         finally:
             terminate_then_kill(proc)
         retcode = process.poll()
-        if check and retcode:
+        if check and retcode:  # pragma: no cover
             raise CalledProcessError(
                 retcode, process.args, output=stdout, stderr=stderr
             )
@@ -82,7 +107,12 @@ def run_fork_safe(
 
 
 def run(cmd):
-    return run_fork_safe([str(arg) for arg in cmd], stdout=PIPE, stderr=PIPE)
+    return run_fork_safe(
+        [str(arg) for arg in cmd],
+        stdout=PIPE,
+        stderr=PIPE,
+        timeout=_default_timeout,
+    )
 
 
 class Unoconv:

@@ -31,7 +31,8 @@ COPY . $APP_HOME
 
 RUN ENV=docker ./manage.py collectstatic --noinput \
 && chown -R document-merge-service:root /var/www/static \
-&& chmod 770 -R /var/www/static
+&& chmod 770 -R /var/www/static \
+&& cp /bin/sleep /bin/dms_test_sleep
 
 USER document-merge-service
 EXPOSE 8000
