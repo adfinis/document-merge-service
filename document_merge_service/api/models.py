@@ -16,7 +16,7 @@ class Template(models.Model):
         ),
     )
 
-    slug = models.SlugField(primary_key=True)
+    slug = models.SlugField(max_length=1048, primary_key=True)
     description = models.TextField(default="")
     template = models.FileField(max_length=1024)
     engine = models.CharField(max_length=20, choices=ENGINE_CHOICES_TUPLE)
