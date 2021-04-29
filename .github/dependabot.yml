@@ -1,0 +1,57 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "00:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: django
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: pytest-randomly
+    versions:
+    - 3.5.0
+    - 3.6.0
+  - dependency-name: python-semantic-release
+    versions:
+    - 7.13.1
+    - 7.13.2
+    - 7.14.0
+    - 7.15.0
+    - 7.15.1
+  - dependency-name: djangorestframework
+    versions:
+    - 3.12.2
+    - 3.12.3
+  - dependency-name: pytest
+    versions:
+    - 6.2.2
+  - dependency-name: babel
+    versions:
+    - 2.9.0
+  - dependency-name: django
+    versions:
+    - 2.2.17
+    - 2.2.18
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "00:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: python
+    versions:
+    - ">= 3.7.a, < 3.8"
+  - dependency-name: python
+    versions:
+    - ">= 3.8.a, < 3.9"
+  - dependency-name: python
+    versions:
+    - ">= 3.9.a, < 3.10"
+  - dependency-name: python
+    versions:
+    - 3.6.12
+    - 3.6.13
