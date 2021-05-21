@@ -505,7 +505,9 @@ def test_template_destroy(db, client, template):
         ),
     ],
 )
-def test_template_merge_docx(db, client, template, snapshot):
+def test_template_merge_docx(
+    db, client, mock_filefield_name_validation, template, snapshot
+):
     url = reverse("template-merge", args=[template.pk])
 
     response = client.post(url, data={"data": {"test": "Test input"}}, format="json")
@@ -602,7 +604,9 @@ def test_validate_expression(
         (models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"), False),
     ],
 )
-def test_template_merge_as_pdf(db, settings, unoconv_local, client, template):
+def test_template_merge_as_pdf(
+    db, settings, unoconv_local, client, mock_filefield_name_validation, template
+):
     url = reverse("template-merge", args=[template.pk])
 
     response = client.post(
@@ -618,7 +622,9 @@ def test_template_merge_as_pdf(db, settings, unoconv_local, client, template):
     "template__engine,template__template",
     [(models.Template.DOCX_TEMPLATE, django_file("docx-template-loopcontrols.docx"))],
 )
-def test_template_merge_jinja_extensions_docx(db, client, template, settings, snapshot):
+def test_template_merge_jinja_extensions_docx(
+    db, client, mock_filefield_name_validation, template, settings, snapshot
+):
     settings.DOCXTEMPLATE_JINJA_EXTENSIONS = ["jinja2.ext.loopcontrols"]
 
     url = reverse("template-merge", args=[template.pk])
@@ -650,6 +656,7 @@ def test_template_merge_jinja_extensions_docx(db, client, template, settings, sn
 def test_template_merge_jinja_filters_docx(
     db,
     client,
+    mock_filefield_name_validation,
     template,
     snapshot,
     settings,
@@ -716,6 +723,7 @@ def test_template_merge_jinja_filters_docx(
 def test_template_merge_file_reset(
     db,
     client,
+    mock_filefield_name_validation,
     template,
     settings,
     file_value,
@@ -796,7 +804,9 @@ def test_sample_to_placeholders(sample, expected):
         )
     ],
 )
-def test_template_merge_missing_data(db, client, template, settings):
+def test_template_merge_missing_data(
+    db, client, mock_filefield_name_validation, template, settings
+):
     settings.DOCXTEMPLATE_JINJA_EXTENSIONS = ["jinja2.ext.loopcontrols"]
 
     url = reverse("template-merge", args=[template.pk])
