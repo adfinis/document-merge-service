@@ -6,7 +6,7 @@ from django.conf import settings
 from django.utils.translation import to_locale
 from docx.shared import Mm
 from docxtpl import InlineImage, Listing
-from jinja2 import Environment, contextfilter
+from jinja2 import Environment, pass_context
 from rest_framework.exceptions import ValidationError
 
 
@@ -63,7 +63,7 @@ def multiline(value):
     return Listing(value)
 
 
-@contextfilter
+@pass_context
 def image(ctx, img_name, width=None, height=None):
     tpl = ctx["_tpl"]
 
