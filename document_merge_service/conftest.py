@@ -65,6 +65,14 @@ def admin_client(db, admin_user):
 
 
 @pytest.fixture
+def mock_filefield_name_validation(mocker):
+    mocker.patch(
+        "django.db.models.fields.files.validate_file_name",
+        side_effect=lambda name, *args, **kwargs: name,
+    )
+
+
+@pytest.fixture
 def docx_template_with_placeholder(admin_client, template):
     """Return a factory function to build a docx template with a given placeholder."""
     template.engine = models.Template.DOCX_TEMPLATE
