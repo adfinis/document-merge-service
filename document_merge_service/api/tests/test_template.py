@@ -35,6 +35,7 @@ def test_template_list_group_access(
     response = admin_client.get(url)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["count"] == size
+    snapshot.assert_match(response.json())
 
 
 @pytest.mark.parametrize("template__description", ["test description"])
@@ -47,9 +48,7 @@ def test_template_list_group_access(
         ({"description__search": "unknown"}, 0),
     ],
 )
-def test_template_list_query_params(
-    db, admin_client, template, snapshot, size, query_params
-):
+def test_template_list_query_params(db, admin_client, template, size, query_params):
     url = reverse("template-list")
 
     response = admin_client.get(url, data=query_params)
@@ -57,11 +56,12 @@ def test_template_list_query_params(
     assert response.json()["count"] == size
 
 
-def test_template_detail(db, client, template):
+def test_template_detail(db, client, template, snapshot):
     url = reverse("template-detail", args=[template.pk])
 
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
+    snapshot.assert_match(response.json())
 
 
 @pytest.mark.parametrize(
