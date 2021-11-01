@@ -513,7 +513,7 @@ def test_template_merge_docx(
     response = client.post(url, data={"data": {"test": "Test input"}}, format="json")
     assert response.status_code == status.HTTP_200_OK
     assert (
-        response._headers["content-type"][1]
+        response.get("content-type")
         == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
@@ -632,7 +632,7 @@ def test_template_merge_jinja_extensions_docx(
     response = client.post(url, data={"data": {"test": "Test input"}}, format="json")
     assert response.status_code == status.HTTP_200_OK
     assert (
-        response._headers["content-type"][1]
+        response.get("content-type")
         == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
@@ -703,7 +703,7 @@ def test_template_merge_jinja_filters_docx(
 
     if status_code == status.HTTP_200_OK:
         assert (
-            response._headers["content-type"][1]
+            response.get("content-type")
             == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
 
@@ -752,7 +752,7 @@ def test_template_merge_file_reset(
     assert response.status_code == status.HTTP_200_OK
 
     assert (
-        response._headers["content-type"][1]
+        response.get("content-type")
         == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
