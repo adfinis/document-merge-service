@@ -118,6 +118,7 @@ class TemplateSerializer(serializers.ModelSerializer):
             "sample_data",
             "files",
             "disable_template_validation",
+            "meta",
         )
 
 
