@@ -134,7 +134,7 @@ snapshots[
       <w:drawing>
         <wp:inline xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
           <wp:extent cx="1800000" cy="1800000"/>
-          <wp:docPr id="1" name="Picture 1"/>
+          <wp:docPr id="1001" name="Picture 1"/>
           <wp:cNvGraphicFramePr>
             <a:graphicFrameLocks noChangeAspect="1"/>
           </wp:cNvGraphicFramePr>

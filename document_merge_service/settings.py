@@ -152,6 +152,10 @@ DEFAULT_FILE_STORAGE = env.str(
 )
 MEDIA_ROOT = env.str("MEDIA_ROOT", "")
 
+# TODO: This should be removed in favor of storing the files in a bucket
+# https://code.djangoproject.com/ticket/32991
+MEDIA_URL = "api/v1/template/"
+
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
 UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3")
 UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
