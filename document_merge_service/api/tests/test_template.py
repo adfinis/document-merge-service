@@ -540,6 +540,8 @@ def test_template_merge_docx(
             '{{NAME and ", represents " + NAME}}',
             {"NAME": ""},
         ),
+        # passed data should be escaped
+        ("{{escapeme}}", {"escapeme": "<&>"}),
     ],
 )
 def test_merge_expression(
