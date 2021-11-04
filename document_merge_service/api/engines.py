@@ -142,7 +142,7 @@ class DocxTemplateEngine(DocxValidator):
         doc = DocxTemplate(self.template)
         data["_tpl"] = doc
 
-        doc.render(data, get_jinja_env())
+        doc.render(data, get_jinja_env(), autoescape=True)
         doc.save(buf)
         return buf
 
