@@ -5,8 +5,8 @@ import jsonpath
 import requests
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.encoding import force_bytes, smart_text
-from django.utils.translation import ugettext as _
+from django.utils.encoding import force_bytes, smart_str
+from django.utils.translation import gettext as _
 from rest_framework import authentication, exceptions
 
 
@@ -49,7 +49,7 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
         if not auth:
             return None
 
-        if smart_text(auth[0].lower()) != self.header_prefix.lower():
+        if smart_str(auth[0].lower()) != self.header_prefix.lower():
             raise exceptions.AuthenticationFailed(_("No Bearer Authorization header"))
 
         if len(auth) == 1:
@@ -68,7 +68,7 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
         response = requests.get(
             settings.OIDC_USERINFO_ENDPOINT,
             verify=settings.OIDC_VERIFY_SSL,
-            headers={"Authorization": f"Bearer {smart_text(token)}"},
+            headers={"Authorization": f"Bearer {smart_str(token)}"},
         )
 
         try:

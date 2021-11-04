@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path
 from rest_framework.routers import DefaultRouter
 
 from . import views
@@ -8,7 +8,7 @@ r = DefaultRouter()
 r.register("template", views.TemplateView)
 
 urlpatterns = [
-    url(
+    re_path(
         r"^template/(?P<template>.+\..+)$",
         views.DownloadTemplateView.as_view(),
         name="template-download",

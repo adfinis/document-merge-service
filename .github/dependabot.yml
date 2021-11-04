@@ -10,7 +10,7 @@ updates:
   ignore:
   - dependency-name: django
     versions:
-      - ">=3"
+      - ">=3.3"
 - package-ecosystem: docker
   directory: "/"
   schedule:

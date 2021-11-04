@@ -10,6 +10,7 @@ class TemplateFactory(DjangoModelFactory):
     engine = Faker("word", ext_word_list=models.Template.ENGINE_CHOICES_LIST)
     template = None
     group = None
+    meta = {}
 
     class Meta:
         model = models.Template
