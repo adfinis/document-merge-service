@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.5.0
+
+### Feature
+* Add meta-field to Template ([`27163e8`](https://github.com/adfinis-sygroup/document-merge-service/commit/27163e8c5b2d1541566e4908ac88e55a3d5bc7b9))
+
+### Fix
+* Reduce number of uwsgi processes ([`46f950a`](https://github.com/adfinis-sygroup/document-merge-service/commit/46f950a7a5ff6ca99c20941a5d1ec0a7cbd1bde0))
+* Add uwsgi config suitable for production use ([`247c5df`](https://github.com/adfinis-sygroup/document-merge-service/commit/247c5dfbc9e00e29a95b21f2646ad735368cdc21))
+* **jinja:** Replace deprecated contextfilter with pass_context ([`3308cd1`](https://github.com/adfinis-sygroup/document-merge-service/commit/3308cd11aac3332445053b1d9ac4564bb7034a06))
+
 ## 4.4.0
 
 ### Feature
