@@ -76,10 +76,11 @@ def mock_filefield_name_validation(mocker):
 def docx_template_with_placeholder(admin_client, template):
     """Return a factory function to build a docx template with a given placeholder."""
     template.engine = models.Template.DOCX_TEMPLATE
+    template.template = django_file("docx-template.docx")
     template.save()
 
     def make_template(placeholder):
-        engine = engines.get_engine(template.engine, django_file("docx-template.docx"))
+        engine = engines.get_engine(template.engine, template.template)
         binary = BytesIO()
         engine.merge({"test": placeholder}, binary)
         binary.seek(0)

@@ -1,5 +1,6 @@
 import io
 import json
+import os
 
 import pytest
 from django.urls import reverse
@@ -462,7 +463,10 @@ def test_template_create_with_available_placeholders(
         Document(io.BytesIO(response.content))
 
 
-@pytest.mark.parametrize("template__engine", [models.Template.DOCX_TEMPLATE])
+@pytest.mark.parametrize(
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template-filters.docx"))],
+)
 @pytest.mark.parametrize(
     "template_name,status_code",
     [
@@ -479,15 +483,18 @@ def test_template_update(db, client, template, template_name, status_code):
     assert response.status_code == status_code
 
     if status_code == status.HTTP_200_OK:
+        assert os.path.isfile(template.template.path) is False
         template.refresh_from_db()
         assert template.description == "Test description"
 
 
+@pytest.mark.parametrize("template__template", [django_file("docx-template.docx")])
 def test_template_destroy(db, client, template):
     url = reverse("template-detail", args=[template.pk])
 
     response = client.delete(url)
     assert response.status_code == status.HTTP_204_NO_CONTENT
+    assert os.path.isfile(template.template.path) is False
 
 
 @pytest.mark.parametrize(
@@ -652,8 +659,8 @@ def test_template_merge_jinja_extensions_docx(
     ],
 )
 @pytest.mark.parametrize(
-    "template__engine",
-    [models.Template.DOCX_TEMPLATE],
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template-filters.docx"))],
 )
 def test_template_merge_jinja_filters_docx(
     db,
@@ -669,11 +676,6 @@ def test_template_merge_jinja_filters_docx(
 ):
     settings.LANGUAGE_CODE = "de-ch"
     url = reverse("template-merge", args=[template.pk])
-
-    # Couldn't put this into `parametrize`. For some reason, in the second run, the
-    # template name is extended with a seemingly random string.
-    template.template = django_file("docx-template-filters.docx")
-    template.save()
 
     data = {
         "data": json.dumps(
@@ -715,8 +717,8 @@ def test_template_merge_jinja_filters_docx(
 
 
 @pytest.mark.parametrize(
-    "template__engine",
-    [models.Template.DOCX_TEMPLATE],
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template-filters.docx"))],
 )
 @pytest.mark.parametrize(
     "file_value",
@@ -732,11 +734,6 @@ def test_template_merge_file_reset(
 ):
     settings.LANGUAGE_CODE = "de-ch"
     url = reverse("template-merge", args=[template.pk])
-
-    # Couldn't put this into `parametrize`. For some reason, in the second run, the
-    # template name is extended with a seemingly random string.
-    template.template = django_file("docx-template-filters.docx")
-    template.save()
 
     data = {
         "data": {
