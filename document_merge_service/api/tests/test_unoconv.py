@@ -23,7 +23,7 @@ def kill_zombies():  # pragma: no cover
             x.wait()
 
 
-def kill_dms_sleep(bin):
+def kill_dms_sleep(bin):  # pragma: no cover
     found = False
     kill_zombies()
     for x in process_iter(["name"]):
@@ -34,7 +34,8 @@ def kill_dms_sleep(bin):
     return found
 
 
-def test_fork():
+@pytest.mark.skip
+def test_fork():  # pragma: no cover
     bin = "dms_test_sleep"
     kill_dms_sleep(bin)
     shell_cmd = f"{bin} infinity & disown"
