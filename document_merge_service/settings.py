@@ -245,3 +245,5 @@ LOGGING = {
     },
     "loggers": {"django": {"handlers": ["console"], "level": "WARNING"}},
 }
+
+URL_PREFIX = env.str("URL_PREFIX", default="")
