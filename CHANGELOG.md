@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.6.0
+
+### Feature
+* Add config for deployment under specific URL prefix ([#456](https://github.com/winged/document-merge-service/issues/456)) ([`6801024`](https://github.com/winged/document-merge-service/commit/680102457b938b33b2ecbc314bcb1897644c519a))
+
+### Fix
+* **template:** Make template download url more stable ([`3438a53`](https://github.com/winged/document-merge-service/commit/3438a53efbd7bbe46cf3b38659e1bebc4cfe348b))
+* **cleanup:** Delete old files when template is deleted or changed ([#445](https://github.com/winged/document-merge-service/issues/445)) ([`26c9570`](https://github.com/winged/document-merge-service/commit/26c9570e02dcc981ee523273a06137caa9bf8486))
+* **jinja:** Autoescape data passed to template when merging ([#444](https://github.com/winged/document-merge-service/issues/444)) ([`2ac030e`](https://github.com/winged/document-merge-service/commit/2ac030e619899a55bc72440f55081258e1ab66ac))
+
+### Documentation
+* **readme:** Remove deprecated dependabot badge ([`4173a3b`](https://github.com/winged/document-merge-service/commit/4173a3bf6d26d02afd05fc3972492054e3476f5f))
+
+
 ## 4.5.0
 
 ### Feature
