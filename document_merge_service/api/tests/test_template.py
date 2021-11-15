@@ -65,6 +65,37 @@ def test_template_detail(db, client, template, snapshot):
     snapshot.assert_match(response.json())
 
 
+def test_template_download(db, client, template):
+    file = django_file("docx-template-syntax.docx")
+    template.template.save(os.path.basename(file.name), file)
+    template.save()
+
+    url = reverse("template-detail", args=[template.pk])
+    response = client.get(url)
+
+    data = response.json()
+
+    download_url = data["template"]
+
+    template_resp = client.get(download_url)
+
+    file.seek(0)
+    assert file.read() == template_resp.content
+
+
+def test_template_download_url(db, client, template):
+    file = django_file("docx-template-syntax.docx")
+    template.template.save(os.path.basename(file.name), file)
+    template.save()
+
+    serializer = serializers.TemplateSerializer(template)
+    field = serializer.fields["template"]
+    assert (
+        field.to_representation(template)
+        == f"/api/v1/template-download/{template.slug}"
+    )
+
+
 @pytest.mark.parametrize(
     "template_name,engine,status_code,group,require_authentication,authenticated",
     [
@@ -591,6 +622,10 @@ def test_merge_expression(
         ),
     ],
 )
+@pytest.mark.parametrize(
+    "template__engine",
+    [models.Template.DOCX_TEMPLATE],
+)
 def test_validate_expression(
     docx_template_with_placeholder, client, placeholder, template_content
 ):
@@ -677,6 +712,11 @@ def test_template_merge_jinja_filters_docx(
     settings.LANGUAGE_CODE = "de-ch"
     url = reverse("template-merge", args=[template.pk])
 
+    # Couldn't put this into `parametrize`. For some reason, in the second run, the
+    # template name is extended with a seemingly random string.
+    template.template = django_file("docx-template-filters.docx")
+    template.save()
+
     data = {
         "data": json.dumps(
             {
@@ -734,6 +774,11 @@ def test_template_merge_file_reset(
 ):
     settings.LANGUAGE_CODE = "de-ch"
     url = reverse("template-merge", args=[template.pk])
+
+    # Couldn't put this into `parametrize`. For some reason, in the second run, the
+    # template name is extended with a seemingly random string.
+    template.template = django_file("docx-template-filters.docx")
+    template.save()
 
     data = {
         "data": {

@@ -1,6 +1,7 @@
 from functools import singledispatch
 
 from django.conf import settings
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from rest_framework import exceptions, serializers
 
@@ -17,6 +18,15 @@ class CustomFileField(serializers.FileField):
 
     def to_representation(self, value):
         return value or None
+
+
+class TemplateFileField(serializers.FileField):
+    def to_representation(self, value):
+        if not value:
+            return None
+
+        if self.parent.instance:
+            return reverse("template-download", args=[self.parent.instance.pk])
 
 
 class CurrentGroupDefault:
@@ -36,6 +46,7 @@ class TemplateSerializer(serializers.ModelSerializer):
     files = serializers.ListField(
         child=CustomFileField(write_only=True, allow_empty_file=False), required=False
     )
+    template = TemplateFileField()
 
     def validate_group(self, group):
         request = self.context["request"]

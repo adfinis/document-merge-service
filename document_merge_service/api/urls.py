@@ -9,7 +9,7 @@ r.register("template", views.TemplateView)
 
 urlpatterns = [
     re_path(
-        r"^template/(?P<template>.+\..+)$",
+        r"^template-download/(?P<pk>.+)$",
         views.DownloadTemplateView.as_view(),
         name="template-download",
     )
