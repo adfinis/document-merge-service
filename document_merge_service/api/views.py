@@ -88,7 +88,7 @@ class TemplateView(viewsets.ModelViewSet):
 
 class DownloadTemplateView(RetrieveAPIView):
     queryset = models.Template.objects
-    lookup_field = "template"
+    lookup_field = "pk"
 
     def retrieve(self, request, **kwargs):
         template = self.get_object()
