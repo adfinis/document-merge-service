@@ -83,6 +83,18 @@ def test_template_download(db, client, template):
     assert file.read() == template_resp.content
 
 
+def test_template_list_with_file(db, client, template):
+    file = django_file("docx-template-syntax.docx")
+    template.template.save(os.path.basename(file.name), file)
+    template.save()
+
+    url = reverse("template-list")
+    response = client.get(url)
+
+    assert response.json()["results"][0]["template"] is not None
+    assert response.status_code == status.HTTP_200_OK
+
+
 def test_template_download_url(db, client, template):
     file = django_file("docx-template-syntax.docx")
     template.template.save(os.path.basename(file.name), file)
