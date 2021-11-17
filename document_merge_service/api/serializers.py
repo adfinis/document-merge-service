@@ -21,12 +21,16 @@ class CustomFileField(serializers.FileField):
 
 
 class TemplateFileField(serializers.FileField):
-    def to_representation(self, value):
-        if not value:
-            return None
+    def get_attribute(self, instance):
+        # Hacky workaround - we need the instance in `to_representation()`,
+        # not the field value.
+        # We cannot use `parent.instance`, as that won't be set to
+        # the current instance in a list view
+        return instance
 
-        if self.parent.instance:
-            return reverse("template-download", args=[self.parent.instance.pk])
+    def to_representation(self, value):
+        if value and value.pk and value.template:
+            return reverse("template-download", args=[value.pk])
 
 
 class CurrentGroupDefault:
