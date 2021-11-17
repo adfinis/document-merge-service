@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.6.1
+
+### Fix
+* **api:** Do not crash in list view ([#458](https://github.com/winged/document-merge-service/issues/458)) ([`11b02fd`](https://github.com/winged/document-merge-service/commit/11b02fd58a6a0d38d10bb6a67da9999e11f0c07f))
+
 ## 4.6.0
 
 ### Feature
