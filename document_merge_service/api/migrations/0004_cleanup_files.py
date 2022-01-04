@@ -5,9 +5,6 @@ import logging
 from django.db import migrations
 from django.conf import settings
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
 
 def cleanup_files(apps, schema_editor):
     Template = apps.get_model("api", "Template")
@@ -16,7 +13,10 @@ def cleanup_files(apps, schema_editor):
     with os.scandir(settings.MEDIA_ROOT) as files:
         for f in files:
             if not f.path in used_files and os.path.isfile(f.path):
-                os.remove(f.path)
+                try:
+                    os.remove(f.path)
+                except Exception as e:
+                    pass  # ignore permission issues when running this in a  fresh container
 
 
 class Migration(migrations.Migration):
