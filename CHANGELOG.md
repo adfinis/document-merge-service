@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.6.2 (21 January 2022)
+
+### Fix
+* **cleanup:** Convert cleanup migration to command ([#467](https://github.com/adfinis-sygroup/document-merge-service/issues/467)) ([`33052ee`](https://github.com/adfinis-sygroup/document-merge-service/commit/33052eed48dc01a311aa57462d3a64595b74e743))
+* **cleanup-migration:** Fail gracefully in new container ([`8a93339`](https://github.com/adfinis-sygroup/document-merge-service/commit/8a93339be1218fe79579129483f238f17e67d2e9))
+
 ## 4.6.1
 
 ### Fix
