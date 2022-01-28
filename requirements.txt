@@ -6,6 +6,7 @@ django-filter==21.1
 djangorestframework==3.12.4
 docx-mailmerge==0.5.0
 docxtpl==0.14.2
+jinja2==3.0.3
 jsonpath==0.82
 mysqlclient==2.0.3
 psycopg2-binary==2.9.1
