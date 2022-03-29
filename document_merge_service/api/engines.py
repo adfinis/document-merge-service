@@ -1,17 +1,20 @@
 import io
 import re
 import zipfile
+import openpyxl
 
 from docx import Document
 from docxtpl import DocxTemplate
 from jinja2.exceptions import TemplateSyntaxError
 from mailmerge import MailMerge
 from rest_framework import exceptions
+from xlsxtpl.writerx import BookWriter
+
 
 from document_merge_service.api.data import django_file
 
 from . import models
-from .jinja import get_jinja_env
+from .jinja import get_jinja_env, get_jinja_filters
 
 
 class _MagicPlaceholder(str):
@@ -184,9 +187,39 @@ class DocxMailmergeEngine(DocxValidator):
             return buf
 
 
+class XlsxTemplateEngine:
+    def __init__(self, template):
+        self.template = template
+
+    def validate_is_xlsx(self):
+        try:
+            openpyxl.load_workbook(self.template)
+        except (ValueError, zipfile.BadZipfile):
+            raise exceptions.ParseError("not a valid xlsx file")
+
+    def validate(self, available_placeholders=None, sample_data=None):
+        self.validate_is_xlsx()
+        self.validate_template_syntax(available_placeholders, sample_data)
+
+    def validate_template_syntax(self, available_placeholders=None, sample_data=None):
+        pass
+
+    def merge(self, data, buf):
+        writer = BookWriter(self.template)
+
+        writer.jinja_env.filters.update(get_jinja_filters())
+        writer.jinja_env.globals.update(dir=dir, getattr=getattr)
+
+        writer.render_book(payloads=[])
+        writer.render_sheet(data, "sheet", 1)
+        writer.save(buf)
+        return buf
+
+
 ENGINES = {
     models.Template.DOCX_TEMPLATE: DocxTemplateEngine,
     models.Template.DOCX_MAILMERGE: DocxMailmergeEngine,
+    models.Template.XLSX_TEMPLATE: XlsxTemplateEngine,
 }
 
 

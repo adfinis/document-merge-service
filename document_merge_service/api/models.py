@@ -7,7 +7,8 @@ from django.dispatch import receiver
 class Template(models.Model):
     DOCX_TEMPLATE = "docx-template"
     DOCX_MAILMERGE = "docx-mailmerge"
-    ENGINE_CHOICES_LIST = (DOCX_TEMPLATE, DOCX_MAILMERGE)
+    XLSX_TEMPLATE = "xlsx-template"
+    ENGINE_CHOICES_LIST = (DOCX_TEMPLATE, DOCX_MAILMERGE, XLSX_TEMPLATE)
     ENGINE_CHOICES_TUPLE = (
         (
             DOCX_TEMPLATE,
@@ -16,6 +17,10 @@ class Template(models.Model):
         (
             DOCX_MAILMERGE,
             "Docx MailMerge engine (https://github.com/Bouke/docx-mailmerge)",
+        ),
+        (
+            XLSX_TEMPLATE,
+            "Xlsx Template engine (https://github.com/zhangyu836/python-xlsx-template)",
         ),
     )
 

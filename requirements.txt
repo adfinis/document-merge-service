@@ -14,3 +14,4 @@ python-dateutil==2.8.2
 python-memcached==1.59
 requests==2.26.0
 uwsgi==2.0.20
+xlsxtpl==0.3.1
