@@ -85,13 +85,19 @@ def image(ctx, img_name, width=None, height=None):
     return InlineImage(tpl, img, width=width, height=height)
 
 
+def get_jinja_filters():
+    return {
+        "date": dateformat,
+        "datetime": datetimeformat,
+        "time": timeformat,
+        "emptystring": emptystring,
+        "getwithdefault": getwithdefault,
+        "multiline": multiline,
+        "image": image,
+    }
+
+
 def get_jinja_env():
     jinja_env = Environment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
-    jinja_env.filters["date"] = dateformat
-    jinja_env.filters["datetime"] = datetimeformat
-    jinja_env.filters["time"] = timeformat
-    jinja_env.filters["emptystring"] = emptystring
-    jinja_env.filters["getwithdefault"] = getwithdefault
-    jinja_env.filters["multiline"] = multiline
-    jinja_env.filters["image"] = image
+    jinja_env.filters.update(get_jinja_filters())
     return jinja_env
