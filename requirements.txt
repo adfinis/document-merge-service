@@ -1,6 +1,6 @@
 babel==2.9.1
-django==3.2.9
-django_cors_headers==3.10.0
+django==3.2.13
+django_cors_headers==3.11.0
 django-environ==0.8.1
 django-filter==21.1
 djangorestframework==3.12.4
