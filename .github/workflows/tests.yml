@@ -33,7 +33,7 @@ jobs:
       - name: Install black
         run: pip install $(grep black requirements-dev.txt)
       - name: Run black
-        run: black
+        run: black .
   flake8:
     runs-on: ubuntu-latest
     steps:
