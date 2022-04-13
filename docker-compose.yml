@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   document-merge-service:
-    image: adfinissygroup/document-merge-service
+    image: ghcr.io/adfinis-sygroup/document-merge-service:latest
     ports:
       - "8000:8000"
     volumes:
