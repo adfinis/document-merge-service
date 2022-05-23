@@ -51,3 +51,47 @@ psutil = "^5.8.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+skip = "migrations,snapshots"
+known_first_party = "document_merge_service"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+line_length = 88
+
+[tool.pytest.ini_options]
+addopts = "--reuse-db --randomly-seed=1521188766 --randomly-dont-reorganize"
+DJANGO_SETTINGS_MODULE = "document_merge_service.settings"
+filterwarnings = """
+    error::DeprecationWarning
+    error::PendingDeprecationWarning"""
+env = """
+    ADMINS=Test Example <test@example.com>,Test2 <test2@example.com>
+    OIDC_USERINFO_ENDPOINT=mock://document-merge-service.github.com/openid/userinfo
+    OIDC_BEARER_TOKEN_REVALIDATION_TIME=60"""
+
+[tool.coverage.run]
+source = ["."]
+
+[tool.coverage.report]
+fail_under = 100
+
+exclude_lines = [
+    "pragma: no cover",
+    "pragma: todo cover",
+    "def __str__",
+    "def __unicode__",
+    "def __repr__",
+]
+omit = [
+    "*/migrations/*",
+    "*/apps.py",
+    "manage.py",
+    "setup.py",
+    "document_merge_service/settings_*.py",
+    "document_merge_service/wsgi.py",
+    "document_merge_service/document_merge_service_metadata.py",
+]
+show_missing = true
