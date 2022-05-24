@@ -24,9 +24,11 @@ ENV UWSGI_INI /app/uwsgi.ini
 ENV STATIC_ROOT /var/www/static
 ENV MEDIA_ROOT /var/lib/document-merge-service/media
 
-ARG REQUIREMENTS=requirements.txt
-COPY requirements.txt requirements-dev.txt $APP_HOME/
-RUN pip install --upgrade --no-cache-dir --requirement $REQUIREMENTS --disable-pip-version-check
+ARG ENV=docker
+COPY pyproject.toml poetry.lock $APP_HOME/
+RUN pip install poetry
+RUN poetry config virtualenvs.create false \
+  && poetry install $([ "$ENV" = "dev" ] || echo "--no-dev") --no-interaction --no-ansi
 COPY . $APP_HOME
 
 RUN ENV=docker ./manage.py collectstatic --noinput \
