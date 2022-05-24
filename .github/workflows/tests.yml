@@ -30,8 +30,10 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.7'
+      - name: Install poetry
+        run: pip install poetry
       - name: Install black
-        run: pip install $(grep black requirements-dev.txt)
+        run: pip install black==$(poetry show | grep '^black\s' | grep -Po '\d+\.\d+\.\d+')
       - name: Run black
         run: black .
   flake8:
@@ -44,8 +46,10 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.7'
+      - name: Install poetry
+        run: pip install poetry
       - name: Install flake8
-        run: pip install $(grep flake8 requirements-dev.txt)
+        run: pip install flake8==$(poetry show | grep '^flake8\s' | grep -Po '\d+\.\d+\.\d+')
       - name: Run flake8
         run: flake8
   gitlint:
