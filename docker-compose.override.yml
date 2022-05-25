@@ -5,7 +5,7 @@ services:
     build:
       context: .
       args:
-        - REQUIREMENTS=requirements-dev.txt
+        - ENV=dev
         - UID=$UID
     user: "${UID:?Set UID env variable to your user id}"
     volumes:
