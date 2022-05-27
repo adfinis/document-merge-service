@@ -209,8 +209,7 @@ class XlsxTemplateEngine:
         writer.jinja_env.filters.update(get_jinja_filters())
         writer.jinja_env.globals.update(dir=dir, getattr=getattr)
 
-        writer.render_book(payloads=[])
-        writer.render_sheet(data, "sheet", 1)
+        writer.render_book(payloads=[data])
         writer.save(buf)
         return buf
 
