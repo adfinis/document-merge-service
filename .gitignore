@@ -76,3 +76,5 @@ target/
 
 # IDE specific configuration
 .idea/
+
+/.dmypy.json

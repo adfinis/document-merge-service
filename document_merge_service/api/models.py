@@ -19,11 +19,15 @@ class Template(models.Model):
         ),
     )
 
-    slug = models.SlugField(primary_key=True)
-    description = models.TextField(default="")
-    template = models.FileField(max_length=1024)
-    engine = models.CharField(max_length=20, choices=ENGINE_CHOICES_TUPLE)
-    group = models.CharField(max_length=255, db_index=True, blank=True, null=True)
+    slug: models.SlugField = models.SlugField(primary_key=True)
+    description: models.TextField = models.TextField(default="")
+    template: models.FileField = models.FileField(max_length=1024)
+    engine: models.CharField = models.CharField(
+        max_length=20, choices=ENGINE_CHOICES_TUPLE
+    )
+    group: models.CharField = models.CharField(
+        max_length=255, db_index=True, blank=True, null=True
+    )
     meta = models.JSONField(default=dict)
 
 
