@@ -26,6 +26,7 @@ uWSGI = "2.0.20"
 mypy = "^0.930"
 xltpl = "^0.15"
 openpyxl = "^3.0.10"
+pdbpp = "^0.10.3"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
