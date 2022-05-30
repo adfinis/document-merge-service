@@ -15,3 +15,6 @@ shell: ## Shell into document merge service
 
 format: ## Format python code with black
 	@docker-compose exec document-merge-service black .
+
+dmypy: ## Run mypy locally (starts a deamon for performance)
+	dmypy run document_merge_service
