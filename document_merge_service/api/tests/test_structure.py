@@ -25,9 +25,9 @@ def test_structure():
     engine.merge(_structure, buf)
     buf.seek(0)
     doc = openpyxl.load_workbook(buf)
-    ws = doc.active
-    assert ws["A1"].value == "xdata0"
-    assert ws["A2"].value == "xdata1"
-    assert ws["A5"].value == "Item: mixed"
-    assert ws["A6"].value == "Item: list"
-    assert ws["A7"].value == "Subitem: xdata2"
+    for ws in doc.worksheets:
+        assert ws["A1"].value == "xdata0"
+        assert ws["A2"].value == "xdata1"
+        assert ws["A5"].value == "Item: mixed"
+        assert ws["A6"].value == "Item: list"
+        assert ws["A7"].value == "Subitem: xdata2"
