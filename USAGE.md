@@ -16,9 +16,10 @@ with some data to generate a document.
 #### Supported engines
 
 To be able to render (generate) a document, you first need to upload a
-template.  DMS currently supports two formats: Mail Merge, and DocxTpl,
+template.  DMS currently supports two formats: Mail Merge, and Docx/XlsxTpl,
 which in turn uses Jinja2 syntax. You can read more about them here:
 
+* [xlsx-template](https://github.com/zhangyu836/xltpl/blob/master/README_EN.md)
 * [docx-template](https://github.com/elapouya/python-docx-template)
 * [docx-mailmerge](https://github.com/Bouke/docx-mailmerge)
 
@@ -85,8 +86,8 @@ The upload is using the `Content-Disposition: form-data` format, commonly used
 in traditional forms when uploading files from a browser.
 Make sure you pass in all required fields:
 
-* `engine`: either `docx-mailmerge` or `docx-template`, depending on your
-  template type
+* `engine`: either `docx-mailmerge`, `docx-template` or `xlsx-template`,
+  depending on your template type
 * `slug`: Identifier of your template. May only be used once and is your
   primary key for accessing the templates later on.
 * `name`: Display name of the template
@@ -112,12 +113,16 @@ The list of variables is using the following syntax:
 * For nested objects, use "dot notation": `object.property`
 
 You may also combine this syntax according to your needs. The following are all
-valid examples:
+valid examples: [^xlsx-validation]
 
 * `foo.bar`
 * `a_list[].inner_property`
 * `a_list[].another_property`
 * `list[].nested_list[]`
+
+[^xlsx-validation]: the xlsx engine can only validate simple placeholders no
+lists. frontend-devs should use sample-data and an immediate response with a
+rendered xlsl.
 
 The template used here uses a single placeholder named `test`. See what
 happens if we enable placeholder validation but tell the DMS that only

@@ -2,16 +2,18 @@ import io
 import re
 import zipfile
 
+import openpyxl
 from docx import Document
 from docxtpl import DocxTemplate
 from jinja2.exceptions import TemplateSyntaxError
 from mailmerge import MailMerge
 from rest_framework import exceptions
+from xltpl.writerx import BookWriter
 
 from document_merge_service.api.data import django_file
 
 from . import models
-from .jinja import get_jinja_env
+from .jinja import get_jinja_env, get_jinja_filters
 
 
 class _MagicPlaceholder(str):
@@ -184,9 +186,72 @@ class DocxMailmergeEngine(DocxValidator):
             return buf
 
 
+_placeholder_match = re.compile(r"^\s*{{\s*([^{}]+)\s*}}\s*$")
+
+
+class XlsxTemplateEngine:
+    def __init__(self, template):
+        self.template = template
+        self.writer = None
+
+    def validate_is_xlsx(self):
+        try:
+            openpyxl.load_workbook(self.template)
+        except (ValueError, zipfile.BadZipfile):
+            raise exceptions.ParseError("not a valid xlsx file")
+
+    def validate(self, available_placeholders=None, sample_data=None):
+        self.validate_is_xlsx()
+        self.validate_template_syntax(available_placeholders, sample_data)
+
+    def validate_template_syntax(self, available_placeholders=None, sample_data=None):
+        # We cannot use jinja to validate because xltpl uses jinja's lexer directly
+        if not sample_data:
+            sample_data = {}
+        buf = io.BytesIO()
+        try:
+            self.merge(sample_data, buf)
+        except TemplateSyntaxError as exc:
+            arg_str = ";".join(exc.args)
+            raise exceptions.ValidationError(f"Syntax error in template: {arg_str}")
+        if available_placeholders:
+            placeholders = []
+            for sheet in self.writer.sheet_resource_map.sheet_state_list:
+                if not sheet.sheet_resource:
+                    continue
+                tree = sheet.sheet_resource.sheet_tree
+                self.collect_placeholders(tree._children, placeholders)
+            missing = set(available_placeholders) - set(placeholders)
+            if missing:
+                raise exceptions.ValidationError(
+                    f"Template uses unavailable placeholders: {str(missing)}"
+                )
+
+    def collect_placeholders(self, children, placeholders):
+        for child in children:
+            if hasattr(child, "value"):
+                value = str(child.value)
+                re_match = _placeholder_match.match(value)
+                if re_match:
+                    placeholders.append(re_match.group(1))
+            self.collect_placeholders(child._children, placeholders)
+
+    def merge(self, data, buf):
+        self.writer = writer = BookWriter(self.template)
+
+        writer.jinja_env.filters.update(get_jinja_filters())
+        writer.jinja_env.globals.update(dir=dir, getattr=getattr)
+
+        data = [data] * len(writer.sheet_resource_map.sheet_state_list)
+        writer.render_book(payloads=data)
+        writer.save(buf)
+        return buf
+
+
 ENGINES = {
     models.Template.DOCX_TEMPLATE: DocxTemplateEngine,
     models.Template.DOCX_MAILMERGE: DocxMailmergeEngine,
+    models.Template.XLSX_TEMPLATE: XlsxTemplateEngine,
 }
 
 

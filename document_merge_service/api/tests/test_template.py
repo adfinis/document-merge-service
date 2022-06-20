@@ -2,6 +2,7 @@ import io
 import json
 import os
 
+import openpyxl
 import pytest
 from django.urls import reverse
 from docx import Document
@@ -112,6 +113,46 @@ def test_template_download_url(db, client, template):
     "template_name,engine,status_code,group,require_authentication,authenticated",
     [
         (
+            "xlsx-template.xlsx",
+            models.Template.XLSX_TEMPLATE,
+            status.HTTP_201_CREATED,
+            None,
+            False,
+            False,
+        ),
+        (
+            "xlsx-template.xlsx",
+            models.Template.XLSX_TEMPLATE,
+            status.HTTP_201_CREATED,
+            None,
+            True,
+            True,
+        ),
+        (
+            "xlsx-template.xlsx",
+            models.Template.XLSX_TEMPLATE,
+            status.HTTP_401_UNAUTHORIZED,
+            None,
+            True,
+            False,
+        ),
+        (
+            "xlsx-template.xlsx",
+            models.Template.XLSX_TEMPLATE,
+            status.HTTP_400_BAD_REQUEST,
+            "unknown",
+            True,
+            True,
+        ),
+        (
+            "xlsx-template.xlsx",
+            models.Template.XLSX_TEMPLATE,
+            status.HTTP_201_CREATED,
+            "admin",
+            True,
+            True,
+        ),
+        (
             "docx-template.docx",
             models.Template.DOCX_TEMPLATE,
             status.HTTP_201_CREATED,
@@ -215,7 +256,11 @@ def test_template_create(
         template_link = data["template"]
         response = client.get(template_link)
         assert response.status_code == status.HTTP_200_OK
-        Document(io.BytesIO(response.content))
+        file_ = io.BytesIO(response.content)
+        if engine == "xlsx-template":
+            openpyxl.load_workbook(file_)
+        else:
+            Document(file_)
 
 
 @pytest.mark.parametrize(
