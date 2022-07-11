@@ -1,6 +1,8 @@
 import importlib
 import inspect
+import shutil
 from io import BytesIO
+from pathlib import Path
 
 import pytest
 from django.core.cache import cache
@@ -89,3 +91,14 @@ def docx_template_with_placeholder(admin_client, template):
         return template
 
     return make_template
+
+
+@pytest.fixture
+def dms_test_bin():
+    sleep_path = Path(shutil.which("sleep"))
+    test_path = Path(Path(__file__).parent.absolute(), "tmpb5nw53v5")
+    with test_path.open("wb") as f, open(sleep_path, "rb") as g:
+        f.write(g.read())
+    test_path.chmod(0o755)
+    yield test_path
+    test_path.unlink()

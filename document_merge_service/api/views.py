@@ -1,4 +1,5 @@
 import mimetypes
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 import jinja2
@@ -66,7 +67,9 @@ class TemplateView(viewsets.ModelViewSet):
         convert = serializer.data.get("convert")
 
         if convert:
-            with NamedTemporaryFile("wb") as tmp:
+            dir = Path(settings.MEDIA_ROOT, "__convert__")
+            dir.mkdir(parents=True, exist_ok=True)
+            with NamedTemporaryFile("wb", dir=dir) as tmp:
                 tmp.write(response.content)
                 unoconv = Unoconv(
                     pythonpath=settings.UNOCONV_PYTHON,

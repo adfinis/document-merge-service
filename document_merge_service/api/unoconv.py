@@ -4,6 +4,9 @@ import signal
 from collections import namedtuple
 from mimetypes import guess_type
 from subprocess import PIPE, CalledProcessError, CompletedProcess, Popen, TimeoutExpired
+from uuid import uuid4
+
+from django.core.exceptions import ImproperlyConfigured
 
 UnoconvResult = namedtuple(
     "UnoconvResult", ["stdout", "stderr", "returncode", "content_type"]
@@ -12,9 +15,10 @@ UnoconvResult = namedtuple(
 # in testing 2 seconds is enough
 _min_timeout = 2
 
-# terminate_then_kill() takes 1 second in the worst case, so we have to use two seconds,
+# terminate_then_kill() takes 1 second in the worst case, so we have to use three seconds,
 # or the timeout won't be triggered before harakiri.
-_ahead_of_harakiri = 2
+# Increased to 3 seconds to be safe, we have reports of orphan soffice.bin in production.
+_ahead_of_harakiri = 3
 
 
 def get_default_timeout():
@@ -106,13 +110,38 @@ def run_fork_safe(
     return CompletedProcess(process.args, retcode, stdout, stderr)
 
 
-def run(cmd):
-    return run_fork_safe(
-        [str(arg) for arg in cmd],
+def run(cmd, unshare=True):
+    # Run libreoffice in isolation. If the main broker of libreoffice locks up,
+    # all following calls to unoconv will hang as well. By unsharing the mount namespace,
+    # we get a copy of all the mounts, but we can change them without affecting the
+    # original. So unoconv will never connect to a main broker, and allways start a
+    # new instance. Then run_fork_safe will terminate the process and all the children
+    # of unoconv.
+    #
+    # I think masking /tmp is enough, but we can use this technique for other paths if
+    # needed.
+    if unshare:
+        shell = [
+            "unshare",
+            "--map-root-user",
+            "--ipc",
+            "--mount",
+            "sh",
+        ]
+        cmd = f"""
+            mount -t tmpfs tmpfs /tmp
+            exec {cmd}
+        """.strip()
+    else:  # pragma: no cover
+        shell = ["sh"]
+    ret = run_fork_safe(
+        shell,
         stdout=PIPE,
         stderr=PIPE,
         timeout=_default_timeout,
+        input=cmd.encode("utf-8"),
     )
+    return ret
 
 
 class Unoconv:
@@ -123,10 +152,13 @@ class Unoconv:
         :param pythonpath: str() - path to the python interpreter
         :param unoconvpath: str() - path to the unoconv binary
         """
-        self.cmd = [pythonpath, unoconvpath]
+        self.cmd = f"{pythonpath} {unoconvpath}"
 
     def get_formats(self):
-        p = run(self.cmd + ["--show"])
+        from django.conf import settings
+
+        cmd = f"{self.cmd} --show"
+        p = run(cmd)
         if not p.returncode == 0:  # pragma: no cover
             raise Exception("Failed to fetch the formats from unoconv!")
 
@@ -137,7 +169,14 @@ class Unoconv:
                 if match:
                     formats.append(match.group("format"))
 
-        return set(formats)
+        formats = set(formats)
+        not_supported = set(settings.UNOCONV_ALLOWED_TYPES) - formats
+        if not_supported:
+            raise ImproperlyConfigured(
+                f"Unoconv doesn't support types {', '.join(not_supported)}."
+            )
+
+        return formats
 
     def process(self, filename, convert):
         """
@@ -148,7 +187,9 @@ class Unoconv:
         :return: UnoconvResult()
         """
         # unoconv MUST be running with the same python version as libreoffice
-        p = run(self.cmd + ["--format", convert, "--stdout", filename])
+        pipe = str(uuid4())
+        cmd = f"{self.cmd} --timeout 10 --pipe {pipe} --format {convert} --stdout '{filename}'"
+        p = run(cmd)
         stdout = p.stdout
         if not p.returncode == 0:  # pragma: no cover
             stdout = f"unoconv returncode: {p.returncode}"

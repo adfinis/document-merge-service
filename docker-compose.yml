@@ -1,6 +1,11 @@
 version: "3.4"
 services:
   document-merge-service:
+    privileged: true
+    # CAP_SYS_ADMIN wound be enabled for the container to unshare,
+    # but not on github CI
+    # cap_add:
+    #   - CAP_SYS_ADMIN
     image: adfinissygroup/document-merge-service
     ports:
       - "8000:8000"

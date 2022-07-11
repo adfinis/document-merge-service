@@ -17,9 +17,9 @@ jobs:
           docker-compose up -d --build
       - name: Lint the code
         run: |
-          docker-compose exec -T document-merge-service ./manage.py makemigrations --check --dry-run --no-input
+          docker-compose exec -T document-merge-service poetry run python ./manage.py makemigrations --check --dry-run --no-input
       - name: Run pytest
-        run: docker-compose exec -T document-merge-service pytest --no-cov-on-fail --cov --create-db -vv
+        run: docker-compose exec -T document-merge-service poetry run pytest --no-cov-on-fail --cov --create-db -vv
   black:
     runs-on: ubuntu-latest
     steps:
