@@ -42,7 +42,7 @@ black .
 # running tests
 pytest
 # create migrations
-./manage.py makemigrations
+poetry run python ./manage.py makemigrations
 # install debugger or other temporary dependencies
 pip install --user pdbpp
 ```
