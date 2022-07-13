@@ -4,8 +4,6 @@ import re
 import environ
 from django.core.exceptions import ImproperlyConfigured
 
-from .api.unoconv import Unoconv
-
 env = environ.Env()
 django_root = environ.Path(__file__) - 2
 
@@ -160,21 +158,6 @@ UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
 UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3")
 UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
 
-
-def get_unoconv_formats():
-    uno = Unoconv(pythonpath=UNOCONV_PYTHON, unoconvpath=UNOCONV_PATH)
-    formats = uno.get_formats()
-    not_supported = set(UNOCONV_ALLOWED_TYPES) - formats
-
-    if not_supported:
-        raise ImproperlyConfigured(
-            f"Unoconv doesn't support types {', '.join(not_supported)}."
-        )
-
-    return formats
-
-
-UNOCONV_FORMATS = get_unoconv_formats()
 
 # Jinja2
 DOCXTEMPLATE_JINJA_EXTENSIONS = env.list(

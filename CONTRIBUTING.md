@@ -35,6 +35,7 @@ you can use common python tooling for formatting, linting, testing
 etc.
 
 ```bash
+poetry shell
 # linting
 flake8
 # format code
@@ -65,8 +66,8 @@ Pre commit hooks is an additional option instead of executing checks in your edi
 First create a virtualenv with the tool of your choice before running below commands:
 
 ```bash
+poetry shell
 pip install pre-commit
-pip install -r requirements-dev.txt -U
 pre-commit install --hook=pre-commit
 pre-commit install --hook=commit-msg
 ```
