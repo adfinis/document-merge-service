@@ -79,17 +79,21 @@ def test_fork_load(capsys):
     test_files += [Path(load, "3.docx")] * count
     test_files += [Path(load, "4.docx")] * count
     random.shuffle(test_files)
-    pool = ThreadPool(8)
-    with capsys.disabled():
-        sys.stdout.write(" Loadtest: ")
-        sys.stdout.flush()
-    for result in pool.imap(try_fork_load, enumerate(test_files)):
+    try:
+        pool = ThreadPool(8)
         with capsys.disabled():
-            sys.stdout.write(".")
+            sys.stdout.write(" Loadtest: ")
             sys.stdout.flush()
-        if isinstance(result, Exception):  # pragma: no cover
-            raise result
-        elif not result.stdout.startswith(b"%PDF"):  # pragma: no cover
-            raise ValueError(result)
-    with capsys.disabled():
-        sys.stdout.write("done")
+        for result in pool.imap(try_fork_load, enumerate(test_files)):
+            with capsys.disabled():
+                sys.stdout.write(".")
+                sys.stdout.flush()
+            if isinstance(result, Exception):  # pragma: no cover
+                raise result
+            elif not result.stdout.startswith(b"%PDF"):  # pragma: no cover
+                raise ValueError(result)
+        with capsys.disabled():
+            sys.stdout.write("done")
+    finally:
+        pool.close()
+        pool.join()
