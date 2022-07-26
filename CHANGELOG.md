@@ -1,5 +1,19 @@
 # Changelog
 
+### 4.7.0 (26 July 2022)
+
+### Feature
+* Isolate libreoffice instances ([`9e2db65`](https://github.com/adfinis-sygroup/document-merge-service/commit/9e2db651a9804c787e7909baa415aa36e551007b))
+* **engines:** Add basic excel validation ([`f396ae8`](https://github.com/adfinis-sygroup/document-merge-service/commit/f396ae8879475d6c4aca29003f77965945da24fd))
+* **engines:** Render all excel-sheets with thee same data ([`ca54651`](https://github.com/adfinis-sygroup/document-merge-service/commit/ca54651ac85c5576fac5162ba1caaebff273f87b))
+* **engines:** Test datastructures with excel templates ([`9a5c116`](https://github.com/adfinis-sygroup/document-merge-service/commit/9a5c116c30c22957c9ee316c0c0f4baa9c3dba98))
+* **engines:** Create template test ([`8c4cad1`](https://github.com/adfinis-sygroup/document-merge-service/commit/8c4cad1273f35496080473f42ecb150a575b0a2e))
+* **engines:** Fix code for new xlsx library ([`ca4a6a4`](https://github.com/adfinis-sygroup/document-merge-service/commit/ca4a6a42dfb58196e7a819e1c9b2a4cd9b59dbe8))
+* **engines:** Add xlsx template engine ([`e133c83`](https://github.com/adfinis-sygroup/document-merge-service/commit/e133c834128916eb26ff7642e6eb31852406743c))
+
+### Fix
+* Cleanup thread pool ([`fec982e`](https://github.com/adfinis-sygroup/document-merge-service/commit/fec982e25209b1088477f868bfa786f087d047bc))
+
 ## 4.6.2 (21 January 2022)
 
 ### Fix
