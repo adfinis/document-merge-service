@@ -2,83 +2,93 @@ name: Tests
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
   schedule:
-    - cron:  '0 0 * * 0'
+    - cron: "0 0 * * 0"
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  standard-tests:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+    env:
+      ENV: dev
     steps:
-      - uses: actions/checkout@v2
-      - name: Build the project
-        run: |
-          echo "UID=$(id --user)" > .env
-          docker-compose up -d --build
-      - name: Lint the code
-        run: |
-          docker-compose exec -T document-merge-service poetry run python ./manage.py makemigrations --check --dry-run --no-input
-      - name: Run pytest
-        run: docker-compose exec -T document-merge-service poetry run pytest --no-cov-on-fail --cov --create-db -vv
-  black:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.10'
       - name: Install poetry
-        run: pip install poetry
-      - name: Install black
-        run: pip install black==$(poetry show | grep '^black\s' | grep -Po '\d+\.\d+\.\d+')
-      - name: Run black
-        run: black .
-  flake8:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+        run: pipx install poetry
+      - name: Setup python
+        uses: actions/setup-python@v4
         with:
-          fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.10'
-      - name: Install poetry
-        run: pip install poetry
-      - name: Install flake8
-        run: pip install flake8==$(poetry show | grep '^flake8\s' | grep -Po '\d+\.\d+\.\d+')
-      - name: Run flake8
-        run: flake8
-  mypy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.10'
-      - name: Install poetry
-        run: pip install poetry
-      - name: Install env
+          python-version: "3.8"
+          cache: "poetry"
+      - name: Install dependencies
         run: poetry install
+      - name: Run gitlint
+        run: poetry run gitlint --contrib contrib-title-conventional-commits
+      - name: Run flake8
+        run: poetry run flake8 document_merge_service
       - name: Run mypy
         run: poetry run mypy document_merge_service
-  gitlint:
+      - name: Run black
+        run: poetry run black --check document_merge_service
+      - name: Run migration check
+        run: poetry run python manage.py makemigrations --check --dry-run --no-input
+
+  docker-tests:
+    name: Docker tests
+    needs: [lint]
     runs-on: ubuntu-latest
+    env:
+      ENV: dev
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Set UID
+        run: echo "UID=$(id --user)" > .env
+      - name: Build docker containers
+        run: docker-compose up -d --build
+      - name: Run pytest
+        run: docker-compose exec -T document-merge-service poetry run pytest --no-cov-on-fail --cov --create-db -vv
+
+  compatibility-tests:
+    name: Compatibility tests
+    needs: [lint]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version:
+          - "3.8"
+          - "3.9"
+          - "3.10"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Setup python
+        uses: actions/setup-python@v4
         with:
-          fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.10'
-      - name: Install gitlint
-        run: pip install gitlint
-      - name: Run gitlint
-        run: gitlint --contrib contrib-title-conventional-commits
+          python-version: ${{ matrix.version }}
+          cache: "poetry"
+      - name: Prepare directories
+        run: mkdir -p ${{ runner.temp }}/document-merge-service/data ${{ runner.temp }}/document-merge-service/media/attachments ${{ runner.temp }}/document-merge-service/media/__convert__
+      - name: Install dependendies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends util-linux unoconv libreoffice-writer
+          poetry install
+      - name: Set environment
+        run: |
+          echo "ENV=dev" >> .env
+          echo "UID=$(id --user)" >> .env
+          echo "MEDIA_ROOT=${{ runner.temp }}/document-merge-service/media" >> .env
+      - name: Run tests
+        run: poetry run pytest --no-cov-on-fail --cov --create-db -vv
