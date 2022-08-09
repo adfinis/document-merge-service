@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.1 (9 August 2022)
+
+### Fix
+* **docker:** Fix docker uwsgi command ([`85892f6`](https://github.com/adfinis/document-merge-service/commit/85892f63005fe31b277ba8df623c8a0ec0f1b7ec))
+
 ## 5.0.0 (9 August 2022)
 
 ### Feature
