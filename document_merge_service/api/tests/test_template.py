@@ -540,7 +540,7 @@ def test_template_create_with_available_placeholders(
             # we expect some missing placeholders
             assert (
                 resp["non_field_errors"][0]
-                == f"Template uses unavailable placeholders: {expect_missing_str}"
+                == f'No file for image "{expect_missing_str}" provided!'
             )
 
     if status_code == status.HTTP_201_CREATED:
