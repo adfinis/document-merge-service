@@ -32,4 +32,4 @@ COPY . $APP_HOME
 
 EXPOSE 8000
 
-CMD /bin/sh -c "poetry run python ./manage.py migrate && poetry run python uwsgi"
+CMD /bin/sh -c "poetry run python ./manage.py migrate && poetry run uwsgi"
