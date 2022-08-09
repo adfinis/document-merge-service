@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/adfinis/document-merge-service/actions/workflows/tests.yml/badge.svg)](https://github.com/adfinis/document-merge-service/actions/workflows/tests.yml)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/adfinis/document-merge-service)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: GPL-3.0-or-later](https://img.shields.io/github/license/adfinis/document-merge-service)](https://spdx.org/licenses/GPL-3.0-or-later.html)
 
 A document template merge service providing an API to manage templates and merge them with given data.
 
@@ -49,4 +49,4 @@ curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}
 
 ## License
 
-Code released under the [MIT license](LICENSE).
+Code released under the [GPL-3.0-or-later license](LICENSE).
