@@ -1,7 +1,7 @@
 # Document Merge Service
 
-[![Build Status](https://travis-ci.com/adfinis-sygroup/document-merge-service.svg?branch=master)](https://travis-ci.com/adfinis-sygroup/document-merge-service)
-[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/adfinis-sygroup/document-merge-service)
+[![Build Status](https://github.com/adfinis/document-merge-service/actions/workflows/tests.yml/badge.svg)](https://github.com/adfinis/document-merge-service/actions/workflows/tests.yml)
+[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/adfinis/document-merge-service)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 A document template merge service providing an API to manage templates and merge them with given data.
@@ -12,7 +12,7 @@ A document template merge service providing an API to manage templates and merge
 * docker
 * docker-compose
 
-After installing and configuring those, download [docker-compose.yml](https://raw.githubusercontent.com/adfinis-sygroup/document-merge-service/master/docker-compose.yml) and run the following command:
+After installing and configuring those, download [docker-compose.yml](https://raw.githubusercontent.com/adfinis/document-merge-service/master/docker-compose.yml) and run the following command:
 
 ```bash
 docker-compose up -d

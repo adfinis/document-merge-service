@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   document-merge-service:
-    image: adfinissygroup/document-merge-service:dev
+    image: ghcr.io/adfinis/document-merge-service:dev
     build:
       context: .
       args:
