@@ -8,7 +8,7 @@ license = "GPL-3.0-or-later"
 [tool.poetry.dependencies]
 python = "^3.8"
 Babel = "^2.9.1"
-Django = "^3.2.13"
+Django = "^3.2.15"
 django-cors-headers = "^3.10.0"
 django-environ = "^0.8.1"
 django-filter = "^21.1"
