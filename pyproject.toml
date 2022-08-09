@@ -104,3 +104,6 @@ omit = [
     "document_merge_service/document_merge_service_metadata.py",
 ]
 show_missing = true
+
+[tool.semantic_release]
+version_source = "tag"
