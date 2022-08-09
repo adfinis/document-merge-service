@@ -6,7 +6,7 @@ services:
     # but not on github CI
     # cap_add:
     #   - CAP_SYS_ADMIN
-    image: adfinissygroup/document-merge-service
+    image: ghcr.io/adfinis/document-merge-service:latest
     ports:
       - "8000:8000"
     volumes:

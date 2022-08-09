@@ -1,7 +1,7 @@
 # Contributing
 
-Contributions to Document Merge Service are very welcome! Best have a look at the open [issues](https://github.com/adfinis-sygroup/document-merge-service/issues)
-and open a [GitHub pull request](https://github.com/adfinis-sygroup/document-merge-service/compare). See instructions below how to setup development
+Contributions to Document Merge Service are very welcome! Best have a look at the open [issues](https://github.com/adfinis/document-merge-service/issues)
+and open a [GitHub pull request](https://github.com/adfinis/document-merge-service/compare). See instructions below how to setup development
 environment. Before writing any code, best discuss your proposed change in a GitHub issue to see if the proposed change makes sense for the project.
 
 ## Setup development environment
@@ -11,7 +11,7 @@ environment. Before writing any code, best discuss your proposed change in a Git
 To work on Document Merge Service you first need to clone
 
 ```bash
-git clone https://github.com/adfinis-sygroup/document-merge-service.git
+git clone https://github.com/adfinis/document-merge-service.git
 cd document-merge-service
 ```
 
