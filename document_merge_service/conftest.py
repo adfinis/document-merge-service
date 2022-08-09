@@ -1,32 +1,19 @@
-import importlib
-import inspect
 import shutil
 from io import BytesIO
 from pathlib import Path
 
 import pytest
 from django.core.cache import cache
-from factory.base import FactoryMetaClass
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
 from document_merge_service.api import models
 from document_merge_service.api.data import django_file
 
-from .api import engines
+from .api import engines, factories
 from .api.authentication import AnonymousUser
 
-
-def register_module(module):
-    for name, obj in inspect.getmembers(module):
-        if isinstance(obj, FactoryMetaClass) and not obj._meta.abstract:
-            # name needs to be compatible with
-            # `rest_framework.routers.SimpleRouter` naming for easier testing
-            base_name = obj._meta.model._meta.object_name.lower()
-            register(obj, base_name)
-
-
-register_module(importlib.import_module(".api.factories", "document_merge_service"))
+register(factories.TemplateFactory)
 
 
 class TestUser(AnonymousUser):
