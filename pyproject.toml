@@ -3,7 +3,7 @@ name = "document-merge-service"
 version = "4.7.0"
 description = "Merge Document Template Service"
 authors = ["Adfinis AG"]
-license = "MIT"
+license = "GPL-3.0-or-later"
 
 [tool.poetry.dependencies]
 python = "^3.10"
