@@ -1,6 +1,18 @@
 # Changelog
 
-### 4.7.0 (26 July 2022)
+## 5.0.0 (9 August 2022)
+
+### Feature
+* **license:** Switch license from MIT to GPL-3.0-or-later ([`47c1a84`](https://github.com/adfinis/document-merge-service/commit/47c1a843a9cda105d1640651a8231fbc4c18039f))
+
+### Fix
+* **python:** Use python v3.8 ([`920c0bd`](https://github.com/adfinis/document-merge-service/commit/920c0bd2c5c0dfe836b5b215a91691a4077fd63b))
+
+### Breaking
+* Drop support for Python v3.7. This should have been done in 29a49ee76b638f0a8fb7b189fb91e61c45d78bde which updated the python version to 3.10 which is too restrictive. We now guarantee support for python versions 3.7 to 3.10.  ([`920c0bd`](https://github.com/adfinis/document-merge-service/commit/920c0bd2c5c0dfe836b5b215a91691a4077fd63b))
+* document-merge-service is now released under the GPL-3.0-or-later license.  ([`47c1a84`](https://github.com/adfinis/document-merge-service/commit/47c1a843a9cda105d1640651a8231fbc4c18039f))
+
+## 4.7.0 (26 July 2022)
 
 ### Feature
 * Isolate libreoffice instances ([`9e2db65`](https://github.com/adfinis/document-merge-service/commit/9e2db651a9804c787e7909baa415aa36e551007b))
