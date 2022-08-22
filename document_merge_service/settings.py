@@ -29,12 +29,11 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=default(["*"]))
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+DATABASE_DIR = env.str("DATABASE_DIR", default="/var/lib/document-merge-service/data")
 DATABASES = {
     "default": {
         "ENGINE": env.str("DATABASE_ENGINE", default="django.db.backends.sqlite3"),
-        "NAME": env.str(
-            "DATABASE_NAME", default="/var/lib/document-merge-service/data/sqlite3.db"
-        ),
+        "NAME": env.str("DATABASE_NAME", default=f"{DATABASE_DIR}/sqlite3.db"),
         "USER": env.str("DATABASE_USER", default=""),
         "PASSWORD": env.str("DATABASE_PASSWORD", default=""),
         "HOST": env.str("DATABASE_HOST", default=""),

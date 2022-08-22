@@ -6,7 +6,7 @@ ARG UID=901
 
 RUN wget -q https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -P /usr/local/bin \
   && chmod +x /usr/local/bin/wait-for-it.sh \
-  && mkdir -p /app /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static \
+  && mkdir -p /app /var/lib/document-merge-service/data/tmp /var/lib/document-merge-service/media /var/www/static \
   && useradd -u $UID -r document-merge-service --create-home \
   && mkdir /home/document-merge-service/.config \
   && chmod -R 770 /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service \

@@ -67,7 +67,7 @@ class TemplateView(viewsets.ModelViewSet):
         convert = serializer.data.get("convert")
 
         if convert:
-            dir = Path(settings.MEDIA_ROOT, "__convert__")
+            dir = Path(settings.DATABASE_DIR, "tmp")
             dir.mkdir(parents=True, exist_ok=True)
             with NamedTemporaryFile("wb", dir=dir) as tmp:
                 tmp.write(response.content)
