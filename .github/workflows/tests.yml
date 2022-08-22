@@ -89,6 +89,7 @@ jobs:
         run: |
           echo "ENV=dev" >> .env
           echo "UID=$(id --user)" >> .env
+          echo "DATABASE_DIR=${{ runner.temp }}/document-merge-service/data" >> .env
           echo "MEDIA_ROOT=${{ runner.temp }}/document-merge-service/media" >> .env
       - name: Run tests
         run: poetry run pytest --no-cov-on-fail --cov --create-db -vv
