@@ -8,8 +8,7 @@ start: ## Start the development server
 	@docker-compose up -d --build
 
 test: ## Test the project
-	#docker-compose exec document-merge-service poetry run sh -c "black --check . && flake8 && mypy document_merge_service && pytest --no-cov-on-fail --cov --create-db"
-	docker-compose exec document-merge-service poetry run sh -c "pytest --no-cov-on-fail --cov --create-db --pdb"
+	docker-compose exec document-merge-service poetry run sh -c "black --check . && flake8 && mypy document_merge_service && pytest --no-cov-on-fail --cov --create-db"
 
 shell: ## Shell into document merge service
 	@docker-compose exec document-merge-service poetry shell

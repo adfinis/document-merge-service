@@ -2,8 +2,8 @@ version: "3.4"
 services:
   document-merge-service:
     privileged: true
-    # CAP_SYS_ADMIN wound be enabled for the container to unshare,
-    # but not on github CI
+    # CAP_SYS_ADMIN should be enabled for the container to unshare,
+    # but github CI needs more for some raason.
     # cap_add:
     #   - CAP_SYS_ADMIN
     image: ghcr.io/adfinis/document-merge-service:latest

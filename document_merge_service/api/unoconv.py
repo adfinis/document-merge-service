@@ -1,12 +1,23 @@
+import logging
 import os
 import re
 import signal
 from collections import namedtuple
 from mimetypes import guess_type
-from subprocess import PIPE, CalledProcessError, CompletedProcess, Popen, TimeoutExpired
+from subprocess import (
+    PIPE,
+    CalledProcessError,
+    CompletedProcess,
+    Popen,
+    TimeoutExpired,
+    run as srun,
+)
 from uuid import uuid4
 
 from django.core.exceptions import ImproperlyConfigured
+
+logger = logging.getLogger(__name__)
+_unshare = "unshare"
 
 UnoconvResult = namedtuple(
     "UnoconvResult", ["stdout", "stderr", "returncode", "content_type"]
@@ -202,5 +213,13 @@ class Unoconv:
             returncode=p.returncode,
             content_type=content_type,
         )
+        try:
+            srun([_unshare, "true"], check=True)
+        except CalledProcessError:
+            logger.error(
+                "Could not unshare, this process needs CAP_SYS_ADMIN to unshare."
+            )
+        else:
+            logger.error(f"unoconv failed with returncode: {p.returncode}")
 
         return result

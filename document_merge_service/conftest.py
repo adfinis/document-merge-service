@@ -89,3 +89,9 @@ def dms_test_bin():
     test_path.chmod(0o755)
     yield test_path
     test_path.unlink()
+
+
+@pytest.fixture
+def loadtest_data():
+    base = Path(__file__).parent.absolute()
+    return Path(base, "api", "data", "loadtest")
