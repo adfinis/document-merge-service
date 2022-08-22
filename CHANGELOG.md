@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.0.2 (22 August 2022)
+
+### Fix
+* Move temporary path to data directory
+([`afce2ca`](https://github.com/adfinis-sygroup/document-merge-service/commit/afce2ca3429bf20d6c282fe5f8a1f1201fc278ee))
+
 ## 5.0.1 (9 August 2022)
 
 ### Fix
