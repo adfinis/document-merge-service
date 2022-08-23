@@ -18,6 +18,8 @@ After installing and configuring those, download [docker-compose.yml](https://ra
 docker-compose up -d
 ```
 
+The container needs CAP_SYS_ADMIN.
+
 You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/) which includes a browsable api.
 
 

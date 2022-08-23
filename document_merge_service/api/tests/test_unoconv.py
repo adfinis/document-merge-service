@@ -10,6 +10,7 @@ from time import sleep
 import pytest
 from psutil import process_iter
 
+from .. import unoconv
 from ..unoconv import Unoconv, run_fork_safe
 
 
@@ -51,8 +52,27 @@ def test_fork(dms_test_bin):  # pragma: no cover
 
 
 def run_fork_load(test_file):
-    unoconv = Unoconv("/usr/bin/python3", shutil.which("unoconv"))
-    return unoconv.process(test_file, "pdf")
+    conv = Unoconv("/usr/bin/python3", shutil.which("unoconv"))
+    return conv.process(test_file, "pdf")
+
+
+def test_unoconv_unshare_error(loadtest_data, caplog):
+    test_file = Path(loadtest_data, "1.docx")
+    conv = Unoconv("/usr/bin/python3", shutil.which("unoconv"))
+    try:
+        save = unoconv._unshare
+        unoconv._unshare = "false"
+        conv.process(test_file, "pdf")
+        assert "CAP_SYS_ADMIN" in caplog.text
+    finally:
+        unoconv._unshare = save
+
+
+def test_unoconv_error(caplog):
+    test_file = "/asdfasdfa"
+    conv = Unoconv("/usr/bin/python3", shutil.which("unoconv"))
+    conv.process(test_file, "pdf")
+    assert "unoconv failed with returncode" in caplog.text
 
 
 def try_fork_load(arg):
@@ -67,17 +87,14 @@ def try_fork_load(arg):
         return e
 
 
-def test_fork_load(capsys):
+def test_fork_load(capsys, loadtest_data):
     count = 8
-    base = Path(__file__).parent.parent.absolute()
-    data = Path(base, "data")
-    load = Path(data, "loadtest")
     test_files = []
-    test_files += [Path(data, "docx-mailmerge.docx")] * count
-    test_files += [Path(load, "1.doc")] * count
-    test_files += [Path(load, "2.docx")] * count
-    test_files += [Path(load, "3.docx")] * count
-    test_files += [Path(load, "4.docx")] * count
+    test_files += [Path(loadtest_data.parent, "docx-mailmerge.docx")] * count
+    test_files += [Path(loadtest_data, "1.doc")] * count
+    test_files += [Path(loadtest_data, "2.docx")] * count
+    test_files += [Path(loadtest_data, "3.docx")] * count
+    test_files += [Path(loadtest_data, "4.docx")] * count
     random.shuffle(test_files)
     try:
         pool = ThreadPool(8)
