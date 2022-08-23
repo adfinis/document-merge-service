@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "document-merge-service"
-version = "5.0.2"
+version = "5.0.3"
 description = "Merge Document Template Service"
 authors = ["Adfinis AG"]
 license = "GPL-3.0-or-later"

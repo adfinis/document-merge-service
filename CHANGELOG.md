@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.0.3 (23 August 2022)
+
+Important: Be aware that the docker-container needs CAP_SYS_ADMIN since version 4.7.0
+
+### Fix
+* Log an error if unoconv or unshare fails ([`6e2f54a`](https://github.com/adfinis-sygroup/document-merge-service/commit/6e2f54ad961cdfb0052c0a03823121ccf53b68ae))
+
 ## 5.0.2 (22 August 2022)
 
 ### Fix
