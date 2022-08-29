@@ -30,7 +30,6 @@ CAP_SYS_ADMIN. See docker-compose.override.yml.
     cap_add:
       - CAP_SYS_ADMIN
     security_opt:
-      - seccomp:unconfined
       - apparmor:unconfined
 ```
 
