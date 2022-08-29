@@ -7,6 +7,10 @@ services:
       args:
         - ENV=dev
         - UID=$UID
+    cap_add:
+      - CAP_SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
     user: "${UID:?Set UID env variable to your user id}"
     volumes:
       - ./:/app
@@ -18,3 +22,4 @@ services:
       ]
     environment:
       - ENV=dev
+      - ISOLATE_UNOCONV=true
