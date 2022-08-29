@@ -31,6 +31,8 @@ CAP_SYS_ADMIN. See docker-compose.override.yml.
       - CAP_SYS_ADMIN
     security_opt:
       - apparmor:unconfined
+    environment:
+      - ISOLATE_UNOCONV=true
 ```
 
 ## Getting started
