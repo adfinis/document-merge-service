@@ -5,7 +5,7 @@
 ### Fix
 * Allow isolation of unoconv calls to be disabled (default) ([`74834f1`](https://github.com/adfinis-sygroup/document-merge-service/commit/74834f1c820eb258e53697ecd563f1ee353a5e66))
 * Remove security restrictions to make unshare possible ([`5b10cff`](https://github.com/adfinis-sygroup/document-merge-service/commit/5b10cffac5bd365d02c16999748113747d6d36e9))
-* 
+
 ## 5.0.3 (23 August 2022)
 
 Important: Be aware that the docker-container needs CAP_SYS_ADMIN since version 4.7.0
