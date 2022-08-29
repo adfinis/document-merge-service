@@ -18,9 +18,13 @@ After installing and configuring those, download [docker-compose.yml](https://ra
 docker-compose up -d
 ```
 
-The container needs CAP_SYS_ADMIN.
-
 You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/) which includes a browsable api.
+
+### Workaround LibreOffice lockup
+
+The workaround has a setting called ISOLATE_UNOCONV, it is only enabled in the
+development environment. If ISOLATE_UNOCONV is enabled the container needs
+CAP_SYS_ADMIN. See docker-compose.override.yml.
 
 ```yaml
     cap_add:

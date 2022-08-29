@@ -21,6 +21,8 @@ def default(default_dev=env.NOTSET, default_prod=env.NOTSET):
     return default_prod if ENV == "production" else default_dev
 
 
+# Unoconv
+ISOLATE_UNOCONV = env.bool("ISOLATE_UNOCONV", default=False)
 SECRET_KEY = env.str("SECRET_KEY", default=default("uuuuuuuuuu"))
 DEBUG = env.bool("DEBUG", default=default(True, False))
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=default(["*"]))

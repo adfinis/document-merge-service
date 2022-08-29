@@ -53,7 +53,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set UID
-        run: echo "UID=$(id --user)" > .env
+        run: |
+          echo "UID=$(id --user)" > .env
+          echo "ISOLATE_UNOCONV=true" >> .env
       - name: Build docker containers
         run: docker-compose up -d --build
       - name: Run pytest
@@ -89,6 +91,7 @@ jobs:
         run: |
           echo "ENV=dev" >> .env
           echo "UID=$(id --user)" >> .env
+          echo "ISOLATE_UNOCONV=true" >> .env
           echo "DATABASE_DIR=${{ runner.temp }}/document-merge-service/data" >> .env
           echo "MEDIA_ROOT=${{ runner.temp }}/document-merge-service/media" >> .env
       - name: Run tests

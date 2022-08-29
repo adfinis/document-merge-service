@@ -14,6 +14,7 @@ from subprocess import (
 )
 from uuid import uuid4
 
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 logger = logging.getLogger(__name__)
@@ -121,7 +122,7 @@ def run_fork_safe(
     return CompletedProcess(process.args, retcode, stdout, stderr)
 
 
-def run(cmd, unshare=True):
+def run(cmd, unshare=False):
     # Run libreoffice in isolation. If the main broker of libreoffice locks up,
     # all following calls to unoconv will hang as well. By unsharing the mount namespace,
     # we get a copy of all the mounts, but we can change them without affecting the
@@ -164,6 +165,7 @@ class Unoconv:
         :param unoconvpath: str() - path to the unoconv binary
         """
         self.cmd = f"{pythonpath} {unoconvpath}"
+        self.unshare = settings.ISOLATE_UNOCONV
 
     def get_formats(self):
         from django.conf import settings
@@ -200,7 +202,7 @@ class Unoconv:
         # unoconv MUST be running with the same python version as libreoffice
         pipe = str(uuid4())
         cmd = f"{self.cmd} --timeout 10 --pipe {pipe} --format {convert} --stdout '{filename}'"
-        p = run(cmd)
+        p = run(cmd, unshare=self.unshare)
         stdout = p.stdout
         if not p.returncode == 0:  # pragma: no cover
             stdout = f"unoconv returncode: {p.returncode}"
