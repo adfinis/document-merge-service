@@ -22,6 +22,12 @@ The container needs CAP_SYS_ADMIN.
 
 You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/) which includes a browsable api.
 
+```yaml
+    cap_add:
+      - CAP_SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+```
 
 ## Getting started
 
