@@ -19,10 +19,8 @@ _structure = {
     ],
 }
 
-_available = ["key0", "key1.subkey1"]
 
-
-def test_structure():
+def test_render():
     tmpl = django_file("xlsx-structure.xlsx")
     engine = XlsxTemplateEngine(tmpl)
     buf = io.BytesIO()
@@ -35,21 +33,37 @@ def test_structure():
         assert ws["A5"].value == "Item: mixed"
         assert ws["A6"].value == "Item: list"
         assert ws["A7"].value == "Subitem: xdata2"
-    engine.validate(_available, _structure)
-    _available.append("huhu")
-    with pytest.raises(exceptions.ValidationError):
-        engine.validate(_available, _structure)
+
+
+@pytest.mark.parametrize(
+    "available, expect_success",
+    [
+        ([], True),  # disabled check by empty list
+        (["key0"], False),
+        (["key1.subkey1"], False),
+        (["key0", "key1"], False),
+        (["key0", "key1.subkey1", "key2[].subkey2"], True),  # full set of vars
+    ],
+)
+def test_validate_template(available, expect_success):
+    tmpl = django_file("xlsx-structure.xlsx")
+    engine = XlsxTemplateEngine(tmpl)
+    if expect_success:
+        engine.validate(available)
+    else:
+        with pytest.raises(exceptions.ValidationError):
+            engine.validate(available)
 
 
 def test_syntax_error():
     tmpl = django_file("xlsx-syntax.xlsx")
     engine = XlsxTemplateEngine(tmpl)
     with pytest.raises(exceptions.ValidationError):
-        engine.validate(_available, _structure)
+        engine.validate(sample_data=_structure)
 
 
 def test_valid_error():
     tmpl = django_file("xlsx-not-valid.xlsx")
     engine = XlsxTemplateEngine(tmpl)
     with pytest.raises(exceptions.ParseError):
-        engine.validate(_available, _structure)
+        engine.validate(sample_data=_structure)
