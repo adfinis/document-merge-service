@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.5 (01 September 2022)
+
+### Fix
+* **validation:** Fix excel template validation ([`3c6149e`](https://github.com/adfinis-sygroup/document-merge-service/commit/3c6149e15a455539f544c61084a0e372cc74fa7b))
+
 ## 5.0.4 (29 August 2022)
 
 ### Fix
