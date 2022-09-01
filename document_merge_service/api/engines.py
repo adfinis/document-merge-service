@@ -1,14 +1,15 @@
 import io
 import re
 import zipfile
+from collections.abc import Mapping
 
 import openpyxl
+import xltpl.writerx as writerx
 from docx import Document
 from docxtpl import DocxTemplate
 from jinja2.exceptions import TemplateSyntaxError
 from mailmerge import MailMerge
 from rest_framework import exceptions
-from xltpl.writerx import BookWriter
 
 from document_merge_service.api.data import django_file
 
@@ -16,7 +17,7 @@ from . import models
 from .jinja import get_jinja_env, get_jinja_filters
 
 
-class _MagicPlaceholder(str):
+class _MagicPlaceholder(str, Mapping):  # type: ignore
     def __new__(cls, parent=None, name=None):
         self = str.__new__(cls, name if name else "")
         self._parent = parent
@@ -190,6 +191,13 @@ _placeholder_match = re.compile(r"^\s*{{\s*([^{}]+)\s*}}\s*$")
 
 
 class XlsxTemplateEngine:
+    BUILTIN_VARS = [
+        "tpl_name",
+        "sheet_name",
+        "[]",
+        "sheet_name.decode",
+    ]
+
     def __init__(self, template):
         self.template = template
         self.writer = None
@@ -204,48 +212,72 @@ class XlsxTemplateEngine:
         self.validate_is_xlsx()
         self.validate_template_syntax(available_placeholders, sample_data)
 
+    def _expand_available_placeholders(self, ph_list):
+        """Expand available placeholder list for (internal) correctness.
+
+        If client gives "foo[].bar", we implicitly also allow "foo[]" and "foo":
+
+        >>> self._expand_available_placeholders(["foo[].bar", "baz.boo"])
+        ["foo[]", "foo[].bar", "baz.boo"]
+        """
+        out_list = []
+        for ph in ph_list:
+            pieces = ph.split(".")
+            for offset in range(len(pieces)):
+                prefixed = ".".join(pieces[:offset])
+                out_list.append(prefixed)
+                if prefixed.endswith("[]"):
+                    out_list.append(prefixed[:-2])
+            out_list.append(ph)
+        return out_list
+
     def validate_template_syntax(self, available_placeholders=None, sample_data=None):
         # We cannot use jinja to validate because xltpl uses jinja's lexer directly
+        magic = None
         if not sample_data:
-            sample_data = {}
+            sample_data = magic = _MagicPlaceholder()
         buf = io.BytesIO()
+
         try:
-            self.merge(sample_data, buf)
+            self.merge(sample_data, buf, is_test_merge=True)
         except TemplateSyntaxError as exc:
             arg_str = ";".join(exc.args)
             raise exceptions.ValidationError(f"Syntax error in template: {arg_str}")
-        if available_placeholders:
-            placeholders = []
-            for sheet in self.writer.sheet_resource_map.sheet_state_list:
-                if not sheet.sheet_resource:
-                    continue
-                tree = sheet.sheet_resource.sheet_tree
-                self.collect_placeholders(tree._children, placeholders)
-            missing = set(available_placeholders) - set(placeholders)
-            if missing:
-                raise exceptions.ValidationError(
-                    f"Template uses unavailable placeholders: {str(missing)}"
-                )
 
-    def collect_placeholders(self, children, placeholders):
-        for child in children:
-            if hasattr(child, "value"):
-                value = str(child.value)
-                re_match = _placeholder_match.match(value)
-                if re_match:
-                    placeholders.append(re_match.group(1))
-            self.collect_placeholders(child._children, placeholders)
+        if available_placeholders and magic is not None:
 
-    def merge(self, data, buf):
-        self.writer = writer = BookWriter(self.template)
+            missing_set = (
+                set(magic.reports)
+                - set(self._expand_available_placeholders(available_placeholders))
+                - set(self.BUILTIN_VARS)
+            )
+            if not missing_set:
+                return
+
+            missing = "; ".join(missing_set)
+            raise exceptions.ValidationError(
+                f"Placeholders used in template, but not available: {missing}"
+            )
+
+    def merge(self, data, buf, is_test_merge=False):
+        self.writer = writer = writerx.BookWriter(self.template)
+        self._current_data = data
 
         writer.jinja_env.filters.update(get_jinja_filters())
+        if is_test_merge:
+            writer.jinja_env.undefined = self._undefined_factory
         writer.jinja_env.globals.update(dir=dir, getattr=getattr)
 
         data = [data] * len(writer.sheet_resource_map.sheet_state_list)
         writer.render_book(payloads=data)
         writer.save(buf)
         return buf
+
+    def _undefined_factory(self, name):
+        # For test merges, we set a custom "undefined" factory that
+        # doesn't really do undefined, but just fetches the right value
+        # from our magic placeholder structure
+        return self._current_data[name]
 
 
 ENGINES = {
