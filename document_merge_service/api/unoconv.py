@@ -171,7 +171,7 @@ class Unoconv:
         from django.conf import settings
 
         cmd = f"{self.cmd} --show"
-        p = run(cmd)
+        p = run(cmd, unshare=self.unshare)
         if not p.returncode == 0:  # pragma: no cover
             raise Exception("Failed to fetch the formats from unoconv!")
 
@@ -206,6 +206,14 @@ class Unoconv:
         stdout = p.stdout
         if not p.returncode == 0:  # pragma: no cover
             stdout = f"unoconv returncode: {p.returncode}"
+            try:
+                srun([_unshare, "true"], check=True)
+            except CalledProcessError:
+                logger.error(
+                    "Could not unshare, this process needs CAP_SYS_ADMIN to unshare."
+                )
+            else:
+                logger.error(f"unoconv failed with returncode: {p.returncode}")
 
         content_type, _ = guess_type(f"something.{convert}")
 
@@ -215,13 +223,5 @@ class Unoconv:
             returncode=p.returncode,
             content_type=content_type,
         )
-        try:
-            srun([_unshare, "true"], check=True)
-        except CalledProcessError:
-            logger.error(
-                "Could not unshare, this process needs CAP_SYS_ADMIN to unshare."
-            )
-        else:
-            logger.error(f"unoconv failed with returncode: {p.returncode}")
 
         return result
