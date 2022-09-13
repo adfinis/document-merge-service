@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.6 (13 September 2022)
+
+### Fix
+* Also log unshare in formats-call / only test unshare in error-path ([`dd0f22c`](https://github.com/adfinis-sygroup/document-merge-service/commit/dd0f22c0e97139e9f5559da70683d20a6927fb5d))
+
 ## 5.0.5 (01 September 2022)
 
 ### Fix
