@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "document-merge-service"
-version = "5.0.6"
+version = "5.1.0"
 description = "Merge Document Template Service"
 authors = ["Adfinis AG"]
 license = "GPL-3.0-or-later"
@@ -38,7 +38,7 @@ flake8-string-format = "0.3.0"
 flake8-tuple = "0.4.1"
 gitlint = "0.17.0"
 isort = "5.10.1"
-mypy = "0.971"
+mypy = "0.982"
 pdbpp = "0.10.3"
 psutil = "5.9.1"
 pydocstyle = "6.1.1"
