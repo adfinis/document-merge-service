@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.1.0 (4 October 2022)
+
+### Feature
+* **api:** Make pagination configurable ([`dd6615f`](https://github.com/adfinis/document-merge-service/commit/dd6615f14b81ec005b697bf43c58d3c74e8d3fe3))
+
 ## 5.0.6 (13 September 2022)
 
 ### Fix
