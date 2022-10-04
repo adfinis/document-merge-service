@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "document-merge-service"
-version = "5.0.6"
+version = "5.1.0"
 description = "Merge Document Template Service"
 authors = ["Adfinis AG"]
 license = "GPL-3.0-or-later"
@@ -8,7 +8,7 @@ license = "GPL-3.0-or-later"
 [tool.poetry.dependencies]
 python = "^3.8"
 Babel = "^2.10.3"
-Django = "^3.2.15"
+Django = "^3.2.16"
 django-cors-headers = "^3.13.0"
 django-environ = "^0.9.0"
 django-filter = "^22.1"
