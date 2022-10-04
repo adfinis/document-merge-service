@@ -71,3 +71,8 @@ supporting Open ID Connect. If not available, you might consider using
 * `CORS_ORIGIN_REGEX_WHITELIST`: List of [whitelist regexes](https://github.com/ottoyiu/django-cors-headers#cors_origin_regex_whitelist) defaults to "^(https?://)?127\.0\.0\.1:\d{4}$"
 
 Users of nginx/apache must ensure to have matching CORS configurations.
+
+## Pagination
+* `PAGINATION_ENABLED`: whether the pagination is enabled (default: `True`)
+* `PAGINATION_DEFAULT_PAGE_SIZE`: the default page size if no query param (`page_size`) is given (default: `100`)
+* `PAGINATION_MAX_PAGE_SIZE`: the max value of the page size query param (`page_size`) (default: `1000`)

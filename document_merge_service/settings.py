@@ -199,8 +199,6 @@ if OIDC_GROUPS_API and not OIDC_GROUPS_API_JSONPATH:  # pragma: no cover
 # https://www.django-rest-framework.org/api-guide/settings/
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 100,
     "DEFAULT_PERMISSION_CLASSES": [
         "document_merge_service.api.permissions.AsConfigured"
     ],
@@ -215,6 +213,18 @@ REST_FRAMEWORK = {
     ),
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
+
+PAGINATION_ENABLED = env.bool("PAGINATION_ENABLED", True)
+PAGINATION_DEFAULT_PAGE_SIZE = env.int("PAGINATION_DEFAULT_PAGE_SIZE", 100)
+PAGINATION_MAX_PAGE_SIZE = env.int("PAGINATION_MAX_PAGE_SIZE", 1000)
+
+if PAGINATION_ENABLED:
+    REST_FRAMEWORK.update(
+        {
+            "DEFAULT_PAGINATION_CLASS": "document_merge_service.api.pagination.APIPagination",
+            "PAGE_SIZE": PAGINATION_DEFAULT_PAGE_SIZE,
+        }
+    )
 
 # Logging
 LOGGING = {
