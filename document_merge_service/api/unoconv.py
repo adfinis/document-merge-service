@@ -213,7 +213,11 @@ class Unoconv:
                     "Could not unshare, this process needs CAP_SYS_ADMIN to unshare."
                 )
             else:
-                logger.error(f"unoconv failed with returncode: {p.returncode}")
+                logger.error(
+                    f"unoconv failed with returncode: {p.returncode} stderr: {p.stderr}"
+                )
+                if p.stdout:
+                    logger.error(f"unoconv failed with stdout: {p.stdout}")
 
         content_type, _ = guess_type(f"something.{convert}")
 
