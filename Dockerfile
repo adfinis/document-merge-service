@@ -27,7 +27,7 @@ ENV MEDIA_ROOT /var/lib/document-merge-service/media
 
 ARG ENV=docker
 COPY pyproject.toml poetry.lock $APP_HOME/
-RUN poetry install $([ "$ENV" = "dev" ] || echo "--no-dev") --no-interaction --no-ansi
+RUN poetry install $([ "$ENV" = "dev" ] || echo "--without dev") --no-interaction --no-ansi
 COPY . $APP_HOME
 
 EXPOSE 8000
