@@ -66,11 +66,43 @@ jobs:
     needs: [lint]
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         version:
           - "3.8"
           - "3.9"
           - "3.10"
+        database:
+          - "sqlite"
+          - "postgres"
+          - "mysql"
+    services:
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_USER: document-merge-service
+          POSTGRES_PASSWORD: document-merge-service
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_DATABASE: document-merge-service
+          MYSQL_USER: document-merge-service
+          MYSQL_PASSWORD: document-merge-service
+          MYSQL_RANDOM_ROOT_PASSWORD: yes
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 3306:3306
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
@@ -94,5 +126,23 @@ jobs:
           echo "ISOLATE_UNOCONV=true" >> .env
           echo "DATABASE_DIR=${{ runner.temp }}/document-merge-service/data" >> .env
           echo "MEDIA_ROOT=${{ runner.temp }}/document-merge-service/media" >> .env
+      - name: Configure postgres
+        if: ${{ matrix.database == 'postgres' }}
+        run: |
+          echo "DATABASE_ENGINE=django.db.backends.postgresql"
+          echo "DATABASE_HOST=localhost"
+          echo "DATABASE_PORT=5432"
+          echo "DATABASE_NAME=document-merge-service"
+          echo "DATABASE_USER=document-merge-service"
+          echo "DATABASE_PASSWORD=document-merge-service"
+      - name: Configure mysql
+        if: ${{ matrix.database == 'mysql' }}
+        run: |
+          echo "DATABASE_ENGINE=django.db.backends.mysql"
+          echo "DATABASE_HOST=localhost"
+          echo "DATABASE_PORT=3306"
+          echo "DATABASE_NAME=document-merge-service"
+          echo "DATABASE_USER=document-merge-service"
+          echo "DATABASE_PASSWORD=document-merge-service"
       - name: Run tests
         run: poetry run pytest --no-cov-on-fail --cov --create-db -vv
