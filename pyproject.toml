@@ -34,6 +34,7 @@ django-generic-api-permissions = "^0.4.6"
 django-storages = {git = "https://github.com/adfinis-forks/django-storages", rev = "s3-head-object-sse-c"}
 djangorestframework = "^3.15.2"
 docxtpl = ">=0.17,<0.21"
+gunicorn = "^23.0.0"
 Jinja2 = "^3.1.4"
 mysqlclient = { version = "^2.2.4", optional = true }
 pillow = ">=10.3,<12"
@@ -46,7 +47,7 @@ requests = "^2.32.3"
 sentry-sdk = ">=2.7,<2.11"
 tqdm = "^4.66.4"
 urllib3 = "^2.2.1"
-uWSGI = "^2.0.21"
+whitenoise = "^6.9.0"
 xltpl = "~0.21"
 poetry = "^2.0.0"
 

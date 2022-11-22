@@ -31,7 +31,6 @@ ARG APP_HOME=/app
 # Needs to be set for users with manually set UID
 ENV HOME=/home/document-merge-service
 ENV DJANGO_SETTINGS_MODULE=document_merge_service.settings
-ENV UWSGI_INI=/app/uwsgi.ini
 ENV MEDIA_ROOT=/var/lib/document-merge-service/media
 ENV DATABASE_DIR=/var/lib/document-merge-service/data
 
@@ -67,4 +66,4 @@ EXPOSE 8000
 
 COPY . $APP_HOME
 
-CMD ["/bin/sh", "-c", "./manage.py migrate && uwsgi"]
+CMD ["/bin/sh", "-c", "./manage.py migrate && gunicorn -c ./document_merge_service/gunicorn.py"]
