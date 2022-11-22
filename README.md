@@ -36,6 +36,29 @@ environment:
   - ISOLATE_UNOCONV=true
 ```
 
+### Custom Gunicorn configuration
+
+Document Merge Service uses [Gunicorn](https://gunicorn.org/) as its app server. A reasonable configuration is included in the docker image. However, if you want to customize your configuration, you may do that by overwriting the file [`document_merge_service/gunicorn.py`](document_merge_service/gunicorn.py) and add your own custom settings:
+
+```dockerfile
+FROM ghcr.io/adfinis/document-merge-service:latest
+
+COPY my_gunicorn_config.py /app/document_merge_service/gunicorn.py
+```
+
+Such a configuration file might look like this:
+
+```python
+# my_gunicorn_config.py
+
+wsgi_app = "document_merge_service.wsgi:application" # must not be changed
+bind = "0.0.0.0:80"
+workers = 16
+timeout = 120
+```
+
+For more information on how to customize Gunicorn, please refer to [the official documentation](https://docs.gunicorn.org/en/latest/settings.html).
+
 ## Getting started
 
 ### Uploading templates
@@ -55,12 +78,12 @@ curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}
 ```
 
 ### Converting a template
+
 To convert a standalone Docx file the following call can be used:
 
 ```bash
 curl -X POST --form file=@my-test-file.docx --form target_format="pdf" http://localhost:8000/api/v1/convert > example.pdf
 ```
-
 
 ## Further reading
 
