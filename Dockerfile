@@ -22,7 +22,6 @@ USER document-merge-service
 ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE document_merge_service.settings
 ENV APP_HOME=/app
-ENV UWSGI_INI /app/uwsgi.ini
 ENV MEDIA_ROOT /var/lib/document-merge-service/media
 
 ARG ENV=docker
@@ -32,4 +31,4 @@ COPY . $APP_HOME
 
 EXPOSE 8000
 
-CMD /bin/sh -c "poetry run python ./manage.py migrate && poetry run uwsgi"
+CMD ./cmd.sh
