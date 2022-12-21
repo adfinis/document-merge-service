@@ -4,6 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from rest_framework import exceptions, serializers
+from generic_permissions.validation import ValidatorMixin
 
 from . import engines, models
 
@@ -40,7 +41,7 @@ class CurrentGroupDefault:
         return serializer_field.context["request"].user.group
 
 
-class TemplateSerializer(serializers.ModelSerializer):
+class TemplateSerializer(ValidatorMixin ,serializers.ModelSerializer):
     disable_template_validation = serializers.BooleanField(
         allow_null=True, default=False
     )

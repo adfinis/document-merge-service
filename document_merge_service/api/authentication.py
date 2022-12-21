@@ -40,6 +40,7 @@ class AuthenticatedUser(AnonymousUser):
         return self.username
 
 
+# rewrite as permission 
 class BearerTokenAuthentication(authentication.BaseAuthentication):
     header_prefix = "Bearer"
 

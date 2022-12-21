@@ -52,8 +52,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_filters",
-    "document_merge_service.api.apps.DefaultConfig",
     "corsheaders",
+    "generic_permissions.apps.GenericPermissionsConfig",
 ]
 
 if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
@@ -200,7 +200,7 @@ if OIDC_GROUPS_API and not OIDC_GROUPS_API_JSONPATH:  # pragma: no cover
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "document_merge_service.api.permissions.AsConfigured"
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "document_merge_service.api.authentication.BearerTokenAuthentication"

@@ -10,18 +10,24 @@ from django.utils.encoding import smart_str
 from rest_framework import exceptions, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
-
+from rest_framework.response import Response
+from rest_framework.status import (
+    HTTP_204_NO_CONTENT,
+)
+from generic_permissions.permissions import PermissionViewMixin
+from generic_permissions.visibilities import VisibilityViewMixin
 from . import engines, models, serializers
 from .unoconv import Unoconv
 
 
-class TemplateView(viewsets.ModelViewSet):
+class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewSet):
     queryset = models.Template.objects
     serializer_class = serializers.TemplateSerializer
     filterset_fields = {"slug": ["exact"], "description": ["icontains", "search"]}
     ordering_fields = ("slug", "description")
     ordering = ("slug",)
 
+    """
     def get_queryset(self):
         queryset = super().get_queryset()
 
@@ -31,6 +37,7 @@ class TemplateView(viewsets.ModelViewSet):
             )
 
         return queryset
+    """
 
     @action(
         methods=["post"],

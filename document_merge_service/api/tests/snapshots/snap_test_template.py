@@ -7,9 +7,7 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots[
-    'test_merge_expression[{{NAME and ", represents " + NAME}}-template_content1] 1'
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
+snapshots['test_merge_expression[{{NAME and ", represents " + NAME}}-template_content1] 1'] = '''<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
   <w:p>
     <w:pPr>
       <w:pStyle w:val="Normal"/>
@@ -38,11 +36,9 @@ snapshots[
     <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
   </w:sectPr>
 </w:body>
-"""
+'''
 
-snapshots[
-    'test_merge_expression[{{NAME and ", represents " + NAME}}-template_content2] 1'
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
+snapshots['test_merge_expression[{{NAME and ", represents " + NAME}}-template_content2] 1'] = '''<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
   <w:p>
     <w:pPr>
       <w:pStyle w:val="Normal"/>
@@ -71,11 +67,9 @@ snapshots[
     <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
   </w:sectPr>
 </w:body>
-"""
+'''
 
-snapshots[
-    "test_merge_expression[{{blah}}-template_content0] 1"
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
+snapshots['test_merge_expression[{{blah}}-template_content0] 1'] = '''<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
   <w:p>
     <w:pPr>
       <w:pStyle w:val="Normal"/>
@@ -104,11 +98,9 @@ snapshots[
     <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
   </w:sectPr>
 </w:body>
-"""
+'''
 
-snapshots[
-    "test_merge_expression[{{escapeme}}-template_content3] 1"
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
+snapshots['test_merge_expression[{{escapeme}}-template_content3] 1'] = '''<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
   <w:p>
     <w:pPr>
       <w:pStyle w:val="Normal"/>
@@ -137,140 +129,23 @@ snapshots[
     <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
   </w:sectPr>
 </w:body>
-"""
+'''
 
-snapshots["test_template_detail 1"] = {
-    "available_placeholders": None,
-    "description": """Article star very capital morning option. Interesting station story.
-Where during teach country talk across drop. Central meeting anyone remember. There today material minute ago get.""",
-    "disable_template_validation": False,
-    "engine": "docx-mailmerge",
-    "group": None,
-    "meta": {},
-    "sample_data": None,
-    "slug": "note-act-source",
-    "template": None,
+snapshots['test_template_detail 1'] = {
+    'available_placeholders': None,
+    'description': '''Article star very capital morning option. Interesting station story.
+Where during teach country talk across drop. Central meeting anyone remember. There today material minute ago get.''',
+    'disable_template_validation': False,
+    'engine': 'docx-mailmerge',
+    'group': None,
+    'meta': {
+    },
+    'sample_data': None,
+    'slug': 'note-act-source',
+    'template': None
 }
 
-snapshots["test_template_list_group_access[None-False-2] 1"] = {
-    "count": 2,
-    "next": None,
-    "previous": None,
-    "results": [
-        {
-            "available_placeholders": None,
-            "description": """Article star very capital morning option. Interesting station story.
-Where during teach country talk across drop. Central meeting anyone remember. There today material minute ago get.""",
-            "disable_template_validation": False,
-            "engine": "docx-mailmerge",
-            "group": None,
-            "meta": {},
-            "sample_data": None,
-            "slug": "note-act-source",
-            "template": None,
-        },
-        {
-            "available_placeholders": None,
-            "description": """Various service bank arm. Live by itself writer kitchen develop.
-Player foreign idea eye plan third program. Article including take idea.""",
-            "disable_template_validation": False,
-            "engine": "docx-mailmerge",
-            "group": None,
-            "meta": {},
-            "sample_data": None,
-            "slug": "run-too-successful",
-            "template": None,
-        },
-    ],
-}
-
-snapshots["test_template_list_group_access[admin-True-2] 1"] = {
-    "count": 2,
-    "next": None,
-    "previous": None,
-    "results": [
-        {
-            "available_placeholders": None,
-            "description": """Article star very capital morning option. Interesting station story.
-Where during teach country talk across drop. Central meeting anyone remember. There today material minute ago get.""",
-            "disable_template_validation": False,
-            "engine": "docx-mailmerge",
-            "group": "admin",
-            "meta": {},
-            "sample_data": None,
-            "slug": "note-act-source",
-            "template": None,
-        },
-        {
-            "available_placeholders": None,
-            "description": """Various service bank arm. Live by itself writer kitchen develop.
-Player foreign idea eye plan third program. Article including take idea.""",
-            "disable_template_validation": False,
-            "engine": "docx-mailmerge",
-            "group": None,
-            "meta": {},
-            "sample_data": None,
-            "slug": "run-too-successful",
-            "template": None,
-        },
-    ],
-}
-
-snapshots["test_template_list_group_access[unknown-False-2] 1"] = {
-    "count": 2,
-    "next": None,
-    "previous": None,
-    "results": [
-        {
-            "available_placeholders": None,
-            "description": """Article star very capital morning option. Interesting station story.
-Where during teach country talk across drop. Central meeting anyone remember. There today material minute ago get.""",
-            "disable_template_validation": False,
-            "engine": "docx-mailmerge",
-            "group": "unknown",
-            "meta": {},
-            "sample_data": None,
-            "slug": "note-act-source",
-            "template": None,
-        },
-        {
-            "available_placeholders": None,
-            "description": """Various service bank arm. Live by itself writer kitchen develop.
-Player foreign idea eye plan third program. Article including take idea.""",
-            "disable_template_validation": False,
-            "engine": "docx-mailmerge",
-            "group": None,
-            "meta": {},
-            "sample_data": None,
-            "slug": "run-too-successful",
-            "template": None,
-        },
-    ],
-}
-
-snapshots["test_template_list_group_access[unknown-True-1] 1"] = {
-    "count": 1,
-    "next": None,
-    "previous": None,
-    "results": [
-        {
-            "available_placeholders": None,
-            "description": """Various service bank arm. Live by itself writer kitchen develop.
-Player foreign idea eye plan third program. Article including take idea.""",
-            "disable_template_validation": False,
-            "engine": "docx-mailmerge",
-            "group": None,
-            "meta": {},
-            "sample_data": None,
-            "slug": "run-too-successful",
-            "template": None,
-        }
-    ],
-}
-
-snapshots[
-    "test_template_merge_docx[TestNameMailMerge-docx-mailmerge-template__template1] 1"
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape">
+snapshots['test_template_merge_docx[TestNameMailMerge-docx-mailmerge-template__template1] 1'] = '''<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape">
   <w:p w:rsidR="0083709B" w:rsidRPr="0083709B" w:rsidRDefault="0083709B">
     <w:pPr>
       <w:rPr>
@@ -299,11 +174,9 @@ snapshots[
     <w:docGrid w:linePitch="360"/>
   </w:sectPr>
 </w:body>
-"""
+'''
 
-snapshots[
-    "test_template_merge_docx[TestNameTemplate-docx-template-template__template0] 1"
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
+snapshots['test_template_merge_docx[TestNameTemplate-docx-template-template__template0] 1'] = '''<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
   <w:p>
     <w:pPr>
       <w:pStyle w:val="Normal"/>
@@ -332,11 +205,9 @@ snapshots[
     <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
   </w:sectPr>
 </w:body>
-"""
+'''
 
-snapshots[
-    "test_template_merge_jinja_extensions_docx[docx-template-template__template0] 1"
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
+snapshots['test_template_merge_jinja_extensions_docx[docx-template-template__template0] 1'] = '''<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
   <w:p>
     <w:pPr>
       <w:pStyle w:val="PreformattedText"/>
@@ -688,11 +559,9 @@ snapshots[
     <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
   </w:sectPr>
 </w:body>
-"""
+'''
 
-snapshots[
-    "test_template_merge_jinja_filters_docx[docx-template-template__template0-False-False-200] 1"
-] = """<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
+snapshots['test_template_merge_jinja_filters_docx[docx-template-template__template0-False-False-200] 1'] = '''<w:body xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml">
   <w:p>
     <w:pPr>
       <w:pStyle w:val="Normal"/>
@@ -873,4 +742,4 @@ snapshots[
     <w:docGrid w:type="default" w:linePitch="240" w:charSpace="0"/>
   </w:sectPr>
 </w:body>
-"""
+'''
