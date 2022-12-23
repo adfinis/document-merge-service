@@ -2,9 +2,8 @@ from functools import singledispatch
 
 from django.conf import settings
 from django.urls import reverse
-from django.utils.translation import gettext as _
-from rest_framework import exceptions, serializers
 from generic_permissions.validation import ValidatorMixin
+from rest_framework import exceptions, serializers
 
 from . import engines, models
 
@@ -34,31 +33,16 @@ class TemplateFileField(serializers.FileField):
             return reverse("template-download", args=[value.pk])
 
 
-class CurrentGroupDefault:
-    requires_context = True
-
-    def __call__(self, serializer_field):
-        return serializer_field.context["request"].user.group
-
-
-class TemplateSerializer(ValidatorMixin ,serializers.ModelSerializer):
+class TemplateSerializer(ValidatorMixin, serializers.ModelSerializer):
     disable_template_validation = serializers.BooleanField(
         allow_null=True, default=False
     )
-    group = serializers.CharField(allow_null=True, default=CurrentGroupDefault())
     available_placeholders = serializers.ListField(allow_null=True, required=False)
     sample_data = serializers.JSONField(allow_null=True, required=False)
     files = serializers.ListField(
         child=CustomFileField(write_only=True, allow_empty_file=False), required=False
     )
     template = TemplateFileField()
-
-    def validate_group(self, group):
-        request = self.context["request"]
-        if group and group not in request.user.groups:
-            raise exceptions.ValidationError(_(f"User is not member of group {group}"))
-
-        return group
 
     def _sample_to_placeholders(self, sample_doc):
         @singledispatch
@@ -129,7 +113,6 @@ class TemplateSerializer(ValidatorMixin ,serializers.ModelSerializer):
             "description",
             "template",
             "engine",
-            "group",
             "available_placeholders",
             "sample_data",
             "files",
@@ -151,3 +134,6 @@ class TemplateMergeSerializer(serializers.Serializer):
     files = serializers.ListField(
         child=CustomFileField(write_only=True, allow_empty_file=False), required=False
     )
+
+    class Meta:
+        model = models.Template

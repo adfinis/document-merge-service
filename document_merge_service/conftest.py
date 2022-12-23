@@ -7,11 +7,9 @@ from django.core.cache import cache
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
-from document_merge_service.api import models
+from document_merge_service.api import engines, factories, models
 from document_merge_service.api.data import django_file
-from document_merge_service.api.models import PermissionMixin, VisibilityMixin
 
-from .api import engines, factories
 from .api.authentication import AnonymousUser
 
 register(factories.TemplateFactory)
@@ -96,15 +94,3 @@ def dms_test_bin():
 def loadtest_data():
     base = Path(__file__).parent.absolute()
     return Path(base, "api", "data", "loadtest")
-
-@pytest.fixture
-def reset_visibilities():
-    before = VisibilityMixin.visibility_classes
-    yield
-    VisibilityMixin.visibility_classes = before
-
-@pytest.fixture
-def reset_permission_classes():
-    before = PermissionMixin.permission_classes
-    yield
-    PermissionMixin.permission_classes = before

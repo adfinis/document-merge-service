@@ -30,9 +30,6 @@ class Template(models.Model):
     engine: models.CharField = models.CharField(
         max_length=20, choices=ENGINE_CHOICES_TUPLE
     )
-    group: models.CharField = models.CharField(
-        max_length=255, db_index=True, blank=True, null=True
-    )
     meta = models.JSONField(default=dict)
 
 

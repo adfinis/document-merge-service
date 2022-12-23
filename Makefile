@@ -15,6 +15,7 @@ shell: ## Shell into document merge service
 
 format: ## Format python code with black
 	@docker-compose exec document-merge-service poetry run black .
+	@docker-compose exec document-merge-service poetry run isort .
 
 dmypy: ## Run mypy locally (starts a deamon for performance)
 	dmypy run document_merge_service

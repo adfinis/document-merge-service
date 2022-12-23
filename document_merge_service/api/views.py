@@ -4,18 +4,14 @@ from tempfile import NamedTemporaryFile
 
 import jinja2
 from django.conf import settings
-from django.db.models import Q
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
+from generic_permissions.permissions import PermissionViewMixin
+from generic_permissions.visibilities import VisibilityViewMixin
 from rest_framework import exceptions, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
-from rest_framework.response import Response
-from rest_framework.status import (
-    HTTP_204_NO_CONTENT,
-)
-from generic_permissions.permissions import PermissionViewMixin
-from generic_permissions.visibilities import VisibilityViewMixin
+
 from . import engines, models, serializers
 from .unoconv import Unoconv
 
@@ -26,18 +22,6 @@ class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewS
     filterset_fields = {"slug": ["exact"], "description": ["icontains", "search"]}
     ordering_fields = ("slug", "description")
     ordering = ("slug",)
-
-    """
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        if settings.GROUP_ACCESS_ONLY:
-            queryset = queryset.filter(
-                Q(group__in=self.request.user.groups or []) | Q(group__isnull=True)
-            )
-
-        return queryset
-    """
 
     @action(
         methods=["post"],

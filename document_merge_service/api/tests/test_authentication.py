@@ -63,47 +63,6 @@ def test_bearer_token_authentication_authenticate_groups_claim(
     assert user.groups == ["test"]
 
 
-@pytest.mark.parametrize(
-    "status_code,error",
-    [(status.HTTP_200_OK, False), (status.HTTP_400_BAD_REQUEST, True)],
-)
-def test_bearer_token_authentication_authenticate_groups_api(
-    settings, requests_mock, rf, status_code, error
-):
-    settings.OIDC_GROUPS_API = (
-        "mock://document-merge-service.github.com/user/{sub}/groups"
-    )
-    settings.OIDC_GROUPS_API_JSONPATH = "$..*"
-    settings.OIDC_GROUPS_API_REVALIDATION_TIME = 60
-
-    userinfo = {"sub": "1", "groups": []}
-    requests_mock.get(
-        settings.OIDC_USERINFO_ENDPOINT,
-        request_headers={"Authorization": "Bearer Token"},
-        text=json.dumps(userinfo),
-    )
-    requests_mock.get(
-        settings.OIDC_GROUPS_API.replace("{sub}", "1"),
-        status_code=status_code,
-        text=json.dumps(["test", "test2"]),
-    )
-
-    request = rf.get("/openid", HTTP_AUTHORIZATION="Bearer Token")
-    try:
-        user, auth = authentication.BearerTokenAuthentication().authenticate(request)
-    except exceptions.AuthenticationFailed:
-        assert error
-    else:
-        assert not error
-        assert user.is_authenticated
-        assert user.group == "test"
-        assert user.groups == ["test", "test2"]
-        assert (
-            cache.get(f"authentication.groups.{hashlib.sha256(b'Token').hexdigest()}")
-            == user.groups
-        )
-
-
 def test_bearer_token_authentication_header(rf):
     request = rf.get("/openid")
     assert (

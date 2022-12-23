@@ -49,15 +49,12 @@ When you enable authentication, all access must be with a valid OIDC token.
 Authenticated users are able to upload and merge templates, but anonymous users
 won't be anymore.
 
-You can configure the DMS to allow users to only see templates created by other
-people in the same group (by enabling the setting `GROUP_ACCESS_ONLY`).
-
-Any further restriction is currently not possible. If you have the need for
-further rules, please open an issue (or a pull request) on Github, so we can
-have a discussion and extend the authorization process accordingly.
-
 For the full details on how to configure it, see the
 [configuration guide](CONFIGURATION.md).
+
+### Permissions / Visibility
+
+[dgap](https://github.com/adfinis/django-generic-api-permissions) is being used for custom permissions and visibilites. Refer to the README over at [dgap](https://github.com/adfinis/django-generic-api-permissions) on how to configure.
 
 
 ## Uploading templates

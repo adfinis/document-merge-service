@@ -1015,17 +1015,6 @@ MarkupSafe = ">=2.0"
 i18n = ["Babel (>=2.7)"]
 
 [[package]]
-name = "jsonpath"
-version = "0.82"
-description = "An XPath for JSON"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "jsonpath-0.82.tar.gz", hash = "sha256:46d3fd2016cd5b842283d547877a02c418a0fe9aa7a6b0ae344115a2c990fef4"},
-]
-
-[[package]]
 name = "keyring"
 version = "23.11.0"
 description = "Store and access your passwords safely."
@@ -2452,4 +2441,4 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "86857cd18054010b52d661ea114a204f56359f9757691afd1ac4022ce944c143"
+content-hash = "c8690279b0b8853277c1e405cdb355fc29a2dbd35cf9e0e37ae6a5979ee0119a"

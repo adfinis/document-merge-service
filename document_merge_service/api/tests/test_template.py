@@ -11,35 +11,7 @@ from rest_framework import status
 
 from document_merge_service.api.data import django_file
 
-from .. import models, serializers, permissions
-
-
-"""
-@pytest.mark.parametrize(
-    "template__group,group_access_only,size",
-    [(None, False, 2), ("admin", True, 2), ("unknown", True, 1), ("unknown", False, 2)],
-)
-def test_template_list_group_access(
-    db,
-    admin_client,
-    template,
-    template_factory,
-    snapshot,
-    size,
-    group_access_only,
-    settings,
-):
-    settings.GROUP_ACCESS_ONLY = group_access_only
-    url = reverse("template-list")
-
-    # add a global template (no group)
-    template_factory()
-
-    response = admin_client.get(url)
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json()["count"] == size
-    snapshot.assert_match(response.json())
-"""
+from .. import models, serializers
 
 
 @pytest.mark.parametrize("template__description", ["test description"])
@@ -112,13 +84,12 @@ def test_template_download_url(db, client, template):
 
 
 @pytest.mark.parametrize(
-    "template_name,engine,status_code,group,require_authentication,authenticated",
+    "template_name,engine,status_code,require_authentication,authenticated",
     [
         (
             "xlsx-template.xlsx",
             models.Template.XLSX_TEMPLATE,
             status.HTTP_201_CREATED,
-            None,
             False,
             False,
         ),
@@ -126,31 +97,20 @@ def test_template_download_url(db, client, template):
             "xlsx-template.xlsx",
             models.Template.XLSX_TEMPLATE,
             status.HTTP_201_CREATED,
-            None,
             True,
             True,
         ),
         (
             "xlsx-template.xlsx",
             models.Template.XLSX_TEMPLATE,
-            status.HTTP_403_FORBIDDEN,
-            None,
+            status.HTTP_401_UNAUTHORIZED,
             True,
             False,
         ),
         (
             "xlsx-template.xlsx",
             models.Template.XLSX_TEMPLATE,
-            status.HTTP_400_BAD_REQUEST,
-            "unknown",
-            True,
-            True,
-        ),
-        (
-            "xlsx-template.xlsx",
-            models.Template.XLSX_TEMPLATE,
             status.HTTP_201_CREATED,
-            "admin",
             True,
             True,
         ),
@@ -158,7 +118,6 @@ def test_template_download_url(db, client, template):
             "docx-template.docx",
             models.Template.DOCX_TEMPLATE,
             status.HTTP_201_CREATED,
-            None,
             False,
             False,
         ),
@@ -166,31 +125,20 @@ def test_template_download_url(db, client, template):
             "docx-template.docx",
             models.Template.DOCX_TEMPLATE,
             status.HTTP_201_CREATED,
-            None,
             True,
             True,
         ),
         (
             "docx-template.docx",
             models.Template.DOCX_TEMPLATE,
-            status.HTTP_403_FORBIDDEN,
-            None,
+            status.HTTP_401_UNAUTHORIZED,
             True,
             False,
         ),
         (
             "docx-template.docx",
             models.Template.DOCX_TEMPLATE,
-            status.HTTP_400_BAD_REQUEST,
-            "unknown",
-            True,
-            True,
-        ),
-        (
-            "docx-template.docx",
-            models.Template.DOCX_TEMPLATE,
             status.HTTP_201_CREATED,
-            "admin",
             True,
             True,
         ),
@@ -198,7 +146,6 @@ def test_template_download_url(db, client, template):
             "docx-mailmerge.docx",
             models.Template.DOCX_MAILMERGE,
             status.HTTP_201_CREATED,
-            "admin",
             True,
             True,
         ),
@@ -206,7 +153,6 @@ def test_template_download_url(db, client, template):
             "docx-mailmerge-syntax.docx",
             models.Template.DOCX_MAILMERGE,
             status.HTTP_400_BAD_REQUEST,
-            "admin",
             True,
             True,
         ),
@@ -214,7 +160,6 @@ def test_template_download_url(db, client, template):
             "docx-template-syntax.docx",
             models.Template.DOCX_TEMPLATE,
             status.HTTP_400_BAD_REQUEST,
-            "admin",
             True,
             True,
         ),
@@ -222,7 +167,6 @@ def test_template_download_url(db, client, template):
             "test.txt",
             models.Template.DOCX_TEMPLATE,
             status.HTTP_400_BAD_REQUEST,
-            None,
             False,
             False,
         ),
@@ -235,29 +179,19 @@ def test_template_create(
     engine,
     template_name,
     status_code,
-    group,
     require_authentication,
     settings,
     authenticated,
-    reset_permission_classes,
 ):
     if authenticated:
         client = admin_client
 
-    if require_authentication:
-        settings.REQUIRE_AUTHENTICATION = require_authentication
-        settings.REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
-            "rest_framework.permissions.IsAuthenticatedOrReadOnly",
-        ]
-        settings.PERMISSION_CLASSES = ["document_merge_service.api.permissions.AsConfigured"]
-        models.PermissionMixin.permission_classes = [permissions.AsConfigured]
+    settings.REQUIRE_AUTHENTICATION = require_authentication
 
     url = reverse("template-list")
 
     template_file = django_file(template_name)
     data = {"slug": "test-slug", "template": template_file.file, "engine": engine}
-    if group:
-        data["group"] = group
     response = client.post(url, data=data, format="multipart")
 
     assert response.status_code == status_code
