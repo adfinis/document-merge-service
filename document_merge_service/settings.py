@@ -3,6 +3,8 @@ import re
 
 import environ
 
+from .sentry import sentry_init
+
 env = environ.Env()
 django_root = environ.Path(__file__) - 2
 
@@ -242,3 +244,17 @@ EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=False)
 # Email error handler
 if ENABLE_ADMIN_EMAIL_LOGGING:  # pragma: no cover
     LOGGING["loggers"]["django"]["handlers"].append("mail_admins")  # type: ignore
+
+# Sentry error tracking
+SENTRY_DSN = env.str("SENTRY_DSN", default="")
+SENTRY_ENVIRONMENT = env.str("SENTRY_ENVIRONMENT", default="development")
+SENTRY_TRACES_SAMPLE_RATE = env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.01)
+SENTRY_SEND_DEFAULT_PII = env.bool("SENTRY_SEND_DEFAULT_PII", default=False)
+
+if SENTRY_DSN:  # pragma: no cover
+    sentry_init(
+        SENTRY_DSN,
+        SENTRY_ENVIRONMENT,
+        SENTRY_TRACES_SAMPLE_RATE,
+        SENTRY_SEND_DEFAULT_PII,
+    )

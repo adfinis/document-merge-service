@@ -85,3 +85,9 @@ If either `EMAIL_HOST_USER` or `EMAIL_HOST_PASSWORD` is empty, Django won't atte
 ## Email error handler
 * `ENABLE_ADMIN_EMAIL_LOGGING`: enable Django to send email to admins on errors (default: `False`)
 * `ADMINS`: list of people who will get code error notifications. Items in the list should follow this example: `Test Example <test@example.com>,Test2 <test2@example.com>`
+
+## Sentry
+* `SENTRY_DSN`: identifier (data source name) for where to send events to. If no value is provided, sentry won't be activated (default: ")
+* `SENTRY_ENVIRONMENT`: which app environment sent an event to sentry (default: `development`)
+* `SENTRY_TRACES_SAMPLE_RATE`: percentage chance a given transaction will be sent to Sentry (default: `1.0`)
+* `SENTRY_SEND_DEFAULT_PII`: enable send PII data that associates users to errors (default: `True`)
