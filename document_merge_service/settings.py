@@ -227,6 +227,8 @@ if PAGINATION_ENABLED:
     )
 
 # Logging
+ENABLE_ADMIN_EMAIL_LOGGING = env.bool("ENABLE_ADMIN_EMAIL_LOGGING", False)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -235,9 +237,24 @@ LOGGING = {
             "level": "WARNING",
             "filters": None,
             "class": "logging.StreamHandler",
-        }
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": None,
+            "class": "django.utils.log.AdminEmailHandler",
+        },
     },
     "loggers": {"django": {"handlers": ["console"], "level": "WARNING"}},
 }
 
 URL_PREFIX = env.str("URL_PREFIX", default="")
+
+# Email settings
+if ENABLE_ADMIN_EMAIL_LOGGING:  # pragma: no cover
+    LOGGING["loggers"]["django"]["handlers"].append("mail_admins")  # type: ignore
+    SERVER_MAIL = env.str("SERVER_MAIL", default="root@localhost")
+    EMAIL_HOST = env.str("EMAIL_HOST", default="localhost")
+    EMAIL_PORT = env.int("EMAIL_PORT", default=25)
+    EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
+    EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
+    EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=False)

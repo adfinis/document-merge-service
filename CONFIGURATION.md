@@ -76,3 +76,15 @@ Users of nginx/apache must ensure to have matching CORS configurations.
 * `PAGINATION_ENABLED`: whether the pagination is enabled (default: `True`)
 * `PAGINATION_DEFAULT_PAGE_SIZE`: the default page size if no query param (`page_size`) is given (default: `100`)
 * `PAGINATION_MAX_PAGE_SIZE`: the max value of the page size query param (`page_size`) (default: `1000`)
+
+## Email error handler
+* `ENABLE_ADMIN_EMAIL_LOGGING`: enable Django to send email to admins on errors (default: `False`)
+* `SERVER_MAIL`: the email address that error messages come from
+* `EMAIL_HOST`: the host to use for sending email (default: `localhost`)
+* `EMAIL_PORT`: port to use for the SMTP server (default: `25`)
+* `EMAIL_HOST_USER`: username for the SMTP server(default: "")
+* `EMAIL_HOST_PASSWORD`: password for the SMTP server user (default: "")
+* `EMAIL_USE_TLS`: whether to use an implicit TLS (secure) connection when talking to the SMTP server  (default: `False`)
+* `ADMINS`: list of people who will get code error notifications. Items in the list should follow this example: `Test Example <test@example.com>,Test2 <test2@example.com>`
+
+If either `EMAIL_HOST_USER` or `EMAIL_HOST_PASSWORD` is empty, Django won't attempt authentication.
