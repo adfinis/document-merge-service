@@ -79,7 +79,7 @@ Users of nginx/apache must ensure to have matching CORS configurations.
 
 ## Email error handler
 * `ENABLE_ADMIN_EMAIL_LOGGING`: enable Django to send email to admins on errors (default: `False`)
-* `SERVER_MAIL`: the email address that error messages come from
+* `SERVER_EMAIL`: the email address that error messages come from
 * `EMAIL_HOST`: the host to use for sending email (default: `localhost`)
 * `EMAIL_PORT`: port to use for the SMTP server (default: `25`)
 * `EMAIL_HOST_USER`: username for the SMTP server(default: "")

@@ -252,7 +252,7 @@ URL_PREFIX = env.str("URL_PREFIX", default="")
 # Email settings
 if ENABLE_ADMIN_EMAIL_LOGGING:  # pragma: no cover
     LOGGING["loggers"]["django"]["handlers"].append("mail_admins")  # type: ignore
-    SERVER_MAIL = env.str("SERVER_MAIL", default="root@localhost")
+    SERVER_EMAIL = env.str("SERVER_EMAIL", default="root@localhost")
     EMAIL_HOST = env.str("EMAIL_HOST", default="localhost")
     EMAIL_PORT = env.int("EMAIL_PORT", default=25)
     EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
