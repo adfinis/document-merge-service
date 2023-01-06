@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.2.1 (6 January 2023)
+
+### Fix
+* Fix wrong env variable for server email address ([`d1006b9`](https://github.com/adfinis/document-merge-service/commit/d1006b9f9aaf74d15d076e4a0856416f3ff9e6aa))
+
 ## 5.2.0 (6 January 2023)
 
 ### Feature
