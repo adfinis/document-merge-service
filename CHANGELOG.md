@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.2.0 (6 January 2023)
+
+### Feature
+* Add email error handler ([`012a893`](https://github.com/adfinis/document-merge-service/commit/012a893eb5b17b5f90899035d292a005fe118279))
+
 ## 5.1.0 (4 October 2022)
 
 ### Feature
