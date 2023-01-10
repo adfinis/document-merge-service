@@ -250,11 +250,14 @@ LOGGING = {
 URL_PREFIX = env.str("URL_PREFIX", default="")
 
 # Email settings
+SERVER_EMAIL = env.str("SERVER_EMAIL", default="root@localhost")
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
+EMAIL_HOST = env.str("EMAIL_HOST", default="localhost")
+EMAIL_PORT = env.int("EMAIL_PORT", default=25)
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=False)
+
+# Email error handler
 if ENABLE_ADMIN_EMAIL_LOGGING:  # pragma: no cover
     LOGGING["loggers"]["django"]["handlers"].append("mail_admins")  # type: ignore
-    SERVER_EMAIL = env.str("SERVER_EMAIL", default="root@localhost")
-    EMAIL_HOST = env.str("EMAIL_HOST", default="localhost")
-    EMAIL_PORT = env.int("EMAIL_PORT", default=25)
-    EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
-    EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
-    EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=False)
