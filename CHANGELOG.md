@@ -1,4 +1,16 @@
 # Changelog
+## 6.0.0 (12 January 2023)
+### Feature
+* Add dgap mixins ([`1b9f486`](https://github.com/Yelinz/document-merge-service/commit/1b9f486db20fc8856086f91e22e92801fb4b5079))
+
+### Fix
+* Remove oidc group api fetching ([`e64e9d5`](https://github.com/Yelinz/document-merge-service/commit/e64e9d5c563f8ab961b5d35aa87d280c1d6a39ca))
+* **api:** Fix install failing without mysql ([`b984054`](https://github.com/Yelinz/document-merge-service/commit/b9840542058f06895bdcfa19559a115bef9dedb6))
+* **settings:** Enable email settings without email error handler ([`e12480d`](https://github.com/Yelinz/document-merge-service/commit/e12480d58b00e4aa7409ff9c8f68bf6b4cec31d9))
+
+### Breaking
+* remove oidc group api fetching ([`e64e9d5`](https://github.com/Yelinz/document-merge-service/commit/e64e9d5c563f8ab961b5d35aa87d280c1d6a39ca))
+* add dgap mixins ([`1b9f486`](https://github.com/Yelinz/document-merge-service/commit/1b9f486db20fc8856086f91e22e92801fb4b5079))
 
 ## 5.2.1 (6 January 2023)
 
