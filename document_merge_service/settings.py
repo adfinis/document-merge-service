@@ -2,7 +2,6 @@ import os
 import re
 
 import environ
-from django.core.exceptions import ImproperlyConfigured
 
 env = environ.Env()
 django_root = environ.Path(__file__) - 2
@@ -54,6 +53,7 @@ INSTALLED_APPS = [
     "django_filters",
     "document_merge_service.api.apps.DefaultConfig",
     "corsheaders",
+    "generic_permissions.apps.GenericPermissionsConfig",
 ]
 
 if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
@@ -168,39 +168,20 @@ DOCXTEMPLATE_JINJA_EXTENSIONS = env.list(
 # Authentication
 
 REQUIRE_AUTHENTICATION = env.bool("REQUIRE_AUTHENTICATION", False)
-GROUP_ACCESS_ONLY = env.bool("GROUP_ACCESS_ONLY", False)
 
 OIDC_USERINFO_ENDPOINT = env.str("OIDC_USERINFO_ENDPOINT", default=None)
 OIDC_VERIFY_SSL = env.bool("OIDC_VERIFY_SSL", default=True)
 OIDC_GROUPS_CLAIM = env.str("OIDC_GROUPS_CLAIM", default="")
-OIDC_GROUPS_API = env.str("OIDC_GROUPS_API", default="")
-OIDC_GROUPS_API_REVALIDATION_TIME = env.int(
-    "OIDC_GROUPS_API_REVALIDATION_TIME", default=0
-)
-OIDC_GROUPS_API_VERIFY_SSL = env.str("OIDC_GROUPS_API_VERIFY_SSL", default=True)
-# environ interprets leading jsonpath dollar to be an proxied environ var
-# which is not the case
-OIDC_GROUPS_API_JSONPATH = os.environ.get("OIDC_GROUPS_API_JSONPATH", "")
-OIDC_GROUPS_API_HEADERS = [
-    header.upper()
-    for header in env.list("OIDC_GROUPS_API_HEADERS", default=["AUTHORIZATION"])
-]
 OIDC_BEARER_TOKEN_REVALIDATION_TIME = env.int(
     "OIDC_BEARER_TOKEN_REVALIDATION_TIME", default=0
 )
-
-if OIDC_GROUPS_API and not OIDC_GROUPS_API_JSONPATH:  # pragma: no cover
-    raise ImproperlyConfigured(
-        f"OIDC_GROUSP_API` is set to {OIDC_GROUPS_API} but no `OIDC_GROUPS_API_JSONPATH` is configured."
-    )
-
 
 # Rest framework
 # https://www.django-rest-framework.org/api-guide/settings/
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "document_merge_service.api.permissions.AsConfigured"
+        "document_merge_service.api.permissions.AsConfigured",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "document_merge_service.api.authentication.BearerTokenAuthentication"

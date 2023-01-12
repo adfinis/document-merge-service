@@ -7,10 +7,9 @@ from django.core.cache import cache
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
-from document_merge_service.api import models
+from document_merge_service.api import engines, factories, models
 from document_merge_service.api.data import django_file
 
-from .api import engines, factories
 from .api.authentication import AnonymousUser
 
 register(factories.TemplateFactory)

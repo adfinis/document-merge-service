@@ -1,7 +1,6 @@
 import functools
 import hashlib
 
-import jsonpath
 import requests
 from django.conf import settings
 from django.core.cache import cache
@@ -81,33 +80,6 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
 
         return response.json()
 
-    def get_groups_from_api(self, request, userinfo):
-        headers = {
-            key: value
-            for key, value in request.headers.items()
-            if key.upper() in settings.OIDC_GROUPS_API_HEADERS
-        }
-
-        # replace placeholders
-        groups_api = settings.OIDC_GROUPS_API
-        placeholders = {k: v for k, v in userinfo.items() if isinstance(v, str)}
-        for key, value in placeholders.items():
-            groups_api = groups_api.replace("{" + key + "}", value)
-
-        response = requests.get(
-            groups_api, verify=settings.OIDC_GROUPS_API_VERIFY_SSL, headers=headers
-        )
-        try:
-            response.raise_for_status()
-        except requests.HTTPError as e:
-            raise exceptions.AuthenticationFailed(
-                f"Retrieving groups from {settings.OIDC_GROUPS_API} "
-                f"failed with error '{str(e)}'."
-            )
-
-        result = response.json()
-        return jsonpath.jsonpath(result, settings.OIDC_GROUPS_API_JSONPATH)
-
     def authenticate(self, request):
         token = self.get_bearer_token(request)
         if token is None:
@@ -122,21 +94,14 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
             timeout=settings.OIDC_BEARER_TOKEN_REVALIDATION_TIME,
         )
 
-        # retrieve groups
         groups = []
         if settings.OIDC_GROUPS_CLAIM:
             groups = userinfo[settings.OIDC_GROUPS_CLAIM]
-        elif settings.OIDC_GROUPS_API:
-            groups_api_method = functools.partial(
-                self.get_groups_from_api, userinfo=userinfo, request=request
-            )
-            groups = cache.get_or_set(
-                f"authentication.groups.{hashsum_token}",
-                groups_api_method,
-                timeout=settings.OIDC_GROUPS_API_REVALIDATION_TIME,
-            )
 
-        return AuthenticatedUser(userinfo["sub"], groups), token
+        return (
+            AuthenticatedUser(userinfo["sub"], groups),
+            token,
+        )
 
     def authenticate_header(self, request):
         return f"{self.header_prefix} realm={settings.OIDC_USERINFO_ENDPOINT}"

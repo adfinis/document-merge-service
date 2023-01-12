@@ -32,7 +32,7 @@ jobs:
           python-version: "3.8"
           cache: "poetry"
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --all-extras
       - name: Run gitlint
         run: poetry run gitlint --contrib contrib-title-conventional-commits
       - name: Run flake8
@@ -118,7 +118,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends util-linux unoconv libreoffice-writer
-          poetry install
+          poetry install --all-extras
       - name: Set environment
         run: |
           echo "ENV=dev" >> .env
