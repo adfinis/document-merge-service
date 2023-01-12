@@ -1,4 +1,4 @@
-# Migration from v1 to v2
+# Migration from v5 to v6
 **Warning**
 
 The `group` attribute will be removed from the Template model.

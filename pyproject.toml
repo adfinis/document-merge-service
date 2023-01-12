@@ -1,9 +1,23 @@
 [tool.poetry]
 name = "document-merge-service"
-version = "5.2.0"
+version = "5.2.1"
 description = "Merge Document Template Service"
-authors = ["Adfinis AG"]
 license = "GPL-3.0-or-later"
+authors = ["Adfinis AG <info@adfinis.com>"]
+homepage = "https://github.com/adfinis/document-merge-service"
+repository = "https://github.com/adfinis/document-merge-service"
+documentation = "https://github.com/adfinis/document-merge-service/blob/main/README.md"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3.8",
+]
+include = ["CHANGELOG.md"]
+exclude = [
+    "document-merge-service/**/tests",
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
