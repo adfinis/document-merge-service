@@ -19,7 +19,11 @@ from .unoconv import Unoconv
 class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewSet):
     queryset = models.Template.objects
     serializer_class = serializers.TemplateSerializer
-    filterset_fields = {"slug": ["exact"], "description": ["icontains", "search"]}
+    filterset_fields = {
+        "slug": ["exact"],
+        "description": ["icontains", "search"],
+        "meta": ["contains", "contained_by"],
+    }
     ordering_fields = ("slug", "description")
     ordering = ("slug",)
 
