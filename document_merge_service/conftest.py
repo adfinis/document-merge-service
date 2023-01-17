@@ -3,6 +3,7 @@ from io import BytesIO
 from pathlib import Path
 
 import pytest
+import sentry_sdk
 from django.core.cache import cache
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
@@ -11,6 +12,7 @@ from document_merge_service.api import engines, factories, models
 from document_merge_service.api.data import django_file
 
 from .api.authentication import AnonymousUser
+from .sentry import sentry_init
 
 register(factories.TemplateFactory)
 
@@ -94,3 +96,15 @@ def dms_test_bin():
 def loadtest_data():
     base = Path(__file__).parent.absolute()
     return Path(base, "api", "data", "loadtest")
+
+
+@pytest.fixture
+def sentry_mock(monkeypatch, mocker):
+    sentry_init("https://SomePublicKey@0.ingest.sentry.io/0", "test", 0.01, False)
+    sentry_client = sentry_sdk.Hub.current.client
+    transport = mocker.MagicMock()
+    monkeypatch.setattr(sentry_client, "transport", transport)
+    try:
+        yield transport
+    finally:
+        sentry_sdk.Hub.current.bind_client(None)
