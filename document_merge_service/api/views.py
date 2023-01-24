@@ -12,14 +12,14 @@ from rest_framework import exceptions, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
 
-from . import engines, models, serializers
+from . import engines, filters, models, serializers
 from .unoconv import Unoconv
 
 
 class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewSet):
     queryset = models.Template.objects
     serializer_class = serializers.TemplateSerializer
-    filterset_fields = {"slug": ["exact"], "description": ["icontains", "search"]}
+    filterset_class = filters.TemplateFilterSet
     ordering_fields = ("slug", "description")
     ordering = ("slug",)
 
