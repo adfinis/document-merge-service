@@ -27,9 +27,13 @@ class AnonymousUser(object):
 
 
 class AuthenticatedUser(AnonymousUser):
-    def __init__(self, username, groups):
-        self.username = username
+    def __init__(self, userinfo):
+        self.username = userinfo["sub"]
+        groups = []
+        if settings.OIDC_GROUPS_CLAIM:
+            groups = userinfo[settings.OIDC_GROUPS_CLAIM]
         self.groups = groups
+        self.userinfo = userinfo
 
     @property
     def is_authenticated(self):
@@ -94,12 +98,8 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
             timeout=settings.OIDC_BEARER_TOKEN_REVALIDATION_TIME,
         )
 
-        groups = []
-        if settings.OIDC_GROUPS_CLAIM:
-            groups = userinfo[settings.OIDC_GROUPS_CLAIM]
-
         return (
-            AuthenticatedUser(userinfo["sub"], groups),
+            AuthenticatedUser(userinfo),
             token,
         )
 
