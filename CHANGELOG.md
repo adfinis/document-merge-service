@@ -1,4 +1,11 @@
 # Changelog
+## 6.1.0 (27 January 2023)
+### Feature
+* **filters:** Add template meta filter ([`2daf8ec`](https://github.com/Yelinz/document-merge-service/commit/2daf8ec736a9ff5ee424548ef9eef53362e284e0))
+* Add sentry integration ([`abe37f1`](https://github.com/Yelinz/document-merge-service/commit/abe37f1417554119299acb8aa852892bae823490))
+
+### Fix
+* **auth:** Add userinfo to authenticated user ([`21ae809`](https://github.com/Yelinz/document-merge-service/commit/21ae809dd6e08d1b5823373637ef17805640d73a))
 ## 6.0.0 (12 January 2023)
 ### Feature
 * Add dgap mixins ([`1b9f486`](https://github.com/Yelinz/document-merge-service/commit/1b9f486db20fc8856086f91e22e92801fb4b5079))
