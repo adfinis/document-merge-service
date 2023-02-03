@@ -2435,14 +2435,14 @@ test = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "xltpl"
-version = "0.16"
+version = "0.17"
 description = "A python module to generate xls/x files from a xls/x template"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "xltpl-0.16-py3-none-any.whl", hash = "sha256:7a7dee9f33ab522c9b2ee14e0254db23d2cf24c60b68a167490fa7744ce323ec"},
-    {file = "xltpl-0.16.tar.gz", hash = "sha256:7e04677cc0eb6002be53d06446c611bb68b1923959116c159ecdbc9d820c18f4"},
+    {file = "xltpl-0.17-py3-none-any.whl", hash = "sha256:94c76795b0e6e2b2dd978e6badf323fcd9726f63f96a37f2cb5c7e72df2e2e3f"},
+    {file = "xltpl-0.17.tar.gz", hash = "sha256:61f67d128a68a09a8394c7ddf79d2dd86bf2e049cebfc8679b8ed7fdcd515a30"},
 ]
 
 [package.dependencies]
@@ -2488,4 +2488,4 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "2d6d22f3d0be07b01f55b6562b0536f7ec7f1ab25652c6bd5f6722354eed7453"
+content-hash = "686283593b6a5dfafa8fcfd5e689bbaf76ce7ea40ddb953008859188500b1b69"
