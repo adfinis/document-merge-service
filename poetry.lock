@@ -576,14 +576,14 @@ tests = ["pytest"]
 
 [[package]]
 name = "docxtpl"
-version = "0.16.5"
+version = "0.16.6"
 description = "Python docx template engine"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "docxtpl-0.16.5-py2.py3-none-any.whl", hash = "sha256:09b94f0cbbcc0384811be1b6a3ccd78950eac12f9bf23956e1309f5f0c879bb1"},
-    {file = "docxtpl-0.16.5.tar.gz", hash = "sha256:41024bf2b60a9f013eeb08e9ce7e6139d4239468f8b702b1ff8ce5a28aeb7d2a"},
+    {file = "docxtpl-0.16.6-py2.py3-none-any.whl", hash = "sha256:42c1f6250c655a1aff00818a14a83f2abb3c8293171e5fd3d5f338fd397e3860"},
+    {file = "docxtpl-0.16.6.tar.gz", hash = "sha256:c5938dd891bf13958dd5dfd513816c688999060f037c316756a005cdebf9a322"},
 ]
 
 [package.dependencies]
