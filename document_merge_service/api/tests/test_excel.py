@@ -19,6 +19,8 @@ _structure = {
     ],
 }
 
+_expect_name = ["test", "another"]
+
 
 def test_render():
     tmpl = django_file("xlsx-structure.xlsx")
@@ -27,9 +29,11 @@ def test_render():
     engine.merge(_structure, buf)
     buf.seek(0)
     doc = openpyxl.load_workbook(buf)
-    for ws in doc.worksheets:
+    for i, ws in enumerate(doc.worksheets):
+        assert ws.title == _expect_name[i]
         assert ws["A1"].value == "xdata0"
         assert ws["A2"].value == "xdata1"
+        assert ws["A3"].value == _expect_name[i]
         assert ws["A5"].value == "Item: mixed"
         assert ws["A6"].value == "Item: list"
         assert ws["A7"].value == "Subitem: xdata2"

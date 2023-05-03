@@ -268,8 +268,14 @@ class XlsxTemplateEngine:
             writer.jinja_env.undefined = self._undefined_factory
         writer.jinja_env.globals.update(dir=dir, getattr=getattr)
 
-        data = [data] * len(writer.sheet_resource_map.sheet_state_list)
-        writer.render_book(payloads=data)
+        payloads = []
+        sheets = writer.sheet_resource_map.sheet_state_list
+        for sheet in sheets:
+            new = dict(data)
+            new["sheet_name"] = sheet.name
+            new["tpl_name"] = sheet.name
+            payloads.append(new)
+        writer.render_book(payloads=payloads)
         writer.save(buf)
         return buf
 

@@ -95,7 +95,8 @@ addopts = "--reuse-db --randomly-seed=1521188766 --randomly-dont-reorganize"
 DJANGO_SETTINGS_MODULE = "document_merge_service.settings"
 filterwarnings = """
     error::DeprecationWarning
-    error::PendingDeprecationWarning"""
+    error::PendingDeprecationWarning
+    ignore:invalid escape sequence"""
 env = """
     ADMINS=Test Example <test@example.com>,Test2 <test2@example.com>
     OIDC_USERINFO_ENDPOINT=mock://document-merge-service.github.com/openid/userinfo
