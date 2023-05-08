@@ -96,7 +96,8 @@ DJANGO_SETTINGS_MODULE = "document_merge_service.settings"
 filterwarnings = """
     error::DeprecationWarning
     error::PendingDeprecationWarning
-    ignore:invalid escape sequence"""
+    ignore:invalid escape sequence
+    ignore:pkg_resources is deprecated as an API:DeprecationWarning"""
 env = """
     ADMINS=Test Example <test@example.com>,Test2 <test2@example.com>
     OIDC_USERINFO_ENDPOINT=mock://document-merge-service.github.com/openid/userinfo
