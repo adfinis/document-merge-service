@@ -1,8 +1,13 @@
 # Changelog
+
+## 6.1.2 (10 May 2023)
+Maintenance release only containing dependency updates.
+
 ## 6.1.1 (03 May 2023)
 ### Fix
 * **excel:** Set `sheet_name` and `tpl_name` to load the correct sheet
 ([`13a2a07`](https://github.com/adfinis/document-merge-service/commit/13a2a073aa1a7f65cbf7c794210f460db1a2509e))
+
 ## 6.1.0 (27 January 2023)
 ### Feature
 * **filters:** Add template meta filter ([`2daf8ec`](https://github.com/Yelinz/document-merge-service/commit/2daf8ec736a9ff5ee424548ef9eef53362e284e0))
