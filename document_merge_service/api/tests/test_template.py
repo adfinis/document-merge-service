@@ -442,7 +442,6 @@ def test_template_create_with_available_placeholders(
     settings,
     expect_missing_placeholders,
 ):
-
     settings.DOCXTEMPLATE_JINJA_EXTENSIONS = ["jinja2.ext.loopcontrols"]
     url = reverse("template-list")
 
