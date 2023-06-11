@@ -107,27 +107,25 @@ class DocxTemplateEngine(DocxValidator):
 
         try:
             doc = DocxTemplate(self.template)
-            root = _MagicPlaceholder()
             env = get_jinja_env()
-            ph = {
-                name: root[name] for name in doc.get_undeclared_template_variables(env)
-            }
 
-            xml = doc.get_xml()
-            xml = doc.patch_xml(xml)
-            image_match = re.match(r".*{{\s?(\S*)\s?\|\s?image\(.*", xml)
-            images = image_match.groups() if image_match else []
-            for image in images:
-                cleaned_image = image.strip('"').strip("'")
-                ph[root[cleaned_image]] = django_file("black.png").file
+            if not sample_data:
+                # make our own sample data using magic placeholders
+                root = _MagicPlaceholder()
+                sample_data = {
+                    name: root[name]
+                    for name in doc.get_undeclared_template_variables(env)
+                }
+                xml = doc.get_xml()
+                xml = doc.patch_xml(xml)
+                image_match = re.match(r".*{{\s?(\S*)\s?\|\s?image\(.*", xml)
+                images = image_match.groups() if image_match else []
+                for image in images:
+                    cleaned_image = image.strip('"').strip("'")
+                    sample_data[root[cleaned_image]] = django_file("black.png").file
 
-            ph["_tpl"] = doc
-
-            doc.render(ph, env)
-
-            if sample_data:
-                sample_data["_tpl"] = doc
-                doc.render(sample_data, env)
+            sample_data["_tpl"] = doc
+            doc.render(sample_data, env)
 
             self.validate_available_placeholders(
                 used_placeholders=root.reports,
