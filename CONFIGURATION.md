@@ -87,7 +87,28 @@ If either `EMAIL_HOST_USER` or `EMAIL_HOST_PASSWORD` is empty, Django won't atte
 * `ADMINS`: list of people who will get code error notifications. Items in the list should follow this example: `Test Example <test@example.com>,Test2 <test2@example.com>`
 
 ## Sentry
-* `SENTRY_DSN`: identifier (data source name) for where to send events to. If no value is provided, sentry won't be activated (default: ")
+* `SENTRY_DSN`: identifier (data source name) for where to send events to. If no value is provided, sentry won't be activated (default: "")
 * `SENTRY_ENVIRONMENT`: which app environment sent an event to sentry (default: `development`)
 * `SENTRY_TRACES_SAMPLE_RATE`: percentage chance a given transaction will be sent to Sentry (default: `1.0`)
 * `SENTRY_SEND_DEFAULT_PII`: enable send PII data that associates users to errors (default: `True`)
+
+## Template storage
+* `FILE_STORAGE`: Django file storage backend (default: `django.core.files.storage.FileSystemStorage`)
+* `MEDIA_ROOT`: Absolute filesystem path to the directory that will hold user-uploaded files. (default: "")
+* `MEDIA_URL`: URL that handles the media served from MEDIA_ROOT, used for managing stored files. When using buckets this needs to be changed. (default: `api/v1/template/`)
+
+
+### [django-storages](https://django-storages.readthedocs.io/en/1.13.2/backends/amazon-S3.html) S3 settings
+Refer to for example [Digital Ocean](https://django-storages.readthedocs.io/en/1.13.2/backends/digital-ocean-spaces.html) configuration if using a S3 compatible storage which isn't AWS. 
+
+Required to use S3 storage:
+* `AWS_ACCESS_KEY_ID`: AWS access key id
+* `AWS_S3_SECRET_ACCESS_KEY`: AWS secret access key
+* `AWS_STORAGE_BUCKET_NAME`: Storage bucket name
+
+Optional:
+* `AWS_S3_ENDPOINT_URL`: Custom S3 URL to use when connecting to S3, including scheme. (default: "")
+* `AWS_S3_REGION_NAME`: Region of the storage (default: "")
+* `AWS_LOCATION`: A path prefix that will be prepended to all uploads (default: "")
+* `AWS_S3_FILE_OVERWRITE`: If `True` Files with the same name will overwrite each other. Otherwise extra characters are appended. (default: `False`)
+* `AWS_S3_SIGNATURE_VERSION`: S3 signature version to use (default: `s2`)
