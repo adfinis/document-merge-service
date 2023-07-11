@@ -12,7 +12,12 @@ urlpatterns = [
         r"^template-download/(?P<pk>.+)$",
         views.DownloadTemplateView.as_view(),
         name="template-download",
-    )
+    ),
+    re_path(
+        r"^convert$",
+        views.ConvertView.as_view(),
+        name="convert",
+    ),
 ]
 
 urlpatterns.extend(r.urls)
