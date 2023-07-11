@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.2.0 (11 July 2023)
+### Feature
+* Add django storages and settings for s3 storage ([`6df1a83`](https://github.com/Yelinz/document-merge-service/commit/6df1a83a4befbb8687a951d45fe6910deba83272))
+
 ## 6.1.2 (10 May 2023)
 Maintenance release only containing dependency updates.
 
