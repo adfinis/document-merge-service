@@ -152,11 +152,21 @@ DEFAULT_FILE_STORAGE = env.str(
     "FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
 )
 MEDIA_ROOT = env.str("MEDIA_ROOT", "")
-
 # TODO: This should be removed in favor of storing the files in a bucket
 # https://code.djangoproject.com/ticket/32991
-MEDIA_URL = "api/v1/template/"
+MEDIA_URL = env.str("MEDIA_URL", "api/v1/template/")
 
+# django-storages S3 settings
+AWS_S3_ACCESS_KEY_ID = env.str("AWS_S3_ACCESS_KEY_ID", "")
+AWS_S3_SECRET_ACCESS_KEY = env.str("AWS_S3_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME", "")
+AWS_S3_ENDPOINT_URL = env.str("AWS_S3_ENDPOINT_URL", "")
+AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME", "")
+AWS_LOCATION = env.str("AWS_LOCATION", "")
+AWS_S3_FILE_OVERWRITE = env.bool("AWS_S3_FILE_OVERWRITE", False)
+AWS_S3_SIGNATURE_VERSION = env.str("AWS_S3_SIGNATURE_VERSION", "v2")
+
+# unoconv
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
 UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3")
 UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
