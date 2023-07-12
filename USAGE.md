@@ -308,11 +308,9 @@ To convert a Docx file to PDF using the DMS you can send a `POST` request with t
 >>> resp = requests.post(
 ...     'http://localhost:8000/api/v1/convert',
 ...     data={
-...         'target_format': 'pdf'
+...         'file': file_to_convert,
+            'target_format': 'pdf'
 ...     },
-...     files=(
-...         ("file", open('my-example-file.docx', 'rb')),
-...     ),
 ... )
 ```
 

@@ -144,6 +144,6 @@ class ConvertSerializer(serializers.Serializer):
     target_format = serializers.ChoiceField(
         allow_null=False,
         required=True,
-        choices=("pdf"),
+        choices=[("pdf", "PDF")],
         help_text="The target format of the conversion. Currently only 'pdf' is supported.",
     )
