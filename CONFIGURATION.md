@@ -102,7 +102,7 @@ If either `EMAIL_HOST_USER` or `EMAIL_HOST_PASSWORD` is empty, Django won't atte
 Refer to for example [Digital Ocean](https://django-storages.readthedocs.io/en/1.13.2/backends/digital-ocean-spaces.html) configuration if using a S3 compatible storage which isn't AWS. 
 
 Required to use S3 storage:
-* `AWS_ACCESS_KEY_ID`: AWS access key id
+* `AWS_S3_ACCESS_KEY_ID`: AWS access key id
 * `AWS_S3_SECRET_ACCESS_KEY`: AWS secret access key
 * `AWS_STORAGE_BUCKET_NAME`: Storage bucket name
 

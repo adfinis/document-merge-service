@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 import sentry_sdk
 from django.core.cache import cache
+from django.core.files.storage import DefaultStorage
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
@@ -76,6 +77,7 @@ def docx_template_with_placeholder(admin_client, template):
         binary.seek(0)
         template.template.save("foo.docx", binary)
         template.save()
+        DefaultStorage().save(template.template.name, binary)
         return template
 
     return make_template
