@@ -1,5 +1,4 @@
-import os
-
+from django.core.files.storage import DefaultStorage
 from django.db import models
 from django.dispatch import receiver
 
@@ -37,8 +36,7 @@ class Template(models.Model):
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     """Delete template file from filesystem when `Template` object is deleted."""
 
-    if os.path.isfile(instance.template.path):
-        os.remove(instance.template.path)
+    DefaultStorage().delete(instance.template.name)
 
 
 @receiver(models.signals.pre_save, sender=Template)
@@ -53,5 +51,4 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     if old_file:
         new_file = instance.template
         if not old_file == new_file:
-            if os.path.isfile(old_file.path):
-                os.remove(old_file.path)
+            DefaultStorage().delete(old_file.name)

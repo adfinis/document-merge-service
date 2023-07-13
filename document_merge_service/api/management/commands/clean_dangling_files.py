@@ -7,7 +7,7 @@ from document_merge_service.api.models import Template
 
 
 class Command(BaseCommand):
-    help = "Remove dangling template files that are not attached to a template model anymore"
+    help = "Remove dangling template files that are not attached to a template model anymore. Currently only usable with local filesystem."
 
     def add_arguments(self, parser):
         parser.add_argument("--dry-run", dest="dry", action="store_true", default=False)

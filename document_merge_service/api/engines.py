@@ -104,7 +104,6 @@ class DocxTemplateEngine(DocxValidator):
         self.template = template
 
     def validate_template_syntax(self, available_placeholders=None, sample_data=None):
-
         try:
             doc = DocxTemplate(self.template)
             root = _MagicPlaceholder()
@@ -245,7 +244,6 @@ class XlsxTemplateEngine:
             raise exceptions.ValidationError(f"Syntax error in template: {arg_str}")
 
         if available_placeholders and magic is not None:
-
             missing_set = (
                 set(magic.reports)
                 - set(self._expand_available_placeholders(available_placeholders))
