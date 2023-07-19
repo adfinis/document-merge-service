@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.1 (19 July 2023)
+### Fix
+
+* **dgap:** Add env variables to configure permissions and visibilities ([`67fc95a`](https://github.com/adfinis/document-merge-service/commit/67fc95a16f72e7afed37342972c6101c492d529a))
+* Storage generic file cleanup ([`0633fd2`](https://github.com/adfinis/document-merge-service/commit/0633fd20a7a11f00a8d7eb6aa903aa38520fe8b1))
+
 ## 6.2.0 (11 July 2023)
 ### Feature
 * Add django storages and settings for s3 storage ([`6df1a83`](https://github.com/Yelinz/document-merge-service/commit/6df1a83a4befbb8687a951d45fe6910deba83272))
