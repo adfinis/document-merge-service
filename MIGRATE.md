@@ -14,12 +14,12 @@ Because every consuming app can now define its own way to handle the permissions
 
 Example Permissions:
 
-```py
+```python
 import requests
 from rest_framework import exceptions
 from generic_permissions.permissions import object_permission_for
 
-from document_merge_service.models import Template
+from document_merge_service.api.models import Template
 
 
 class CustomPermission:
@@ -58,19 +58,25 @@ class CustomPermission:
         return instance.meta["group"] in groups
 ```
 
-After creating the permission define it in `settings.py` for dgap.
+After creating the permission configure it as environment variable in your `docker-compose.yml` file:
 
-```py
-GENERIC_PERMISSIONS_PERMISSION_CLASSES = ['app.permissions.CustomPermission']
+```yaml
+services:
+  document-merge-service:
+    image: ghcr.io/adfinis/document-merge-service:latest
+    environment:
+      - DMS_PERMISSION_CLASSES=document_merge_service.extensions.permissions.CustomPermission
+    volumes:
+      - ./permissions.py:/app/document_merge_service/extensions/permissions.py
 ```
 
 Example Visibility:
 
-```py
+```python
 from django.db.models import Q
 from generic_permissions.visibilities import filter_queryset_for
 
-from document_merge_service.models import Template
+from document_merge_service.api.models import Template
 
 
 class CustomVisibility:
@@ -85,8 +91,14 @@ class CustomVisibility:
         return queryset
 ```
 
-After creating the visibility define it in `settings.py` for dgap.
+After creating the visibility configure it as environment variable in your `docker-compose.yml` file:
 
-```py
-GENERIC_PERMISSIONS_VISIBILITY_CLASSES = ['app.visibilites.CustomVisibility']
+```yaml
+services:
+  document-merge-service:
+    image: ghcr.io/adfinis/document-merge-service:latest
+    environment:
+      - DMS_VISIBILITY_CLASSES=document_merge_service.extensions.visibilities.CustomVisibility
+    volumes:
+      - ./visibilities.py:/app/document_merge_service/extensions/visibilities.py
 ```

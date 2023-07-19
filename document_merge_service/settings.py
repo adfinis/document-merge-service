@@ -268,3 +268,7 @@ if SENTRY_DSN:  # pragma: no cover
         SENTRY_TRACES_SAMPLE_RATE,
         SENTRY_SEND_DEFAULT_PII,
     )
+
+# https://github.com/adfinis/django-generic-api-permissions
+GENERIC_PERMISSIONS_PERMISSION_CLASSES = env.list("DMS_PERMISSION_CLASSES", default=[])
+GENERIC_PERMISSIONS_VISIBILITY_CLASSES = env.list("DMS_VISIBILITY_CLASSES", default=[])

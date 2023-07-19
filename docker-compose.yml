@@ -7,6 +7,9 @@ services:
     volumes:
       - dbdata:/var/lib/document-merge-service/data
       - templatefiles:/var/lib/document-merge-service/media
+      # Example to include custom extensions
+      # - ./visibilities.py:/app/document_merge_service/extensions/visibilities.py
+      # - ./permissions.py:/app/document_merge_service/extensions/permissions.py
     environment: []
       # Following options are a must to configure on production system:
       # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-SECRET_KEY
