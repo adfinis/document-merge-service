@@ -1,10 +1,11 @@
 # Migration from v5 to v6
+
 **Warning**
 
 The `group` attribute will be removed from the Template model.
 A suggested migration would be to move the value to `meta` before migrating.
 
-----
+---
 
 The previous pre-defined permission and visibility system was removed in favour of [dgap](https://github.com/adfinis/django-generic-api-permissions).
 
@@ -12,6 +13,7 @@ The integration of `OIDC_GROUPS_API` and `OIDC_GROUPS_API_JSONPATH` was removed 
 Because every consuming app can now define its own way to handle the permissions.
 
 Example Permissions:
+
 ```py
 import requests
 from rest_framework import exceptions
@@ -57,11 +59,13 @@ class CustomPermission:
 ```
 
 After creating the permission define it in `settings.py` for dgap.
+
 ```py
 GENERIC_PERMISSIONS_PERMISSION_CLASSES = ['app.permissions.CustomPermission']
 ```
 
 Example Visibility:
+
 ```py
 from django.db.models import Q
 from generic_permissions.visibilities import filter_queryset_for
@@ -82,6 +86,7 @@ class CustomVisibility:
 ```
 
 After creating the visibility define it in `settings.py` for dgap.
+
 ```py
 GENERIC_PERMISSIONS_VISIBILITY_CLASSES = ['app.visibilites.CustomVisibility']
 ```

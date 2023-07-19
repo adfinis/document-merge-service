@@ -16,28 +16,27 @@ with some data to generate a document.
 #### Supported engines
 
 To be able to render (generate) a document, you first need to upload a
-template.  DMS currently supports two formats: Mail Merge, and Docx/XlsxTpl,
+template. DMS currently supports two formats: Mail Merge, and Docx/XlsxTpl,
 which in turn uses Jinja2 syntax. You can read more about them here:
 
-* [xlsx-template](https://github.com/zhangyu836/xltpl/blob/master/README_EN.md)
-* [docx-template](https://github.com/elapouya/python-docx-template)
-* [docx-mailmerge](https://github.com/Bouke/docx-mailmerge)
+- [xlsx-template](https://github.com/zhangyu836/xltpl/blob/master/README_EN.md)
+- [docx-template](https://github.com/elapouya/python-docx-template)
+- [docx-mailmerge](https://github.com/Bouke/docx-mailmerge)
 
 Mail Merge uses placeholders in the office format. This means that the
 placeholders are defined using the features of your office suite via
-the mail merge functionality.  If you only need to fill in some values,
+the mail merge functionality. If you only need to fill in some values,
 and don't need conditional values, this is the format for you.
 
 The DocxTpl format enables you to put the placeholders directly in
 text. This has several advantages and disadvantages:
 
-* Since office formats can put markup anywhere in the text, it may happen that
+- Since office formats can put markup anywhere in the text, it may happen that
   identifiers or other template syntax gets split up without the user noticing,
   leading to hard-to-debug syntax errors.
-* However, due to the representation as text, we gain the flexibility to add
+- However, due to the representation as text, we gain the flexibility to add
   loops, conditionals and so on to change the output document depending on the
   data that's filled in.
-
 
 ### Authentication / Authorization
 
@@ -55,7 +54,6 @@ For the full details on how to configure it, see the
 ### Permissions / Visibility
 
 [dgap](https://github.com/adfinis/django-generic-api-permissions) is being used for custom permissions and visibilites. Refer to the README over at [dgap](https://github.com/adfinis/django-generic-api-permissions) on how to configure.
-
 
 ## Uploading templates
 
@@ -83,12 +81,12 @@ The upload is using the `Content-Disposition: form-data` format, commonly used
 in traditional forms when uploading files from a browser.
 Make sure you pass in all required fields:
 
-* `engine`: either `docx-mailmerge`, `docx-template` or `xlsx-template`,
+- `engine`: either `docx-mailmerge`, `docx-template` or `xlsx-template`,
   depending on your template type
-* `slug`: Identifier of your template. May only be used once and is your
+- `slug`: Identifier of your template. May only be used once and is your
   primary key for accessing the templates later on.
-* `name`: Display name of the template
-* `template`: The actual template file. Make sure you pass it in the
+- `name`: Display name of the template
+- `template`: The actual template file. Make sure you pass it in the
   right format that your HTTP library uses.
 
 In the following examples, I'm assuming you already did the `import`
@@ -105,21 +103,22 @@ or by providing a simplified list of variables.
 
 The list of variables is using the following syntax:
 
-* For simple variables, just mention the variable name, such as `foo`
-* For lists, add square brackets after the variable name, for example `a_list[]`
-* For nested objects, use "dot notation": `object.property`
+- For simple variables, just mention the variable name, such as `foo`
+- For lists, add square brackets after the variable name, for example `a_list[]`
+- For nested objects, use "dot notation": `object.property`
 
 You may also combine this syntax according to your needs. The following are all
 valid examples: [^xlsx-validation]
 
-* `foo.bar`
-* `a_list[].inner_property`
-* `a_list[].another_property`
-* `list[].nested_list[]`
+- `foo.bar`
+- `a_list[].inner_property`
+- `a_list[].another_property`
+- `list[].nested_list[]`
 
-[^xlsx-validation]: the xlsx engine can only validate simple placeholders no
-lists. frontend-devs should use sample-data and an immediate response with a
-rendered xlsl.
+[^xlsx-validation]:
+    the xlsx engine can only validate simple placeholders no
+    lists. frontend-devs should use sample-data and an immediate response with a
+    rendered xlsl.
 
 The template used here uses a single placeholder named `test`. See what
 happens if we enable placeholder validation but tell the DMS that only
@@ -209,7 +208,6 @@ when actually used, so make sure to test them after uploading!
 
 To disable template validation, pass in the additional parameter
 `disable_template_validation` with the value `true` on template upload.
-
 
 ## Merging templates
 

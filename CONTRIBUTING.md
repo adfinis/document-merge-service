@@ -76,6 +76,7 @@ This will activate commit hooks to validate your code as well as your commit
 messages.
 
 ### Setup commit-msg hook
+
 If you want to have your commit message automatically linted, execute below commands:
 
 ```bash

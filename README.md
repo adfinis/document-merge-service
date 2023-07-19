@@ -9,8 +9,9 @@ A document template merge service providing an API to manage templates and merge
 ## Installation
 
 **Requirements**
-* docker
-* docker-compose
+
+- docker
+- docker-compose
 
 After installing and configuring those, download [docker-compose.yml](https://raw.githubusercontent.com/adfinis/document-merge-service/master/docker-compose.yml) and run the following command:
 
@@ -22,17 +23,17 @@ You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8
 
 ### Workaround LibreOffice lockup
 
-The workaround has a setting called ISOLATE_UNOCONV, it is only enabled in the
-development environment. If ISOLATE_UNOCONV is enabled the container needs
-CAP_SYS_ADMIN. See docker-compose.override.yml.
+The workaround has a setting called `ISOLATE_UNOCONV`, it is only enabled in the
+development environment. If `ISOLATE_UNOCONV` is enabled the container needs
+`CAP_SYS_ADMIN`. See docker-compose.override.yml.
 
 ```yaml
-    cap_add:
-      - CAP_SYS_ADMIN
-    security_opt:
-      - apparmor:unconfined
-    environment:
-      - ISOLATE_UNOCONV=true
+cap_add:
+  - CAP_SYS_ADMIN
+security_opt:
+  - apparmor:unconfined
+environment:
+  - ISOLATE_UNOCONV=true
 ```
 
 ## Getting started
@@ -53,12 +54,11 @@ After uploading successfully, you can merge a template with the following call:
 curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}}' http://localhost:8000/api/v1/template/test-template/merge/ > output.docx
 ```
 
-
 ## Further reading
 
-* [Configuration](CONFIGURATION.md) - Further configuration and how to do a production setup
-* [Usage](USAGE.md) - How to use the DMS and it's features
-* [Contributing](CONTRIBUTING.md) - Look here to see how to start with your first
+- [Configuration](CONFIGURATION.md) - Further configuration and how to do a production setup
+- [Usage](USAGE.md) - How to use the DMS and it's features
+- [Contributing](CONTRIBUTING.md) - Look here to see how to start with your first
   contribution. Contributions are welcome!
 
 ## License
