@@ -1,33 +1,45 @@
 FROM python:3.8
 
-WORKDIR /app
+# Needs to be set for users with manually set UID
+ENV HOME=/home/document-merge-service
+
+ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=document_merge_service.settings
+ENV APP_HOME=/app
+ENV UWSGI_INI=/app/uwsgi.ini
+ENV MEDIA_ROOT=/var/lib/document-merge-service/media
+ENV DATABASE_DIR=/var/lib/document-merge-service/data
 
 ARG UID=901
 
-RUN wget -q https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -P /usr/local/bin \
-  && chmod +x /usr/local/bin/wait-for-it.sh \
-  && mkdir -p /app /var/lib/document-merge-service/data/tmp /var/lib/document-merge-service/media /var/www/static \
+RUN mkdir -p $APP_HOME $DATABASE_DIR/tmp $MEDIA_ROOT /var/www/static \
   && useradd -u $UID -r document-merge-service --create-home \
-  && mkdir /home/document-merge-service/.config \
-  && chmod -R 770 /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service \
-  && apt-get update && apt-get install -y --no-install-recommends util-linux unoconv libreoffice-writer && rm -rf /var/lib/apt/lists/* \
-  # All project specific folders need to be accessible by newly created user but also for unknown users (when UID is set manually). Such users are in group root.
-  && chown -R document-merge-service:root /var/lib/document-merge-service/data /var/lib/document-merge-service/media /var/www/static /home/document-merge-service
-RUN pip install poetry
+  && mkdir $HOME/.config \
+  && chmod -R 770 $DATABASE_DIR $MEDIA_ROOT $HOME /var/www/static \
+  # All project specific folders need to be accessible by newly created user but
+  # also for unknown users (when UID is set manually). Such users are in group
+  # root.
+  && chown -R document-merge-service:root $DATABASE_DIR $MEDIA_ROOT $HOME /var/www/static
 
-# Needs to be set for users with manually set UID
-ENV HOME=/home/document-merge-service
-USER document-merge-service
+WORKDIR $APP_HOME
 
-ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE document_merge_service.settings
-ENV APP_HOME=/app
-ENV UWSGI_INI /app/uwsgi.ini
-ENV MEDIA_ROOT /var/lib/document-merge-service/media
+RUN \
+  --mount=type=cache,target=/var/cache/apt \
+  apt-get update && apt-get install -y --no-install-recommends \
+    util-linux \
+    unoconv \
+    libreoffice-writer \
+    wait-for-it \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN pip install -U poetry
 
 ARG ENV=docker
 COPY pyproject.toml poetry.lock $APP_HOME/
-RUN poetry install $([ "$ENV" = "dev" ] || echo "--without dev") --no-interaction --no-ansi --all-extras
+RUN if [ "$ENV" = "dev" ]; then poetry install --all-extras; else poetry install --all-extras --without dev; fi
+
+USER document-merge-service
+
 COPY . $APP_HOME
 
 EXPOSE 8000

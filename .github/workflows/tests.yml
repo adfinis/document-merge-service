@@ -52,14 +52,16 @@ jobs:
       ENV: dev
     steps:
       - uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Set UID
         run: |
           echo "UID=$(id --user)" > .env
           echo "ISOLATE_UNOCONV=true" >> .env
       - name: Build docker containers
-        run: docker-compose up -d --build
+        run: docker compose up -d --build
       - name: Run pytest
-        run: docker-compose exec -T document-merge-service poetry run pytest --no-cov-on-fail --cov --create-db -vv
+        run: docker compose exec -T document-merge-service poetry run pytest --no-cov-on-fail --cov --create-db -vv
 
   compatibility-tests:
     name: Compatibility tests
