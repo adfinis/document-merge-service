@@ -56,6 +56,15 @@ supporting Open ID Connect. If not available, you might consider using
 - `OIDC_GROUPS_CLAIM`: Name of claim to be used to define group membership (default: document_merge_service_groups)
 - `OIDC_BEARER_TOKEN_REVALIDATION_TIME`: Time in seconds before bearer token validity is verified again. For best security token is validated on each request per default. It might be helpful though in case of slow Open ID Connect provider to cache it. It uses [cache](#cache) mechanism for memorizing userinfo result. Number has to be lower than access token expiration time. (default: 0)
 
+## Permissions / Visibilities
+
+Document Merge Service uses [dgap](https://github.com/adfinis/django-generic-api-permissions)
+to handle permissions and visibilities. It can be configured using the following
+environment variables:
+
+- `DMS_VISIBILITY_CLASSES`: List of classes that handle [dgap visibilities](https://github.com/adfinis/django-generic-api-permissions#visibilities)
+- `DMS_PERMISSION_CLASSES`: List of classes that handle [dgap permissions](https://github.com/adfinis/django-generic-api-permissions#permissions)
+
 ## Cache
 
 - `CACHE_BACKEND`: [cache backend](https://docs.djangoproject.com/en/1.11/ref/settings/#backend) to use (default: django.core.cache.backends.locmem.LocMemCache)
