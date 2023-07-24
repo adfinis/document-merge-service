@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.2.2 (24 July 2023)
+### Fix
+
+* **template:** Migrate group to meta property before removing ([`4480877`](https://github.com/adfinis/document-merge-service/commit/448087728f3103744b8245ff5400b63201352b19))
+
 ## 6.2.1 (19 July 2023)
 ### Fix
 
