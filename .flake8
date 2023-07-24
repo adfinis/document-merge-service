@@ -29,5 +29,5 @@ ignore =
     # other string does contain unindexed parameters
     P103
 max-line-length = 80
-exclude = migrations snapshots
+exclude = migrations
 max-complexity = 10
