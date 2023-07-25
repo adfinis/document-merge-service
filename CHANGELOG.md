@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.3.0 (25 July 2023)
+### Feature
+
+* **extensions:** Add setting for passing custom arguments into extensions ([`b76e293`](https://github.com/adfinis/document-merge-service/commit/b76e2930535f15820e449930e57d004c54e1ba2d))
+
 ## 6.2.2 (24 July 2023)
 ### Fix
 
