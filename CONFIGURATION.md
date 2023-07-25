@@ -64,6 +64,10 @@ environment variables:
 
 - `DMS_VISIBILITY_CLASSES`: List of classes that handle [dgap visibilities](https://github.com/adfinis/django-generic-api-permissions#visibilities)
 - `DMS_PERMISSION_CLASSES`: List of classes that handle [dgap permissions](https://github.com/adfinis/django-generic-api-permissions#permissions)
+- `EXTENSIONS_ARGUMENTS`: Custom arguments from the app to be used in the
+  visibility and permission classes. This is expected to be a `dict`, e.g.
+  `EXTENSIONS_ARGUMENTS=foo=bar` could then be used in the extension classes as
+  `settings.EXTENSIONS_ARGUMENTS["foo"]`
 
 ## Cache
 

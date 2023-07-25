@@ -272,3 +272,6 @@ if SENTRY_DSN:  # pragma: no cover
 # https://github.com/adfinis/django-generic-api-permissions
 GENERIC_PERMISSIONS_PERMISSION_CLASSES = env.list("DMS_PERMISSION_CLASSES", default=[])
 GENERIC_PERMISSIONS_VISIBILITY_CLASSES = env.list("DMS_VISIBILITY_CLASSES", default=[])
+
+# App specific arguments for the extension classes
+EXTENSIONS_ARGUMENTS = env.dict("EXTENSIONS_ARGUMENTS", default={})
