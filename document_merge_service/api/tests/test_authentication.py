@@ -22,6 +22,8 @@ from .. import authentication
 def test_bearer_token_authentication_authenticate(
     rf, authentication_header, error, requests_mock, settings, status_code
 ):
+    settings.REQUIRE_AUTHENTICATION = True
+
     userinfo = {"sub": "1"}
     requests_mock.get(
         settings.OIDC_USERINFO_ENDPOINT,
@@ -51,6 +53,7 @@ def test_bearer_token_authentication_authenticate(
 def test_bearer_token_authentication_authenticate_groups_claim(
     settings, requests_mock, rf
 ):
+    settings.REQUIRE_AUTHENTICATION = True
     settings.OIDC_GROUPS_CLAIM = "document-merge-service"
 
     userinfo = {"sub": "1", settings.OIDC_GROUPS_CLAIM: ["test"]}

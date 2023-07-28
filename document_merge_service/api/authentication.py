@@ -85,6 +85,9 @@ class BearerTokenAuthentication(authentication.BaseAuthentication):
         return response.json()
 
     def authenticate(self, request):
+        if not settings.REQUIRE_AUTHENTICATION:
+            return None
+
         token = self.get_bearer_token(request)
         if token is None:
             return None
