@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.3.1 (31 July 2023)
+### Fix
+
+* **auth:** Don't run any authentication logic if auth is disabled ([`564b504`](https://github.com/adfinis/document-merge-service/commit/564b504be673f34677eb6736a3b26dbbfdd3d7ec))
+
 ## 6.3.0 (25 July 2023)
 ### Feature
 
