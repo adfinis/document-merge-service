@@ -24,7 +24,7 @@ def test_convert(db, client, target_format, response_content_type):
 
 def test_incorrect_file_type(db, client):
     url = reverse("convert")
-    file_to_convert = django_file("odt-template.odt")
+    file_to_convert = django_file("invalid-template.xlsx")
 
     data = {"file": file_to_convert.file, "target_format": "pdf"}
     response = client.post(url, data=data, format="multipart")

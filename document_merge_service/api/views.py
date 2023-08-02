@@ -92,12 +92,12 @@ class ConvertView(APIView):
 
         content_type, foo = mimetypes.guess_type(file.name)
 
-        if (
-            content_type
-            != "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ):
+        if content_type not in [
+            "application/vnd.oasis.opendocument.text",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ]:
             raise exceptions.ValidationError(
-                "Incorrect file format. Only docx files are supported for conversion."
+                "Incorrect file format. Only docx and odt files are supported for conversion."
             )
 
         response = FileConverter.convert(file.read(), target_format)
