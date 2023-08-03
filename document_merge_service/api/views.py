@@ -1,9 +1,6 @@
 import mimetypes
-from pathlib import Path
-from tempfile import NamedTemporaryFile
 
 import jinja2
-from django.conf import settings
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
 from generic_permissions.permissions import PermissionViewMixin
@@ -11,9 +8,10 @@ from generic_permissions.visibilities import VisibilityViewMixin
 from rest_framework import exceptions, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.views import APIView
 
 from . import engines, filters, models, serializers
-from .unoconv import Unoconv
+from .file_converter import FileConverter
 
 
 class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewSet):
@@ -36,7 +34,6 @@ class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewS
         response = HttpResponse(
             content_type=content_type or "application/force-download"
         )
-        extension = mimetypes.guess_extension(content_type)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -58,24 +55,9 @@ class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewS
         convert = serializer.data.get("convert")
 
         if convert:
-            dir = Path(settings.DATABASE_DIR, "tmp")
-            dir.mkdir(parents=True, exist_ok=True)
-            with NamedTemporaryFile("wb", dir=dir) as tmp:
-                tmp.write(response.content)
-                unoconv = Unoconv(
-                    pythonpath=settings.UNOCONV_PYTHON,
-                    unoconvpath=settings.UNOCONV_PATH,
-                )
-                result = unoconv.process(tmp.name, convert)
-            extension = convert
-            status = 500
-            if result.returncode == 0:
-                status = 200
-            response = HttpResponse(
-                content=result.stdout, status=status, content_type=result.content_type
-            )
+            response = FileConverter.convert(response.content, convert)
 
-        filename = f"{template.slug}.{extension}"
+        filename = f"{template.slug}.{convert}"
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
 
@@ -97,4 +79,29 @@ class DownloadTemplateView(RetrieveAPIView):
         )
         response["Content-Length"] = template.template.size
         response.write(template.template.read())
+        return response
+
+
+class ConvertView(APIView):
+    def post(self, request, **kwargs):
+        serializer = serializers.ConvertSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        file = serializer.data["file"]
+        target_format = serializer.data["target_format"]
+
+        content_type, foo = mimetypes.guess_type(file.name)
+
+        if content_type not in [
+            "application/vnd.oasis.opendocument.text",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ]:
+            raise exceptions.ValidationError(
+                "Incorrect file format. Only docx and odt files are supported for conversion."
+            )
+
+        response = FileConverter.convert(file.read(), target_format)
+
+        filename = f"{file.name.split('.')[0]}.{target_format}"
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response

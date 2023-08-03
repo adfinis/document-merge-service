@@ -296,6 +296,24 @@ example above, `data` would look like this:
 ...     },
 ```
 
+## Converting Docx files
+
+The document merge service can also be used to convert a single Docx file to PDF.
+
+If you want to simulatanousely merge a template with data and convert it to PDF use the merge function as explained in [merging templates](#merging-templates)
+
+To convert a Docx file to PDF using the DMS you can send a `POST` request with the file and the `target_format`. Currently `pdf` is the only possible `target_format`.
+
+```python
+>>> resp = requests.post(
+...     'http://localhost:8000/api/v1/convert',
+...     data={
+...         'file': file_to_convert,
+            'target_format': 'pdf'
+...     },
+... )
+```
+
 ## Maintenance / Cleanup
 
 The DMS allows REST verbs like `PATCH` and `DELETE` for updating and deleting

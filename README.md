@@ -4,7 +4,7 @@
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/adfinis/document-merge-service)
 [![License: GPL-3.0-or-later](https://img.shields.io/github/license/adfinis/document-merge-service)](https://spdx.org/licenses/GPL-3.0-or-later.html)
 
-A document template merge service providing an API to manage templates and merge them with given data.
+A document template merge service providing an API to manage templates and merge them with given data. It can also be used to convert Docx files to PDF.
 
 ## Installation
 
@@ -53,6 +53,14 @@ After uploading successfully, you can merge a template with the following call:
 ```bash
 curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}}' http://localhost:8000/api/v1/template/test-template/merge/ > output.docx
 ```
+
+### Converting a template
+To convert a standalone Docx file the following call can be used:
+
+```bash
+curl -X POST --form file=@my-test-file.docx --form target_format="pdf" http://localhost:8000/api/v1/convert > example.pdf
+```
+
 
 ## Further reading
 
