@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.4.1 (09 August 2023)
+### Fix
+
+* Improve command to upload local template files to storage backend ([`4589dcb`](https://github.com/adfinis/document-merge-service/commit/4589dcba025f82ffc23726f7284856755268ab10))
+
 ## 6.4.0 (03 August 2023)
 ### Feature
 * Allow conversion of docx and odt files to pdf using a new convert endpoint ([`e00e49e`](https://github.com/adfinis/document-merge-service/commit/e00e49e210b17469457b76eccf306f17b40da43a))
