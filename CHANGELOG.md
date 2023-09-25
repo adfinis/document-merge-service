@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.4.2 (25 September 2023)
+### Fix
+
+* **deps:** Downgrade urllib to v1 ([`d7ab8ce`](https://github.com/adfinis/document-merge-service/commit/d7ab8ce0159b61d0c661953735bfed5ead370605))
+
 ## 6.4.1 (09 August 2023)
 ### Fix
 
