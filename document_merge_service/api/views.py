@@ -1,4 +1,5 @@
 import mimetypes
+from os.path import splitext
 
 import jinja2
 from django.http import HttpResponse
@@ -102,6 +103,6 @@ class ConvertView(APIView):
 
         response = FileConverter.convert(file.read(), target_format)
 
-        filename = f"{file.name.split('.')[0]}.{target_format}"
+        filename = f"{splitext(file.name)[0]}.{target_format}"
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
