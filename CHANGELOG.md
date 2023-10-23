@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.4.3 (23 October 2023)
+### Fix
+* **convert:** Handle file names with multiple dots ([`3ae90f1`](https://github.com/adfinis/document-merge-service/commit/3ae90f1d3e8e2bfce86528be2af142975b6f1a58))
+
 ## 6.4.2 (25 September 2023)
 ### Fix
 
