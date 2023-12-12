@@ -2236,13 +2236,13 @@ types-urllib3 = "*"
 
 [[package]]
 name = "types-setuptools"
-version = "68.0.0.3"
+version = "69.0.0.0"
 description = "Typing stubs for setuptools"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "types-setuptools-68.0.0.3.tar.gz", hash = "sha256:d57ae6076100b5704b3cc869fdefc671e1baf4c2cd6643f84265dfc0b955bf05"},
-    {file = "types_setuptools-68.0.0.3-py3-none-any.whl", hash = "sha256:fec09e5c18264c5c09351c00be01a34456fb7a88e457abe97401325f84ad9d36"},
+    {file = "types-setuptools-69.0.0.0.tar.gz", hash = "sha256:b0a06219f628c6527b2f8ce770a4f47550e00d3e8c3ad83e2dc31bc6e6eda95d"},
+    {file = "types_setuptools-69.0.0.0-py3-none-any.whl", hash = "sha256:8c86195bae2ad81e6dea900a570fe9d64a59dbce2b11cc63c046b03246ea77bf"},
 ]
 
 [[package]]
@@ -2407,4 +2407,4 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "e9fe787186cc8730c83ce254da15a8647db3f89a53254827a5268239dc1c8e09"
+content-hash = "b3fd359fb6d0bcb417eb8144d557adc307c377539210624ff7e7ff9355c7160b"
