@@ -165,6 +165,8 @@ AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME", "")
 AWS_LOCATION = env.str("AWS_LOCATION", "")
 AWS_S3_FILE_OVERWRITE = env.bool("AWS_S3_FILE_OVERWRITE", False)
 AWS_S3_SIGNATURE_VERSION = env.str("AWS_S3_SIGNATURE_VERSION", "v2")
+AWS_S3_USE_SSL = env.bool("AWS_S3_USE_SSL", default=True)
+AWS_S3_VERIFY = env.bool("AWS_S3_VERIFY", default=None)
 
 # unoconv
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
