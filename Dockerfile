@@ -34,11 +34,11 @@ RUN \
 
 RUN pip install -U poetry
 
+USER document-merge-service
+
 ARG ENV=docker
 COPY pyproject.toml poetry.lock $APP_HOME/
 RUN if [ "$ENV" = "dev" ]; then poetry install --all-extras; else poetry install --all-extras --without dev; fi
-
-USER document-merge-service
 
 COPY . $APP_HOME
 
