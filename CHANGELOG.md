@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.4.4 (24 January 2024)
+### Fix
+* **settings:** Add s3 ssl settings ([#698](https://github.com/adfinis/document-merge-service/issues/698)) ([`c92b381`](https://github.com/adfinis/document-merge-service/commit/c92b381ce6ebc45c0b96eba828b471f2bd28a169))
+
+
 ## 6.4.3 (23 October 2023)
 ### Fix
 * **convert:** Handle file names with multiple dots ([`3ae90f1`](https://github.com/adfinis/document-merge-service/commit/3ae90f1d3e8e2bfce86528be2af142975b6f1a58))
