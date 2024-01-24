@@ -134,3 +134,5 @@ Optional:
 - `AWS_LOCATION`: A path prefix that will be prepended to all uploads (default: "")
 - `AWS_S3_FILE_OVERWRITE`: If `True` Files with the same name will overwrite each other. Otherwise extra characters are appended. (default: `False`)
 - `AWS_S3_SIGNATURE_VERSION`: S3 signature version to use (default: `s2`)
+- `AWS_S3_USE_SSL`: Whether or not to use SSL when connecting to S3 (default: `True`)
+- `AWS_S3_VERIFY`: Whether or not to verify the connection to S3. Can be set to False to not verify SSL/TLS certificates. (default: `None`)
