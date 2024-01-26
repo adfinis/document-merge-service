@@ -1818,17 +1818,14 @@ yaml = ["PyYaml (>=5.2)"]
 
 [[package]]
 name = "python-memcached"
-version = "1.59"
+version = "1.62"
 description = "Pure python memcached client"
 optional = false
 python-versions = "*"
 files = [
-    {file = "python-memcached-1.59.tar.gz", hash = "sha256:a2e28637be13ee0bf1a8b6843e7490f9456fd3f2a4cb60471733c7b5d5557e4f"},
-    {file = "python_memcached-1.59-py2.py3-none-any.whl", hash = "sha256:4dac64916871bd3550263323fc2ce18e1e439080a2d5670c594cf3118d99b594"},
+    {file = "python-memcached-1.62.tar.gz", hash = "sha256:0285470599b7f593fbf3bec084daa1f483221e68c1db2cf1d846a9f7c2655103"},
+    {file = "python_memcached-1.62-py2.py3-none-any.whl", hash = "sha256:1bdd8d2393ff53e80cd5e9442d750e658e0b35c3eebb3211af137303e3b729d1"},
 ]
-
-[package.dependencies]
-six = ">=1.4.0"
 
 [[package]]
 name = "python-semantic-release"
