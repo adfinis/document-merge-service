@@ -43,7 +43,7 @@ uWSGI = "^2.0.21"
 xltpl = ">=0.18,<0.20"
 
 [tool.poetry.group.dev.dependencies]
-black = "23.7.0"
+black = "24.2.0"
 django-stubs = "4.2.3"
 factory-boy = "3.3.0"
 flake8 = "6.1.0"
