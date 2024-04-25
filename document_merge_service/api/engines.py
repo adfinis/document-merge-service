@@ -103,6 +103,37 @@ class DocxTemplateEngine(DocxValidator):
     def __init__(self, template):
         self.template = template
 
+    def _extract_image_placeholders(self, doc):
+        """Extract placeholders using the image filter.
+
+        This method extracts all placeholder names that use the image filter so
+        we can add a dummy image to the sample data for validation. We
+        explicitly need to parse headers and footers as well as the actual
+        document body.
+        """
+
+        body_xml = doc.get_xml()
+        body_xml = doc.patch_xml(body_xml)
+
+        xmls = [body_xml]
+
+        for _, part in [
+            *doc.get_headers_footers(doc.HEADER_URI),
+            *doc.get_headers_footers(doc.FOOTER_URI),
+        ]:
+            part_xml = doc.get_part_xml(part)
+            part_xml = doc.patch_xml(part_xml)
+            xmls.append(part_xml)
+
+        images = set()
+
+        for xml in xmls:
+            image_match = re.match(r".*{{\s?(\S*)\s?\|\s?image\(.*", xml)
+            matches = image_match.groups() if image_match else []
+            images.update(matches)
+
+        return images
+
     def validate_template_syntax(self, available_placeholders=None, sample_data=None):
         try:
             doc = DocxTemplate(self.template)
@@ -112,11 +143,7 @@ class DocxTemplateEngine(DocxValidator):
                 name: root[name] for name in doc.get_undeclared_template_variables(env)
             }
 
-            xml = doc.get_xml()
-            xml = doc.patch_xml(xml)
-            image_match = re.match(r".*{{\s?(\S*)\s?\|\s?image\(.*", xml)
-            images = image_match.groups() if image_match else []
-            for image in images:
+            for image in self._extract_image_placeholders(doc):
                 cleaned_image = image.strip('"').strip("'")
                 ph[root[cleaned_image]] = django_file("black.png").file
 
