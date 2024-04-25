@@ -428,6 +428,15 @@ def test_disable_validation(
             models.Template.DOCX_MAILMERGE,
             status.HTTP_400_BAD_REQUEST,
         ),
+        (
+            "docx-template-image-placeholder-header-footer.docx",
+            ["black.png", "white.png"],
+            None,
+            [],
+            [],
+            models.Template.DOCX_TEMPLATE,
+            status.HTTP_201_CREATED,
+        ),
     ],
 )
 def test_template_create_with_available_placeholders(
