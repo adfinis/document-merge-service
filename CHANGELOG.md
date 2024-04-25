@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.4.5 (25 April 2024)
+### Fix
+* **image:** Fix template validation with images in headers / footers ([`eccbb34`](https://github.com/adfinis/document-merge-service/commit/eccbb34ce69cd26a998a8ef15db109e8faf2a1e3))
+
 ## 6.4.4 (24 January 2024)
 ### Fix
 * **settings:** Add s3 ssl settings ([#698](https://github.com/adfinis/document-merge-service/issues/698)) ([`c92b381`](https://github.com/adfinis/document-merge-service/commit/c92b381ce6ebc45c0b96eba828b471f2bd28a169))
