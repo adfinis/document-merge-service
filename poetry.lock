@@ -644,20 +644,20 @@ tests = ["pytest"]
 
 [[package]]
 name = "docxtpl"
-version = "0.16.7"
+version = "0.17.0"
 description = "Python docx template engine"
 optional = false
 python-versions = "*"
 files = [
-    {file = "docxtpl-0.16.7-py2.py3-none-any.whl", hash = "sha256:b20eec4073319b6eab01dd6e41fc30a4969d52b14ded69fd9a62bfb8fbf3a9b2"},
-    {file = "docxtpl-0.16.7.tar.gz", hash = "sha256:7174c17e658114ade31e16ab39128567cabba5bb58b373a1b2e509d92b518c39"},
+    {file = "docxtpl-0.17.0-py2.py3-none-any.whl", hash = "sha256:475e6e922ca4c3f4c26e8941f2170826c4d80a72c5219369070554719bc8a1a4"},
+    {file = "docxtpl-0.17.0.tar.gz", hash = "sha256:19d719efa46017653451f978442395ceeb5a45da4f4b879e6bf9f49df14fe465"},
 ]
 
 [package.dependencies]
 docxcompose = "*"
 jinja2 = "*"
 lxml = "*"
-python-docx = "*"
+python-docx = ">=1.1.1"
 six = "*"
 
 [package.extras]
@@ -1790,16 +1790,18 @@ six = ">=1.5"
 
 [[package]]
 name = "python-docx"
-version = "0.8.11"
-description = "Create and update Microsoft Word .docx files."
+version = "1.1.2"
+description = "Create, read, and update Microsoft Word .docx files."
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "python-docx-0.8.11.tar.gz", hash = "sha256:1105d233a0956dd8dd1e710d20b159e2d72ac3c301041b95f4d4ceb3e0ebebc4"},
+    {file = "python_docx-1.1.2-py3-none-any.whl", hash = "sha256:08c20d6058916fb19853fcf080f7f42b6270d89eac9fa5f8c15f691c0017fabe"},
+    {file = "python_docx-1.1.2.tar.gz", hash = "sha256:0cf1f22e95b9002addca7948e16f2cd7acdfd498047f1941ca5d293db7762efd"},
 ]
 
 [package.dependencies]
-lxml = ">=2.3.2"
+lxml = ">=3.1.0"
+typing-extensions = ">=4.9.0"
 
 [[package]]
 name = "python-gitlab"
@@ -2278,13 +2280,13 @@ files = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.7.1"
-description = "Backported and Experimental Type Hints for Python 3.7+"
+version = "4.12.0"
+description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "typing_extensions-4.7.1-py3-none-any.whl", hash = "sha256:440d5dd3af93b060174bf433bccd69b0babc3b15b1a8dca43789fd7f61514b36"},
-    {file = "typing_extensions-4.7.1.tar.gz", hash = "sha256:b75ddc264f0ba5615db7ba217daeb99701ad295353c45f9e95963337ceeeffb2"},
+    {file = "typing_extensions-4.12.0-py3-none-any.whl", hash = "sha256:b349c66bea9016ac22978d800cfff206d5f9816951f12a7d0ec5578b0a819594"},
+    {file = "typing_extensions-4.12.0.tar.gz", hash = "sha256:8cbcdc8606ebcb0d95453ad7dc5065e6237b6aa230a31e81d0f440c30fed5fd8"},
 ]
 
 [[package]]
@@ -2416,4 +2418,4 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "e3ba5ffb51cd442a21915fef8e57e5459d7d4e641eb4d6e7522286317833c7f8"
+content-hash = "a828c4f928cf557fde297fdb6d7072612c3bfd1d44c23a8d4af2b806ee3125b3"
