@@ -1,6 +1,8 @@
 import json
 
-from django.db.models.fields.json import KeyTextTransform
+from django.db.models.fields import TextField
+from django.db.models.fields.json import KT
+from django.db.models.functions import Cast
 from django_filters import Filter, FilterSet
 from django_filters.constants import EMPTY_VALUES
 from rest_framework.exceptions import ValidationError
@@ -47,7 +49,10 @@ class JSONValueFilter(Filter):
             # https://code.djangoproject.com/ticket/26511
             if isinstance(expr["value"], str):
                 qs = qs.annotate(
-                    field_val=KeyTextTransform(expr["key"], self.field_name)
+                    field_val=Cast(
+                        KT(f"{self.field_name}__{expr['key']}"),
+                        output_field=TextField(),
+                    )
                 )
                 lookup = {f"field_val__{lookup_expr}": expr["value"]}
             else:
