@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.12-slim
 
 # Needs to be set for users with manually set UID
 ENV HOME=/home/document-merge-service
@@ -26,9 +26,12 @@ WORKDIR $APP_HOME
 RUN \
   --mount=type=cache,target=/var/cache/apt \
   apt-get update && apt-get install -y --no-install-recommends \
-    util-linux \
-    unoconv \
+    build-essential \
+    default-libmysqlclient-dev \
     libreoffice-writer \
+    pkg-config \
+    unoconv \
+    util-linux \
     wait-for-it \
   && rm -rf /var/lib/apt/lists/*
 
