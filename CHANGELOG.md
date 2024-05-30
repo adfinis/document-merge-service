@@ -1,5 +1,16 @@
 # Changelog
 
+## 6.5.0 (30 May 2024)
+### Feature
+
+* **docker:** Update python to v3.12 ([`14c4d7f`](https://github.com/adfinis/document-merge-service/commit/14c4d7f97005ce9651be6dc37eae904125614e29))
+* **deps:** Update dependencies ([`5773d5c`](https://github.com/adfinis/document-merge-service/commit/5773d5c5283543c843c4986daf8b71cc1cafa611))
+* **deps:** Update django to v4.2 LTS ([`5287a3e`](https://github.com/adfinis/document-merge-service/commit/5287a3e4a6b26c12e122026f789e80d2c70f892b))
+
+### Fix
+
+* **docker:** Install dependencies as dms user ([`6a17a8f`](https://github.com/adfinis/document-merge-service/commit/6a17a8f1cfce053440790e9b62a7d6c21405f580))
+
 ## 6.4.5 (25 April 2024)
 ### Fix
 * **image:** Fix template validation with images in headers / footers ([`eccbb34`](https://github.com/adfinis/document-merge-service/commit/eccbb34ce69cd26a998a8ef15db109e8faf2a1e3))
