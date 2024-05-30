@@ -1,5 +1,9 @@
 FROM python:3.8
 
+LABEL org.opencontainers.image.source=https://github.com/adfinis/document-merge-service
+LABEL org.opencontainers.image.description="Merge Document Template Service"
+LABEL org.opencontainers.image.licenses=GPL-3.0-or-later
+
 # Needs to be set for users with manually set UID
 ENV HOME=/home/document-merge-service
 
