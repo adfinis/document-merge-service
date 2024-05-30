@@ -44,7 +44,7 @@ xltpl = ">=0.18,<0.21"
 
 [tool.poetry.group.dev.dependencies]
 black = "24.4.2"
-django-stubs = "4.2.3"
+django-stubs = "5.0.2"
 factory-boy = "3.3.0"
 flake8 = "7.0.0"
 flake8-debugger = "4.1.2"

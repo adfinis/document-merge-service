@@ -545,36 +545,37 @@ sftp = ["paramiko (>=1.15)"]
 
 [[package]]
 name = "django-stubs"
-version = "4.2.3"
+version = "5.0.2"
 description = "Mypy stubs for Django"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "django-stubs-4.2.3.tar.gz", hash = "sha256:dadab39b46d9ae8f37a8e879c590f39a9e042b565c03fa0c5a8f754b441b1f23"},
-    {file = "django_stubs-4.2.3-py3-none-any.whl", hash = "sha256:e30e2e4927ba14bec587ed2c686404b6b8e473cabe9baca445e7d2e1e0d7b14f"},
+    {file = "django_stubs-5.0.2-py3-none-any.whl", hash = "sha256:cb0c506cb5c54c64612e4a2ee8d6b913c6178560ec168009fe847c09747c304b"},
+    {file = "django_stubs-5.0.2.tar.gz", hash = "sha256:236bc5606e5607cb968f92b648471f9edaa461a774bc013bf9e6bff8730f6bdf"},
 ]
 
 [package.dependencies]
+asgiref = "*"
 django = "*"
-django-stubs-ext = ">=4.2.2"
-mypy = ">=1.0.0"
+django-stubs-ext = ">=5.0.2"
 tomli = {version = "*", markers = "python_version < \"3.11\""}
-types-pytz = "*"
 types-PyYAML = "*"
-typing-extensions = "*"
+typing-extensions = ">=4.11.0"
 
 [package.extras]
-compatible-mypy = ["mypy (==1.4.*)"]
+compatible-mypy = ["mypy (>=1.10.0,<1.11.0)"]
+oracle = ["oracledb"]
+redis = ["redis"]
 
 [[package]]
 name = "django-stubs-ext"
-version = "4.2.2"
+version = "5.0.2"
 description = "Monkey-patching and extensions for django-stubs"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "django-stubs-ext-4.2.2.tar.gz", hash = "sha256:c69d1cc46f1c4c3b7894b685a5022c29b2a36c7cfb52e23762eaf357ebfc2c98"},
-    {file = "django_stubs_ext-4.2.2-py3-none-any.whl", hash = "sha256:fdacc65a14d2d4b97334b58ff178a5853ec8c8c76cec406e417916ad67536ce4"},
+    {file = "django_stubs_ext-5.0.2-py3-none-any.whl", hash = "sha256:8d8efec5a86241266bec94a528fe21258ad90d78c67307f3ae5f36e81de97f12"},
+    {file = "django_stubs_ext-5.0.2.tar.gz", hash = "sha256:409c62585d7f996cef5c760e6e27ea3ff29f961c943747e67519c837422cad32"},
 ]
 
 [package.dependencies]
@@ -2210,17 +2211,6 @@ files = [
 ]
 
 [[package]]
-name = "types-pytz"
-version = "2023.3.0.0"
-description = "Typing stubs for pytz"
-optional = false
-python-versions = "*"
-files = [
-    {file = "types-pytz-2023.3.0.0.tar.gz", hash = "sha256:ecdc70d543aaf3616a7e48631543a884f74205f284cefd6649ddf44c6a820aac"},
-    {file = "types_pytz-2023.3.0.0-py3-none-any.whl", hash = "sha256:4fc2a7fbbc315f0b6630e0b899fd6c743705abe1094d007b0e612d10da15e0f3"},
-]
-
-[[package]]
 name = "types-pyyaml"
 version = "6.0.12.11"
 description = "Typing stubs for PyYAML"
@@ -2418,4 +2408,4 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "a828c4f928cf557fde297fdb6d7072612c3bfd1d44c23a8d4af2b806ee3125b3"
+content-hash = "686e4a410eecc29547e95cc4ec4d6b0aea543e2ecc5ef0822491914f41b74b55"
