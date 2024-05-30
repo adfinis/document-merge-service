@@ -12,7 +12,14 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Django :: 4",
+    "Framework :: Django :: 4.2",
 ]
 include = ["CHANGELOG.md"]
 exclude = [
@@ -20,7 +27,7 @@ exclude = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
+python = ">=3.8.1,<3.13"
 Babel = "^2.15.0"
 Django = "~4.2.13"
 django-cors-headers = "^4.3.1"
@@ -94,15 +101,19 @@ line_length = 88
 [tool.pytest.ini_options]
 addopts = "--reuse-db --randomly-seed=1521188766 --randomly-dont-reorganize"
 DJANGO_SETTINGS_MODULE = "document_merge_service.settings"
-filterwarnings = """
-    error::DeprecationWarning
-    error::PendingDeprecationWarning
-    ignore:invalid escape sequence
-    ignore:pkg_resources is deprecated as an API:DeprecationWarning"""
-env = """
-    ADMINS=Test Example <test@example.com>,Test2 <test2@example.com>
-    OIDC_USERINFO_ENDPOINT=mock://document-merge-service.github.com/openid/userinfo
-    OIDC_BEARER_TOKEN_REVALIDATION_TIME=60"""
+filterwarnings = [
+    "error::DeprecationWarning",
+    "error::PendingDeprecationWarning",
+    "ignore:invalid escape sequence",
+    "ignore:pkg_resources is deprecated as an API:DeprecationWarning",
+    "ignore:'imghdr' is deprecated:DeprecationWarning",
+    "ignore:datetime.datetime.utcnow():DeprecationWarning"
+]
+env = [
+    "ADMINS=Test Example <test@example.com>,Test2 <test2@example.com>",
+    "OIDC_USERINFO_ENDPOINT=mock://document-merge-service.github.com/openid/userinfo",
+    "OIDC_BEARER_TOKEN_REVALIDATION_TIME=60"
+]
 
 [tool.coverage.run]
 source = ["."]

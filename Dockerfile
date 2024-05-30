@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.12-slim
 
 LABEL org.opencontainers.image.source=https://github.com/adfinis/document-merge-service
 LABEL org.opencontainers.image.description="Merge Document Template Service"
@@ -30,9 +30,12 @@ WORKDIR $APP_HOME
 RUN \
   --mount=type=cache,target=/var/cache/apt \
   apt-get update && apt-get install -y --no-install-recommends \
-    util-linux \
-    unoconv \
+    build-essential \
+    default-libmysqlclient-dev \
     libreoffice-writer \
+    pkg-config \
+    unoconv \
+    util-linux \
     wait-for-it \
   && rm -rf /var/lib/apt/lists/*
 
