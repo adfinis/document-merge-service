@@ -508,17 +508,18 @@ Django = ">=3.2"
 
 [[package]]
 name = "django-generic-api-permissions"
-version = "0.2.0"
+version = "0.4.6"
 description = "Generic API permissions and visibilities for Django"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.8.1"
 files = [
-    {file = "django-generic-api-permissions-0.2.0.tar.gz", hash = "sha256:0503bd7533039d541509041cee2b7691e946686e7fa4fad341cf7b6438ca7ee2"},
-    {file = "django_generic_api_permissions-0.2.0-py3-none-any.whl", hash = "sha256:60167bf51ca2753cbf38d3fe5032a61ef83198d5347706386a6aa7e27346d062"},
+    {file = "django_generic_api_permissions-0.4.6-py3-none-any.whl", hash = "sha256:f1a6bcdc7d0f007292cc92162fc3dd294a976aa1db1cd8b9c31afc82cb684e5d"},
+    {file = "django_generic_api_permissions-0.4.6.tar.gz", hash = "sha256:fe1626608e2c5e2bc9bb5ca8ed62a428392313ef6aa161664bb853e0a7af734b"},
 ]
 
 [package.dependencies]
-django = ">=2.2"
+django = ">=3.2"
+djangorestframework = ">=3.14,<4.0"
 
 [[package]]
 name = "django-storages"
@@ -2416,4 +2417,4 @@ pgsql = ["psycopg2-binary"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "e3ba5ffb51cd442a21915fef8e57e5459d7d4e641eb4d6e7522286317833c7f8"
+content-hash = "7bf140772288ea4edeeaf5b50e7841954f38aae569e1174101258b2b7136e78c"
