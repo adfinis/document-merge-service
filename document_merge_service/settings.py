@@ -58,9 +58,6 @@ INSTALLED_APPS = [
     "generic_permissions.apps.GenericPermissionsConfig",
 ]
 
-if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
-    INSTALLED_APPS.append("django.contrib.postgres")
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -114,7 +111,6 @@ CORS_ORIGIN_REGEX_WHITELIST += env.list(
 LANGUAGE_CODE = env.str("LANGUAGE_CODE", "en-us")
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 
 
@@ -148,9 +144,16 @@ STATIC_ROOT = env.str("STATIC_ROOT", None)
 
 # Media files
 
-DEFAULT_FILE_STORAGE = env.str(
-    "FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
-)
+STORAGES = {
+    "default": {
+        "BACKEND": env.str(
+            "FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
+        )
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 MEDIA_ROOT = env.str("MEDIA_ROOT", "")
 # TODO: This should be removed in favor of storing the files in a bucket
 # https://code.djangoproject.com/ticket/32991
