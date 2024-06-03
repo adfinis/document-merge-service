@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.5.1 (3 June 2024)
+### Fix
+
+* **deps:** Allow caching with memcache ([`2f7c2bc`](https://github.com/adfinis/document-merge-service/commit/2f7c2bc196f56dd5488101c8ad1e639671002005))
+* **deps:** Fix usage with postgres database ([`f29c763`](https://github.com/adfinis/document-merge-service/commit/f29c7635d3fa7759c9c9e98bc6e437da650ebb26))
+
 ## 6.5.0 (30 May 2024)
 ### Feature
 
