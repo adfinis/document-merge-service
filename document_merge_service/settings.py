@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     "generic_permissions.apps.GenericPermissionsConfig",
 ]
 
+if "postgresql" in DATABASES["default"]["ENGINE"]:  # pragma: no cover
+    INSTALLED_APPS.append("django.contrib.postgres")
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
