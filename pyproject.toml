@@ -40,7 +40,7 @@ docx-mailmerge = "^0.5.0"
 docxtpl = "^0.17.0"
 Jinja2 = "^3.1.4"
 mysqlclient = { version = "^2.2.4", optional = true }
-psycopg = { version = "^3.1.19", optional = true }
+psycopg = { version = "^3.1.19", optional = true, extras = ["binary"] }
 python-dateutil = "^2.9.0"
 python-memcached = "^1.59"
 requests = "^2.32.3"
