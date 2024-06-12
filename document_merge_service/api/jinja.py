@@ -6,7 +6,8 @@ from django.conf import settings
 from django.utils.translation import to_locale
 from docx.shared import Mm
 from docxtpl import InlineImage, Listing
-from jinja2 import Environment, pass_context
+from jinja2 import pass_context
+from jinja2.sandbox import SandboxedEnvironment
 from rest_framework.exceptions import ValidationError
 
 
@@ -98,6 +99,6 @@ def get_jinja_filters():
 
 
 def get_jinja_env():
-    jinja_env = Environment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
+    jinja_env = SandboxedEnvironment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
     jinja_env.filters.update(get_jinja_filters())
     return jinja_env
