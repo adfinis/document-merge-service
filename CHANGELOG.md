@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.4.6 (12 June 2024)
+### Fix
+* Use a sandboxed environment ([#763](https://github.com/adfinis/document-merge-service/issues/763)) ([`9f93bca`](https://github.com/adfinis/document-merge-service/commit/9f93bca657ec83d83132bfd0051dff0429cca4cd))
+
 ## 6.4.5 (25 April 2024)
 ### Fix
 * **image:** Fix template validation with images in headers / footers ([`eccbb34`](https://github.com/adfinis/document-merge-service/commit/eccbb34ce69cd26a998a8ef15db109e8faf2a1e3))
