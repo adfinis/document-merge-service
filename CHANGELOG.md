@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.5.2 (12 June 2024)
+### Fix
+
+* Use a sandboxed environment ([#763](https://github.com/adfinis/document-merge-service/issues/763)) ([`a1edd39`](https://github.com/adfinis/document-merge-service/commit/a1edd39d33d1bdf75c31ea01c317547be90ca074))
+
 ## 6.5.1 (3 June 2024)
 ### Fix
 
