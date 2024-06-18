@@ -1524,13 +1524,13 @@ files = [
 
 [[package]]
 name = "openpyxl"
-version = "3.0.9"
+version = "3.1.4"
 description = "A Python library to read/write Excel 2010 xlsx/xlsm files"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.8"
 files = [
-    {file = "openpyxl-3.0.9-py2.py3-none-any.whl", hash = "sha256:8f3b11bd896a95468a4ab162fc4fcd260d46157155d1f8bfaabb99d88cfcf79f"},
-    {file = "openpyxl-3.0.9.tar.gz", hash = "sha256:40f568b9829bf9e446acfffce30250ac1fa39035124d55fc024025c41481c90f"},
+    {file = "openpyxl-3.1.4-py2.py3-none-any.whl", hash = "sha256:ec17f6483f2b8f7c88c57e5e5d3b0de0e3fb9ac70edc084d28e864f5b33bbefd"},
+    {file = "openpyxl-3.1.4.tar.gz", hash = "sha256:8d2c8adf5d20d6ce8f9bca381df86b534835e974ed0156dacefa76f68c1d69fb"},
 ]
 
 [package.dependencies]
@@ -2647,18 +2647,19 @@ test = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "xltpl"
-version = "0.19"
+version = "0.21"
 description = "A python module to generate xls/x files from a xls/x template"
 optional = false
 python-versions = "*"
 files = [
-    {file = "xltpl-0.19-py3-none-any.whl", hash = "sha256:a75da8256e9b02cc4244a29341a4322d653f84fba5793f97924311cd48065394"},
-    {file = "xltpl-0.19.tar.gz", hash = "sha256:a667b8785e5fc00ab9075f25d346dc7ef8e006a5cb4e6e5c92656646d4c5c588"},
+    {file = "xltpl-0.21-py3-none-any.whl", hash = "sha256:422a84235f25df389815788eb4f4bcf33414fcf4f665cf5545c0186ba6896c2c"},
+    {file = "xltpl-0.21.tar.gz", hash = "sha256:b1970cd64f64ef18cf8deeedd9cbf6ad13de92d71ddffbff4cc70eaad20d61d0"},
 ]
 
 [package.dependencies]
 jinja2 = "*"
-openpyxl = ">=2.6.0,<=3.0.9"
+lxml = "*"
+openpyxl = ">=3.1.0"
 six = "*"
 xlrd = ">=1.2.0"
 xlwt = ">=1.3.0"
@@ -2698,4 +2699,4 @@ pgsql = ["psycopg"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<3.13"
-content-hash = "ad97c1a0140f86922c6903222906e60c5c85cce1d0980561f4e8e78677697cb3"
+content-hash = "269e85cc07a4bb8e3a8198500f4fb82bec30de6634b05ba93ffdcfe514dc6a43"

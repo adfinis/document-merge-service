@@ -49,7 +49,7 @@ requests = "^2.32.3"
 sentry-sdk = "^2.3.1"
 urllib3 = "^2.2.1"
 uWSGI = "^2.0.21"
-xltpl = "~0.19"
+xltpl = "~0.21"
 
 [tool.poetry.group.dev.dependencies]
 black = "24.4.2"
