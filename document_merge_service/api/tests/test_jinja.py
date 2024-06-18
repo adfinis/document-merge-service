@@ -1,6 +1,16 @@
 import pytest
+from docx.shared import Mm
 
-from ..jinja import dateformat, datetimeformat, emptystring, getwithdefault, timeformat
+from document_merge_service.api.data import django_file
+
+from ..jinja import (
+    dateformat,
+    datetimeformat,
+    emptystring,
+    getwithdefault,
+    image,
+    timeformat,
+)
 
 
 @pytest.mark.parametrize(
@@ -41,3 +51,31 @@ def test_emptystring(inp, expected):
 def test_getwithdefault(inp, default, expected):
     formatted = getwithdefault(inp, default=default)
     assert formatted == expected
+
+
+@pytest.mark.parametrize(
+    "width,height,keep_aspect_ratio,expected_size",
+    [
+        (20, 10, False, (20, 10)),
+        (20, 10, True, (10, 10)),
+        (10, 20, True, (10, 10)),
+        (10, None, False, (10, None)),
+        (None, 10, False, (None, 10)),
+        (10, None, True, (10, None)),
+        (None, 10, True, (None, 10)),
+    ],
+)
+def test_image(width, height, keep_aspect_ratio, expected_size):
+    # The size of "black.png" is 32x32 pixels which is an aspect ratio of 1
+    inline_image = image(
+        {"_tpl": None, "black.png": django_file("black.png").file},
+        "black.png",
+        width,
+        height,
+        keep_aspect_ratio,
+    )
+
+    w, h = expected_size
+
+    assert inline_image.width == (Mm(w) if w else None)
+    assert inline_image.height == (Mm(h) if h else None)

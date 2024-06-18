@@ -39,7 +39,7 @@ In python-docx-template following additional custom filters are implemented:
 - timeformat(value, format, locale)
 - getwithdefault(value, default) - converts None to empty string (or provided default value) or leaves strings as is
 - emptystring(value) - converts None to empty string or leaves strings as is (deprecated in favor of getwithdefault)
-- image(width, height) - Creates an [inline image](https://docxtpl.readthedocs.io/en/latest/) from provided file with the same name. `width` and `height` are optional and represent millimetres.
+- image(width, height, keep_aspect_ratio) - Creates an [inline image](https://docxtpl.readthedocs.io/en/latest/) from provided file with the same name. `width` and `height` are optional and represent millimetres. If `keep_aspect_ratio` is `True` the image will be scaled keeping it's original aspect ratio and the width/height parameters become a size limit instead. `keep_aspect_ration` has no effect if `width` and `height` are not given.
 
 For formatting use babel and its uniode compatible [format](http://babel.pocoo.org/en/latest/dates.html#date-fields).
 
