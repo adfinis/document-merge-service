@@ -49,6 +49,7 @@ python-memcached = "^1.59"
 requests = "^2.32.3"
 sentry-sdk = "^2.3.1"
 urllib3 = "^2.2.1"
+whitenoise = "^6.6.0"
 xltpl = "~0.19"
 
 [tool.poetry.group.dev.dependencies]
