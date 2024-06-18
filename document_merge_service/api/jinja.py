@@ -8,6 +8,7 @@ from docx.shared import Mm
 from docxtpl import InlineImage, Listing
 from jinja2 import pass_context
 from jinja2.sandbox import SandboxedEnvironment
+from PIL import Image
 from rest_framework.exceptions import ValidationError
 
 
@@ -65,7 +66,7 @@ def multiline(value):
 
 
 @pass_context
-def image(ctx, img_name, width=None, height=None):
+def image(ctx, img_name, width=None, height=None, keep_aspect_ratio=False):
     tpl = ctx["_tpl"]
 
     if img_name not in ctx:
@@ -83,6 +84,11 @@ def image(ctx, img_name, width=None, height=None):
 
     width = Mm(width) if width else None
     height = Mm(height) if height else None
+
+    if width and height and keep_aspect_ratio:
+        w, h = Image.open(img).size
+        width, height = get_size_with_aspect_ratio(width, height, w / h)
+
     return InlineImage(tpl, img, width=width, height=height)
 
 
@@ -102,3 +108,14 @@ def get_jinja_env():
     jinja_env = SandboxedEnvironment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
     jinja_env.filters.update(get_jinja_filters())
     return jinja_env
+
+
+def get_size_with_aspect_ratio(width, height, aspect_ratio):
+    tpl_aspect_ratio = width / height
+
+    if tpl_aspect_ratio >= aspect_ratio:
+        width = height * aspect_ratio
+    else:
+        height = width / aspect_ratio
+
+    return width, height
