@@ -66,6 +66,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "document_merge_service.urls"
@@ -141,9 +142,8 @@ ADMINS = parse_admins(env.list("ADMINS", default=[]))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
 STATIC_URL = "/static/"
-STATIC_ROOT = env.str("STATIC_ROOT", None)
+STATIC_ROOT = os.path.join(django_root, "staticfiles")
 
 # Media files
 
@@ -154,7 +154,7 @@ STORAGES = {
         )
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 MEDIA_ROOT = env.str("MEDIA_ROOT", "")

@@ -1,4 +1,3 @@
-version: "3.4"
 services:
   document-merge-service:
     image: ghcr.io/adfinis/document-merge-service:dev

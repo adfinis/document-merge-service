@@ -35,16 +35,18 @@ _ahead_of_harakiri = 3
 
 def get_default_timeout():
     timeout = 55
-    try:  # pragma: no cover
-        import uwsgi
+    try:
+        from document_merge_service import gunicorn
 
-        harakiri = uwsgi.opt.get("harakiri")
+        # Default is 30s if not configured explicitly:
+        # https://docs.gunicorn.org/en/latest/settings.html#timeout
+        harakiri = getattr(gunicorn, "timeout", 30)
         if harakiri:
             try:
                 timeout = max(int(harakiri) - _ahead_of_harakiri, _min_timeout)
-            except ValueError:
+            except ValueError:  # pragma: no cover
                 pass
-    except ModuleNotFoundError:
+    except ModuleNotFoundError:  # pragma: no cover
         pass
     return timeout
 
