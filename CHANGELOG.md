@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.6.0 (18 June 2024)
+### Feature
+
+* **image:** Allow images to keep their original aspect ratio ([`05ade2b`](https://github.com/adfinis/document-merge-service/commit/05ade2b41f6668d7c92fb9fde9951977a8972753))
+
 ## 6.5.2 (12 June 2024)
 ### Fix
 
