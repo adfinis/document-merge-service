@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.6.1 (1 July 2024)
+### Chore
+
+This is a pure maintenance release. Most noteworthy commit is:
+
+* chore: replace unmaintained docx-mailmerge with docx-mailmerge2 ([`57fcd23`](https://github.com/adfinis/document-merge-service/commit/57fcd230b08557f43128b8df70e23caa629494fb))
+
 ## 6.6.0 (18 June 2024)
 ### Feature
 
