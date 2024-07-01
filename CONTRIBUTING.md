@@ -37,9 +37,9 @@ etc.
 ```bash
 poetry shell
 # linting
-flake8
+ruff check --diff .
 # format code
-black .
+ruff format .
 # running tests
 pytest
 # create migrations
