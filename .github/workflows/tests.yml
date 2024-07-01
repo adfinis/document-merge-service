@@ -35,12 +35,12 @@ jobs:
         run: poetry install --all-extras
       - name: Run gitlint
         run: poetry run gitlint --contrib contrib-title-conventional-commits
-      - name: Run flake8
-        run: poetry run flake8 document_merge_service
+      - name: Run ruff check
+        run: poetry run ruff check .
       - name: Run mypy
         run: poetry run mypy document_merge_service
-      - name: Run black
-        run: poetry run black --check document_merge_service
+      - name: Run ruff format
+        run: poetry run ruff format --check --diff .
       - name: Run migration check
         run: poetry run python manage.py makemigrations --check --dry-run --no-input
 
