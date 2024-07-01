@@ -36,7 +36,7 @@ django-filter = "^24.2"
 django-generic-api-permissions = "^0.4.6"
 django-storages = "^1.14.3"
 djangorestframework = "^3.15.1"
-docx-mailmerge = "^0.5.0"
+docx-mailmerge2 = "^0.8.0"
 docxtpl = "^0.17.0"
 Jinja2 = "^3.1.4"
 mysqlclient = { version = "^2.2.4", optional = true }

@@ -184,7 +184,7 @@ class DocxMailmergeEngine(DocxValidator):
         return [
             field.attrib.get("name")
             for part in document.parts.values()
-            for field in part.findall("//MergeField")
+            for field in part["part"].findall(".//MergeField")
         ]
 
     def validate_template_syntax(self, available_placeholders=None, sample_data=None):
