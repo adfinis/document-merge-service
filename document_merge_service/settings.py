@@ -163,16 +163,33 @@ MEDIA_ROOT = env.str("MEDIA_ROOT", "")
 MEDIA_URL = env.str("MEDIA_URL", "api/v1/template/")
 
 # django-storages S3 settings
-AWS_S3_ACCESS_KEY_ID = env.str("AWS_S3_ACCESS_KEY_ID", "")
-AWS_S3_SECRET_ACCESS_KEY = env.str("AWS_S3_SECRET_ACCESS_KEY", "")
-AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME", "")
-AWS_S3_ENDPOINT_URL = env.str("AWS_S3_ENDPOINT_URL", "")
-AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME", "")
-AWS_LOCATION = env.str("AWS_LOCATION", "")
-AWS_S3_FILE_OVERWRITE = env.bool("AWS_S3_FILE_OVERWRITE", False)
-AWS_S3_SIGNATURE_VERSION = env.str("AWS_S3_SIGNATURE_VERSION", "v2")
-AWS_S3_USE_SSL = env.bool("AWS_S3_USE_SSL", default=True)
-AWS_S3_VERIFY = env.bool("AWS_S3_VERIFY", default=None)
+DMS_ENABLE_AT_REST_ENCRYPTION = env.bool("DMS_ENABLE_AT_REST_ENCRYPTION", False)
+S3_STORAGE_OPTIONS = {
+    "access_key": env.str("AWS_S3_ACCESS_KEY_ID", ""),
+    "secret_key": env.str("AWS_S3_SECRET_ACCESS_KEY", ""),
+    "bucket_name": env.str("AWS_STORAGE_BUCKET_NAME", ""),
+    "endpoint_url": env.str("AWS_S3_ENDPOINT_URL", ""),
+    "region_name": env.str("AWS_S3_REGION_NAME", ""),
+    "location": env.str("AWS_LOCATION", ""),
+    "file_overwrite": env.bool("AWS_S3_FILE_OVERWRITE", False),
+    "signature_version": env.str("AWS_S3_SIGNATURE_VERSION", "v2"),
+    "use_ssl": env.bool("AWS_S3_USE_SSL", default=True),
+    "verify": env.bool("AWS_S3_VERIFY", default=None),
+}
+
+if DMS_ENABLE_AT_REST_ENCRYPTION:  # pragma: no cover
+    S3_STORAGE_OPTIONS["object_parameters"] = {
+        "SSECustomerKey": env.str(
+            "DMS_S3_STORAGE_SSEC_SECRET",
+            default=default("x" * 32),
+        ),
+        "SSECustomerAlgorithm": "AES256",
+    }
+
+if (
+    STORAGES["default"]["BACKEND"] == "storages.backends.s3.S3Storage"
+):  # pragma: no cover
+    STORAGES["default"]["OPTIONS"] = S3_STORAGE_OPTIONS
 
 # unoconv
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
