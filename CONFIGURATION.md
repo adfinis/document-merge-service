@@ -117,9 +117,9 @@ If either `EMAIL_HOST_USER` or `EMAIL_HOST_PASSWORD` is empty, Django won't atte
 - `MEDIA_ROOT`: Absolute filesystem path to the directory that will hold user-uploaded files. (default: "")
 - `MEDIA_URL`: URL that handles the media served from MEDIA_ROOT, used for managing stored files. When using buckets this needs to be changed. (default: `api/v1/template/`)
 
-### [django-storages](https://django-storages.readthedocs.io/en/1.13.2/backends/amazon-S3.html) S3 settings
+### [django-storages](https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html) S3 settings
 
-Refer to for example [Digital Ocean](https://django-storages.readthedocs.io/en/1.13.2/backends/digital-ocean-spaces.html) configuration if using a S3 compatible storage which isn't AWS.
+Refer to for example [Digital Ocean](https://django-storages.readthedocs.io/en/latest/backends/s3_compatible/digital-ocean-spaces.html) configuration if using a S3 compatible storage which isn't AWS.
 
 Required to use S3 storage:
 
@@ -136,3 +136,5 @@ Optional:
 - `AWS_S3_SIGNATURE_VERSION`: S3 signature version to use (default: `s2`)
 - `AWS_S3_USE_SSL`: Whether or not to use SSL when connecting to S3 (default: `True`)
 - `AWS_S3_VERIFY`: Whether or not to verify the connection to S3. Can be set to False to not verify SSL/TLS certificates. (default: `None`)
+- `DMS_ENABLE_AT_REST_ENCRYPTION`: Whether to use SSEC to encrypt files uploaded to S3 (default: `False`)
+- `DMS_S3_STORAGE_SSEC_SECRET`: Secret key for SSEC encryption, has to be 32 bytes long (default: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`)
