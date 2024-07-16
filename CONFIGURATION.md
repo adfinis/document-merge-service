@@ -123,18 +123,18 @@ Refer to for example [Digital Ocean](https://django-storages.readthedocs.io/en/l
 
 Required to use S3 storage:
 
-- `AWS_S3_ACCESS_KEY_ID`: AWS access key id
-- `AWS_S3_SECRET_ACCESS_KEY`: AWS secret access key
-- `AWS_STORAGE_BUCKET_NAME`: Storage bucket name
+- `DMS_S3_ACCESS_KEY_ID`: AWS access key id
+- `DMS_S3_SECRET_ACCESS_KEY`: AWS secret access key
+- `DMS_STORAGE_BUCKET_NAME`: Storage bucket name
 
 Optional:
 
-- `AWS_S3_ENDPOINT_URL`: Custom S3 URL to use when connecting to S3, including scheme. (default: "")
-- `AWS_S3_REGION_NAME`: Region of the storage (default: "")
-- `AWS_LOCATION`: A path prefix that will be prepended to all uploads (default: "")
-- `AWS_S3_FILE_OVERWRITE`: If `True` Files with the same name will overwrite each other. Otherwise extra characters are appended. (default: `False`)
-- `AWS_S3_SIGNATURE_VERSION`: S3 signature version to use (default: `s2`)
-- `AWS_S3_USE_SSL`: Whether or not to use SSL when connecting to S3 (default: `True`)
-- `AWS_S3_VERIFY`: Whether or not to verify the connection to S3. Can be set to False to not verify SSL/TLS certificates. (default: `None`)
+- `DMS_S3_ENDPOINT_URL`: Custom S3 URL to use when connecting to S3, including scheme. (default: "")
+- `DMS_S3_REGION_NAME`: Region of the storage (default: "")
+- `DMS_LOCATION`: A path prefix that will be prepended to all uploads (default: "")
+- `DMS_S3_FILE_OVERWRITE`: If `True` Files with the same name will overwrite each other. Otherwise extra characters are appended. (default: `False`)
+- `DMS_S3_SIGNATURE_VERSION`: S3 signature version to use (default: `s2`)
+- `DMS_S3_USE_SSL`: Whether or not to use SSL when connecting to S3 (default: `True`)
+- `DMS_S3_VERIFY`: Whether or not to verify the connection to S3. Can be set to False to not verify SSL/TLS certificates. (default: `None`)
 - `DMS_ENABLE_AT_REST_ENCRYPTION`: Whether to use SSEC to encrypt files uploaded to S3 (default: `False`)
 - `DMS_S3_STORAGE_SSEC_SECRET`: Secret key for SSEC encryption, has to be 32 bytes long (default: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`)
