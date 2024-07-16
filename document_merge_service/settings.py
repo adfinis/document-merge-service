@@ -165,16 +165,16 @@ MEDIA_URL = env.str("MEDIA_URL", "api/v1/template/")
 # django-storages S3 settings
 DMS_ENABLE_AT_REST_ENCRYPTION = env.bool("DMS_ENABLE_AT_REST_ENCRYPTION", False)
 S3_STORAGE_OPTIONS = {
-    "access_key": env.str("AWS_S3_ACCESS_KEY_ID", ""),
-    "secret_key": env.str("AWS_S3_SECRET_ACCESS_KEY", ""),
-    "bucket_name": env.str("AWS_STORAGE_BUCKET_NAME", ""),
-    "endpoint_url": env.str("AWS_S3_ENDPOINT_URL", ""),
-    "region_name": env.str("AWS_S3_REGION_NAME", ""),
-    "location": env.str("AWS_LOCATION", ""),
-    "file_overwrite": env.bool("AWS_S3_FILE_OVERWRITE", False),
-    "signature_version": env.str("AWS_S3_SIGNATURE_VERSION", "v2"),
-    "use_ssl": env.bool("AWS_S3_USE_SSL", default=True),
-    "verify": env.bool("AWS_S3_VERIFY", default=None),
+    "access_key": env.str("DMS_S3_ACCESS_KEY_ID", ""),
+    "secret_key": env.str("DMS_S3_SECRET_ACCESS_KEY", ""),
+    "bucket_name": env.str("DMS_STORAGE_BUCKET_NAME", ""),
+    "endpoint_url": env.str("DMS_S3_ENDPOINT_URL", ""),
+    "region_name": env.str("DMS_S3_REGION_NAME", ""),
+    "location": env.str("DMS_LOCATION", ""),
+    "file_overwrite": env.bool("DMS_S3_FILE_OVERWRITE", False),
+    "signature_version": env.str("DMS_S3_SIGNATURE_VERSION", "v2"),
+    "use_ssl": env.bool("DMS_S3_USE_SSL", default=True),
+    "verify": env.bool("DMS_S3_VERIFY", default=None),
 }
 
 if DMS_ENABLE_AT_REST_ENCRYPTION:  # pragma: no cover
