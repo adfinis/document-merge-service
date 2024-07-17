@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.0.0 (17 July 2024)
+### Feature
+
+* **s3:** Add s3 ssec option ([`7829a2c`](https://github.com/adfinis/document-merge-service/commit/7829a2cba627eedc7f3c97bca666973f387e61d6))
+
+### Breaking
+
+* prefix storage env vars with dms for django-storages to avoid conflicts ([`8fc5649`](https://github.com/adfinis/document-merge-service/commit/8fc564985d9516a71a5acdd9651134ec5add2a86))
+* removed support for python 3.8 and 3.9 ([`8ef1733`](https://github.com/adfinis/document-merge-service/commit/8ef1733ed279594ab415d1a53f2fa926bebfc758))
+
 ## 6.6.1 (1 July 2024)
 ### Chore
 
