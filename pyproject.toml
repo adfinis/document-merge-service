@@ -119,7 +119,7 @@ DJANGO_SETTINGS_MODULE = "document_merge_service.settings"
 filterwarnings = [
     "error::DeprecationWarning",
     "error::PendingDeprecationWarning",
-    "ignore:invalid escape sequence:SyntaxWarning",  # xltpl
+    "ignore:invalid escape sequence",  # xltpl
     "ignore:pkg_resources is deprecated as an API:DeprecationWarning",  # docx-mailmerge2
     "ignore:'imghdr' is deprecated:DeprecationWarning",  # jinja
 ]
