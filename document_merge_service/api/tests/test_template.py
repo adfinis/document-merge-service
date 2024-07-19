@@ -55,7 +55,7 @@ def test_template_download(db, client, template):
     template_resp = client.get(download_url)
 
     file.seek(0)
-    assert file.read() == template_resp.content
+    assert file.read() == template_resp.getvalue()
 
 
 def test_template_list_with_file(db, client, template):
@@ -201,7 +201,7 @@ def test_template_create(
         template_link = data["template"]
         response = client.get(template_link)
         assert response.status_code == status.HTTP_200_OK
-        file_ = io.BytesIO(response.content)
+        file_ = io.BytesIO(response.getvalue())
         if engine == "xlsx-template":
             openpyxl.load_workbook(file_)
         else:
@@ -252,7 +252,7 @@ def test_disable_validation(
         template_link = data["template"]
         response = admin_client.get(template_link)
         assert response.status_code == status.HTTP_200_OK
-        Document(io.BytesIO(response.content))
+        Document(io.BytesIO(response.getvalue()))
 
 
 @pytest.mark.parametrize(
@@ -501,7 +501,7 @@ def test_template_create_with_available_placeholders(
         template_link = data["template"]
         response = admin_client.get(template_link)
         assert response.status_code == status.HTTP_200_OK
-        Document(io.BytesIO(response.content))
+        Document(io.BytesIO(response.getvalue()))
 
 
 @pytest.mark.parametrize(
@@ -565,13 +565,13 @@ def test_template_merge_docx(
         == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
-    docx = Document(io.BytesIO(response.content))
+    docx = Document(io.BytesIO(response.getvalue()))
     xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
     try:
         snapshot.assert_match(xml)
     except AssertionError:  # pragma: no cover
         with open(f"/tmp/{template.slug}.docx", "wb") as output:
-            output.write(response.content)
+            output.write(response.getvalue())
         print("Template output changed. Check file at %s" % output.name)
         raise
 
@@ -607,13 +607,13 @@ def test_merge_expression(
     response = client.post(url, data={"data": template_content}, format="json")
     assert response.status_code == status.HTTP_200_OK
 
-    docx = Document(io.BytesIO(response.content))
+    docx = Document(io.BytesIO(response.getvalue()))
     xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
     try:
         snapshot.assert_match(xml)
     except AssertionError:  # pragma: no cover
         with open(f"/tmp/{template.slug}.docx", "wb") as output:
-            output.write(response.content)
+            output.write(response.getvalue())
         print("Template output changed. Check file at %s" % output.name)
         raise
 
@@ -690,7 +690,7 @@ def test_template_merge_jinja_extensions_docx(
         == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
-    docx = Document(io.BytesIO(response.content))
+    docx = Document(io.BytesIO(response.getvalue()))
     xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
     snapshot.assert_match(xml)
 
@@ -761,7 +761,7 @@ def test_template_merge_jinja_filters_docx(
             == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
 
-        docx = Document(io.BytesIO(response.content))
+        docx = Document(io.BytesIO(response.getvalue()))
         xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
         snapshot.assert_match(xml)
 

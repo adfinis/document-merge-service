@@ -3,8 +3,7 @@ from os.path import splitext
 from pathlib import Path
 
 import jinja2
-from django.http import HttpResponse, FileResponse
-from django.utils.encoding import smart_str
+from django.http import FileResponse, HttpResponse
 from generic_permissions.permissions import PermissionViewMixin
 from generic_permissions.visibilities import VisibilityViewMixin
 from rest_framework import exceptions, viewsets
