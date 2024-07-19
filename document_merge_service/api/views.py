@@ -1,8 +1,9 @@
 import mimetypes
 from os.path import splitext
+from pathlib import Path
 
 import jinja2
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.utils.encoding import smart_str
 from generic_permissions.permissions import PermissionViewMixin
 from generic_permissions.visibilities import VisibilityViewMixin
@@ -70,17 +71,10 @@ class DownloadTemplateView(RetrieveAPIView):
     def retrieve(self, request, **kwargs):
         template = self.get_object()
 
-        mime_type, _ = mimetypes.guess_type(template.template.name)
-        extension = mimetypes.guess_extension(mime_type)
-        content_type = mime_type or "application/force-download"
-
-        response = HttpResponse(content_type=content_type)
-        response["Content-Disposition"] = 'attachment; filename="%s"' % smart_str(
-            template.slug + extension
+        return FileResponse(
+            template.template.file,
+            filename=f"{template.slug}{Path(template.template.name).suffix}",
         )
-        response["Content-Length"] = template.template.size
-        response.write(template.template.read())
-        return response
 
 
 class ConvertView(APIView):
