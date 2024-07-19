@@ -165,11 +165,11 @@ MEDIA_URL = env.str("MEDIA_URL", "api/v1/template/")
 # django-storages S3 settings
 DMS_ENABLE_AT_REST_ENCRYPTION = env.bool("DMS_ENABLE_AT_REST_ENCRYPTION", False)
 S3_STORAGE_OPTIONS = {
-    "access_key": env.str("DMS_S3_ACCESS_KEY_ID", ""),
-    "secret_key": env.str("DMS_S3_SECRET_ACCESS_KEY", ""),
-    "bucket_name": env.str("DMS_STORAGE_BUCKET_NAME", ""),
-    "endpoint_url": env.str("DMS_S3_ENDPOINT_URL", ""),
-    "region_name": env.str("DMS_S3_REGION_NAME", ""),
+    "access_key": env.str("DMS_S3_ACCESS_KEY_ID", "minio"),
+    "secret_key": env.str("DMS_S3_SECRET_ACCESS_KEY", "minio123"),
+    "bucket_name": env.str("DMS_STORAGE_BUCKET_NAME", "dms-media"),
+    "endpoint_url": env.str("DMS_S3_ENDPOINT_URL", "http://minio:9000"),
+    "region_name": env.str("DMS_S3_REGION_NAME", None),
     "location": env.str("DMS_LOCATION", ""),
     "file_overwrite": env.bool("DMS_S3_FILE_OVERWRITE", False),
     "signature_version": env.str("DMS_S3_SIGNATURE_VERSION", "v2"),
