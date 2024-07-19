@@ -1,5 +1,11 @@
 # Changelog
 
+
+## 7.0.1 (19 July 2024)
+### Fix
+
+* Ssec download ([`d6e043d`](https://github.com/adfinis/document-merge-service/commit/d6e043d93203c0edcbae7962b1008717dcae9f08))
+
 ## 7.0.0 (17 July 2024)
 ### Feature
 
