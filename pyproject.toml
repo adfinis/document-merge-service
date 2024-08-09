@@ -34,7 +34,7 @@ django-generic-api-permissions = "^0.4.6"
 django-storages = "^1.14.3"
 djangorestframework = "^3.15.2"
 docx-mailmerge2 = "^0.8.0"
-docxtpl = "^0.17.0"
+docxtpl = ">=0.17,<0.19"
 Jinja2 = "^3.1.4"
 mysqlclient = { version = "^2.2.4", optional = true }
 pillow = "^10.3.0"
