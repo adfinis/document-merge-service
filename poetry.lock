@@ -655,13 +655,13 @@ tests = ["pytest"]
 
 [[package]]
 name = "docxtpl"
-version = "0.17.0"
+version = "0.18.0"
 description = "Python docx template engine"
 optional = false
 python-versions = "*"
 files = [
-    {file = "docxtpl-0.17.0-py2.py3-none-any.whl", hash = "sha256:475e6e922ca4c3f4c26e8941f2170826c4d80a72c5219369070554719bc8a1a4"},
-    {file = "docxtpl-0.17.0.tar.gz", hash = "sha256:19d719efa46017653451f978442395ceeb5a45da4f4b879e6bf9f49df14fe465"},
+    {file = "docxtpl-0.18.0-py2.py3-none-any.whl", hash = "sha256:e722b4ae2f2b41aa5d6e5a382e589a380f6b3e0623ced7dceedea1c1aa64f119"},
+    {file = "docxtpl-0.18.0.tar.gz", hash = "sha256:854ddcf0e294ce69e00f44e3ac4078ccdc8f1f9ea89b8e7e46807abb681c4e23"},
 ]
 
 [package.dependencies]
@@ -669,7 +669,6 @@ docxcompose = "*"
 jinja2 = "*"
 lxml = "*"
 python-docx = ">=1.1.1"
-six = "*"
 
 [package.extras]
 docs = ["Sphinx", "sphinxcontrib-napoleon"]
@@ -2489,4 +2488,4 @@ s3 = ["boto3"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.0,<3.13"
-content-hash = "c09019bcf8eb4f1d161438dec8bcbdbb983240247c049a97bec89ae5a2b7b963"
+content-hash = "3616537f2f1b588a8c23c2dee538cf5c61f16fac1010374af5888534f0bfe42f"
