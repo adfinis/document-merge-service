@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.0.2 (9 August 2024)
+### Fix
+
+* **deps:** Update django ([`4f0cee5`](https://github.com/adfinis/document-merge-service/commit/4f0cee592bd5636c696281df0ff1471ea734c09f))
 
 ## 7.0.1 (19 July 2024)
 ### Fix
