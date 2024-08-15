@@ -301,8 +301,7 @@ GENERIC_PERMISSIONS_VISIBILITY_CLASSES = env.list("DMS_VISIBILITY_CLASSES", defa
 # App specific arguments for the extension classes
 EXTENSIONS_ARGUMENTS = env.dict("EXTENSIONS_ARGUMENTS", default={})
 
-# By default the maximum number of files for the data upload is set to 1000:
+# DMS potentially uses a large number of fields when creating templates due to
+# the possibility to validate a template against available placeholders.
 # https://docs.djangoproject.com/en/5.1/ref/settings/#data-upload-max-number-fields
-# Since we send about 1500 files in the post request when creating a new template,
-# we run into a TooManyFiles error. Because of this error, we raise the files to 2000.
-DATA_UPLOAD_MAX_NUMBER_FILES = 2000
+DATA_UPLOAD_MAX_NUMBER_FIELDS = env.int("DATA_UPLOAD_MAX_NUMBER_FIELDS", default=1000)
