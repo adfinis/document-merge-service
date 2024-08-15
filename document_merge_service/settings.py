@@ -300,3 +300,8 @@ GENERIC_PERMISSIONS_VISIBILITY_CLASSES = env.list("DMS_VISIBILITY_CLASSES", defa
 
 # App specific arguments for the extension classes
 EXTENSIONS_ARGUMENTS = env.dict("EXTENSIONS_ARGUMENTS", default={})
+
+# DMS potentially uses a large number of fields when creating templates due to
+# the possibility to validate a template against available placeholders.
+# https://docs.djangoproject.com/en/5.1/ref/settings/#data-upload-max-number-fields
+DATA_UPLOAD_MAX_NUMBER_FIELDS = env.int("DATA_UPLOAD_MAX_NUMBER_FIELDS", default=1000)
