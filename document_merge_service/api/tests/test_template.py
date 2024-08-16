@@ -1,6 +1,7 @@
 import io
 import json
 import os
+from collections import namedtuple
 
 import openpyxl
 import pytest
@@ -8,7 +9,9 @@ from django.urls import reverse
 from docx import Document
 from lxml import etree
 from rest_framework import status
+from syrupy import filters
 
+from document_merge_service.api.authentication import AnonymousUser
 from document_merge_service.api.data import django_file
 
 from .. import models, serializers
@@ -37,7 +40,9 @@ def test_template_detail(db, client, template, snapshot):
 
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
-    snapshot.assert_match(response.json())
+    assert response.json() == snapshot(
+        exclude=filters.props("created_at", "modified_at")
+    )
 
 
 def test_template_download(db, client, template):
@@ -206,6 +211,56 @@ def test_template_create(
             openpyxl.load_workbook(file_)
         else:
             Document(file_)
+
+
+@pytest.mark.parametrize(
+    "exists,status_code,method,url",
+    [
+        (
+            True,
+            status.HTTP_200_OK,
+            "patch",
+            reverse("template-detail", args=["foobar"]),
+        ),
+        (
+            False,
+            status.HTTP_201_CREATED,
+            "post",
+            reverse("template-list"),
+        ),
+    ],
+)
+@pytest.mark.parametrize("template__slug", ["foobar"])
+def test_created_modified(db, admin_client, exists, template, status_code, method, url):
+    template_file = django_file("xlsx-template.xlsx")
+    data = {
+        "slug": "test-slug",
+        "template": template_file.file,
+        "engine": models.Template.XLSX_TEMPLATE,
+    }
+
+    request_method = getattr(admin_client, method)
+
+    if not exists:
+        template.delete()
+
+    response = request_method(url, data=data, format="multipart")
+
+    assert response.status_code == status_code
+    data = response.json()
+
+    if exists:
+        assert data["created_by_user"] is None
+        assert data["created_by_group"] is None
+    else:
+        assert data["created_by_user"] == "admin"
+        assert data["created_by_group"] == "admin"
+
+    assert data["modified_by_user"] == "admin"
+    assert data["modified_by_group"] == "admin"
+
+    assert data["modified_at"]
+    assert data["created_at"]
 
 
 @pytest.mark.parametrize(
@@ -637,12 +692,15 @@ def test_merge_expression(
     [models.Template.DOCX_TEMPLATE],
 )
 def test_validate_expression(
-    docx_template_with_placeholder, client, placeholder, template_content
+    docx_template_with_placeholder, placeholder, template_content
 ):
     """Test validation of templates with custom expressions."""
     template = docx_template_with_placeholder(placeholder)
 
-    serializer = serializers.TemplateSerializer()
+    Request = namedtuple("Request", ["user"])
+    serializer = serializers.TemplateSerializer(
+        context={"request": Request(AnonymousUser())}
+    )
     serializer.instance = template
 
     serializer.validate({"data": template_content})
