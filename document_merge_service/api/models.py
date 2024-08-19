@@ -54,7 +54,8 @@ class Template(models.Model):
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     """Delete template file from filesystem when `Template` object is deleted."""
 
-    DefaultStorage().delete(instance.template.name)
+    if instance.template:
+        DefaultStorage().delete(instance.template.name)
 
 
 @receiver(models.signals.pre_save, sender=Template)
