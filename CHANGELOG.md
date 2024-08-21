@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.1.0 (21 August 2024)
+### Feature
+
+* **template:** add new template model properties ([`1624693`](https://github.com/adfinis/document-merge-service/commit/16246933a821584ad5d88c65489a9849d8d4904b))
+
+### Fix
+
+* **template:** Only delete file if it exists ([`eef256a`](https://github.com/adfinis/document-merge-service/commit/eef255add8a5fff5705ba9ce063acc7b09beef03))
+* **template:** Raise the maximum number of fields for the data upload ([`bbbb82b`](https://github.com/adfinis/document-merge-service/commit/bbbb82ba805a2741ddf9364c697713e31b644ce2))
+
 ## 7.0.2 (9 August 2024)
 ### Fix
 
