@@ -66,6 +66,14 @@ class TemplateSerializer(ValidatorMixin, serializers.ModelSerializer):
         return sorted([x.replace(".[]", "[]") for x in _doc(sample_doc)])
 
     def validate(self, data):
+        user = self.context["request"].user
+
+        if self.instance is None:
+            data["created_by_user"] = user.username
+            data["created_by_group"] = user.group
+        data["modified_by_user"] = user.username
+        data["modified_by_group"] = user.group
+
         if data.pop("disable_template_validation", False):
             # Some template structures cannot be validated automatically,
             # or it would be impossible or too much effort to provide accurate
@@ -118,7 +126,21 @@ class TemplateSerializer(ValidatorMixin, serializers.ModelSerializer):
             "files",
             "disable_template_validation",
             "meta",
+            "created_at",
+            "created_by_user",
+            "created_by_group",
+            "modified_at",
+            "modified_by_user",
+            "modified_by_group",
         )
+        extra_kwargs = {
+            "created_at": {"read_only": True},
+            "created_by_user": {"read_only": True},
+            "created_by_group": {"read_only": True},
+            "modified_at": {"read_only": True},
+            "modified_by_user": {"read_only": True},
+            "modified_by_group": {"read_only": True},
+        }
 
 
 class TemplateMergeSerializer(serializers.Serializer):

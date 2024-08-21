@@ -138,6 +138,8 @@
 # name: test_template_detail
   dict({
     'available_placeholders': None,
+    'created_by_group': None,
+    'created_by_user': None,
     'description': '''
       Article star very capital morning option. Interesting station story.
       Where during teach country talk across drop. Central meeting anyone remember. There today material minute ago get.
@@ -146,6 +148,8 @@
     'engine': 'docx-mailmerge',
     'meta': dict({
     }),
+    'modified_by_group': None,
+    'modified_by_user': None,
     'sample_data': None,
     'slug': 'note-act-source',
     'template': None,
