@@ -151,6 +151,7 @@ omit = [
     "document_merge_service/settings_*.py",
     "document_merge_service/wsgi.py",
     "document_merge_service/document_merge_service_metadata.py",
+    "document_merge_service/api/management/commands/clean_dangling_objects.py",
 ]
 show_missing = true
 
