@@ -567,10 +567,8 @@ version = "1.14.4"
 description = "Support for many storage backends in Django"
 optional = false
 python-versions = ">=3.7"
-files = [
-    {file = "django-storages-1.14.4.tar.gz", hash = "sha256:69aca94d26e6714d14ad63f33d13619e697508ee33ede184e462ed766dc2a73f"},
-    {file = "django_storages-1.14.4-py3-none-any.whl", hash = "sha256:d61930acb4a25e3aebebc6addaf946a3b1df31c803a6bf1af2f31c9047febaa3"},
-]
+files = []
+develop = false
 
 [package.dependencies]
 Django = ">=3.2"
@@ -583,6 +581,12 @@ google = ["google-cloud-storage (>=1.27)"]
 libcloud = ["apache-libcloud"]
 s3 = ["boto3 (>=1.4.4)"]
 sftp = ["paramiko (>=1.15)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/adfinis-forks/django-storages"
+reference = "s3-head-object-sse-c"
+resolved_reference = "b6555067f7114f254defbf6bd3002abecb75181f"
 
 [[package]]
 name = "django-stubs"
@@ -2519,4 +2523,4 @@ s3 = ["boto3"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.0,<3.13"
-content-hash = "336deec4274066ab40f0d9cd0e149cdc3a034077dec849f8f2317b8eb4bb65d7"
+content-hash = "f62e7d6390c43e59acdefb06bf72f2ea27562189bba6faad38b6be3ebb041d44"
