@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.1.0 (18 September 2024)
+### Fix
+
+* **sse-c:** Bump django-storages to include fix for head_object ([`b0a9601`](https://github.com/adfinis/document-merge-service/commit/b0a96015974f2f1fe0762b94b2459f10e3006ac8))
+
 ## 7.1.0 (21 August 2024)
 ### Feature
 
