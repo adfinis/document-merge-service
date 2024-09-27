@@ -654,13 +654,13 @@ files = [
 
 [[package]]
 name = "docx-mailmerge2"
-version = "0.8.2"
+version = "0.8.3"
 description = "Performs a Mail Merge on docx (Microsoft Office Word) files"
 optional = false
 python-versions = "*"
 files = [
-    {file = "docx_mailmerge2-0.8.2-py2.py3-none-any.whl", hash = "sha256:06254fa74fe43b7bb864235f75495201912bccbf3ec568c5b06ed50e8f940d4c"},
-    {file = "docx_mailmerge2-0.8.2.tar.gz", hash = "sha256:3fbdbe8bea2e80d3e80a9a5456471e9374ca912850dfb5a99946b9a727118349"},
+    {file = "docx_mailmerge2-0.8.3-py2.py3-none-any.whl", hash = "sha256:dac252c0323e01cc45082587a37ea1234e616fe1746d9116368b95b2fa17190d"},
+    {file = "docx_mailmerge2-0.8.3.tar.gz", hash = "sha256:ff90b61edee33d4503371eb49e285087d64c335574a94e2e03c90923f5785237"},
 ]
 
 [package.dependencies]
