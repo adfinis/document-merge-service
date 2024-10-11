@@ -1,5 +1,17 @@
 # Changelog
 
+## 7.2.0 (11 October 2024)
+### Feature
+* **auth:** Make OIDC_USERNAME_CLAIM configurable ([`be82b1e`](https://github.com/luytena/document-merge-service/commit/be82b1ec20c4cc651c3cb61f0e48d71447a3a6c3))
+
+### Fix
+* **deps:** Update dependencies ([`4264f66`](https://github.com/luytena/document-merge-service/commit/4264f6657e2b56993a20b0ff1907a099094de03e))
+
+## 7.1.1 (18 September 2024)
+### Fix
+
+* **sse-c:** Bump django-storages to include fix for head_object ([`b0a9601`](https://github.com/adfinis/document-merge-service/commit/b0a96015974f2f1fe0762b94b2459f10e3006ac8))
+
 ## 7.1.0 (18 September 2024)
 ### Fix
 
