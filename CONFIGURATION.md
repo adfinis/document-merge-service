@@ -54,6 +54,7 @@ supporting Open ID Connect. If not available, you might consider using
 - `OIDC_USERINFO_ENDPOINT`: Url of userinfo endpoint as [described](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo)
 - `OIDC_VERIFY_SSL`: Verify ssl certificate of oidc userinfo endpoint (default: True)
 - `OIDC_GROUPS_CLAIM`: Name of claim to be used to define group membership (default: document_merge_service_groups)
+- `OIDC_USERNAME_CLAIM`: Name of claim to be used to define user (default: sub)
 - `OIDC_BEARER_TOKEN_REVALIDATION_TIME`: Time in seconds before bearer token validity is verified again. For best security token is validated on each request per default. It might be helpful though in case of slow Open ID Connect provider to cache it. It uses [cache](#cache) mechanism for memorizing userinfo result. Number has to be lower than access token expiration time. (default: 0)
 
 ## Permissions / Visibilities
