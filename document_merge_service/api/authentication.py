@@ -28,7 +28,7 @@ class AnonymousUser(object):
 
 class AuthenticatedUser(AnonymousUser):
     def __init__(self, userinfo):
-        self.username = userinfo["sub"]
+        self.username = userinfo[settings.OIDC_USERNAME_CLAIM]
         groups = []
         if settings.OIDC_GROUPS_CLAIM:
             groups = userinfo[settings.OIDC_GROUPS_CLAIM]
