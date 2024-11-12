@@ -494,6 +494,7 @@ def test_disable_validation(
         ),
     ],
 )
+@pytest.mark.parametrize("use_json", [True, False])
 def test_template_create_with_available_placeholders(
     db,
     admin_client,
@@ -504,12 +505,18 @@ def test_template_create_with_available_placeholders(
     files,
     status_code,
     settings,
+    use_json,
     expect_missing_placeholders,
 ):
     settings.DOCXTEMPLATE_JINJA_EXTENSIONS = ["jinja2.ext.loopcontrols"]
     url = reverse("template-list")
 
     template_file = django_file(template_name)
+
+    # files are being reused, so make sure they're readable
+    for f in files:
+        f.seek(0)
+
     data = {
         "slug": "test-slug",
         "template": template_file.file,
@@ -519,7 +526,9 @@ def test_template_create_with_available_placeholders(
     if sample_data:
         data["sample_data"] = json.dumps(sample_data)
     if available_placeholders:
-        data["available_placeholders"] = available_placeholders
+        data["available_placeholders"] = (
+            json.dumps(available_placeholders) if use_json else available_placeholders
+        )
 
     response = admin_client.post(url, data=data, format="multipart")
     assert response.status_code == status_code, response.json()
