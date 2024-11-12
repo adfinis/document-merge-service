@@ -1,3 +1,4 @@
+import json
 from functools import singledispatch
 
 from django.conf import settings
@@ -33,11 +34,34 @@ class TemplateFileField(serializers.FileField):
             return reverse("template-download", args=[value.pk])
 
 
+class AvailablePlaceholdersField(serializers.ListField):
+    """A list field type that also accepts JSON lists.
+
+    Instead of multiple fields with the same name (traditional
+    form-data lists), we also accept a JSON list for the available
+    placeholders. This helps reduce the number of fields in the
+    request, which WAF, Django, and possibly other server-side
+    web components don't appreciate.
+    """
+
+    def to_internal_value(self, data):
+        data = data if isinstance(data, list) else [data]
+        all_values = []
+        for value in data:
+            if value.startswith("["):
+                # looks like JSON, parse it
+                all_values.extend(json.loads(value))
+            else:
+                all_values.append(value)
+
+        return all_values
+
+
 class TemplateSerializer(ValidatorMixin, serializers.ModelSerializer):
     disable_template_validation = serializers.BooleanField(
         allow_null=True, default=False
     )
-    available_placeholders = serializers.ListField(allow_null=True, required=False)
+    available_placeholders = AvailablePlaceholdersField(allow_null=True, required=False)
     sample_data = serializers.JSONField(allow_null=True, required=False)
     files = serializers.ListField(
         child=CustomFileField(write_only=True, allow_empty_file=False), required=False
