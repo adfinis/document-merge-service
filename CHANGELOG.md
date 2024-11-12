@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.0 (12 November 2024)
+
+### Feature
+
+* **api:** Accept available placeholders as json list ([`88887c4`](https://github.com/adfinis-sygroup/document-merge-service/commit/88887c464825301c04c7642a69977ed68bb6b512))
+
 ## 7.2.0 (11 October 2024)
 ### Feature
 * **auth:** Make OIDC_USERNAME_CLAIM configurable ([`be82b1e`](https://github.com/luytena/document-merge-service/commit/be82b1ec20c4cc651c3cb61f0e48d71447a3a6c3))
