@@ -58,7 +58,8 @@ class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewS
         if convert:
             response = FileConverter.convert(response.content, convert)
 
-        filename = f"{template.slug}.{convert}"
+        extension = mimetypes.guess_extension(response.headers["Content-Type"])
+        filename = f"{template.slug}{extension}"
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
 
