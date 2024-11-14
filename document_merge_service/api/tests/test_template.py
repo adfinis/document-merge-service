@@ -1,6 +1,7 @@
 import io
 import json
 import os
+import re
 from collections import namedtuple
 
 import openpyxl
@@ -15,6 +16,10 @@ from document_merge_service.api.authentication import AnonymousUser
 from document_merge_service.api.data import django_file
 
 from .. import models, serializers
+
+
+def get_filename_from_response(response):
+    return re.search(r'filename="(.*)"', response["Content-Disposition"])[1]
 
 
 @pytest.mark.parametrize("template__description", ["test description"])
@@ -628,6 +633,7 @@ def test_template_merge_docx(
         response.get("content-type")
         == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+    assert get_filename_from_response(response) == f"{template.slug}.docx"
 
     docx = Document(io.BytesIO(response.getvalue()))
     xml = etree.tostring(docx._element.body, encoding="unicode", pretty_print=True)
@@ -735,7 +741,7 @@ def test_template_merge_as_pdf(
     )
     assert response.status_code == status.HTTP_200_OK
     assert response["Content-Type"] == "application/pdf"
-    assert f"{template.pk}.pdf" in response["Content-Disposition"]
+    assert get_filename_from_response(response) == f"{template.slug}.pdf"
     assert response.content[0:4] == b"%PDF"
 
 
