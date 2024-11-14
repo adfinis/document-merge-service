@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.1 (14 November 2024)
+
+### Fix
+
+* **merge:** Fix extension in filename when merging without convert ([`9676dab`](https://github.com/adfinis/document-merge-service/commit/9676dab2a859bfa3da4846d8e795bff09f870fbc))
+
 ## 7.3.0 (12 November 2024)
 
 ### Feature
