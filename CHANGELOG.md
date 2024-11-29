@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.2 (29 November 2024)
+
+### Fix
+
+* **deps:** Update dependencies ([`322e9ad`](https://github.com/adfinis/document-merge-service/commit/322e9ad7fb20c05198477f7c9c53598ca0c617e3))
+
 ## 7.3.1 (14 November 2024)
 
 ### Fix
