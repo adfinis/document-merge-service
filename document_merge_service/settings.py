@@ -96,7 +96,21 @@ CACHES = {
             "CACHE_BACKEND", default="django.core.cache.backends.locmem.LocMemCache"
         ),
         "LOCATION": env.str("CACHE_LOCATION", default=""),
-        "OPTIONS": env.dict("CACHE_OPTIONS", default={}),
+        "OPTIONS": env.dict(
+            "CACHE_OPTIONS",
+            default={},
+            cast={
+                "value": str,
+                # Common options for PyMemcacheCache which need to have the
+                # proper datatype in order to work
+                "cast": {
+                    "connect_timeout": float,
+                    "timeout": float,
+                    "no_delay": bool,
+                    "ignore_exc": bool,
+                },
+            },
+        ),
     }
 }
 
