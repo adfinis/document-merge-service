@@ -95,7 +95,8 @@ CACHES = {
         "BACKEND": env.str(
             "CACHE_BACKEND", default="django.core.cache.backends.locmem.LocMemCache"
         ),
-        "LOCATION": env.str("CACHE_LOCATION", ""),
+        "LOCATION": env.str("CACHE_LOCATION", default=""),
+        "OPTIONS": env.dict("CACHE_OPTIONS", default={}),
     }
 }
 
