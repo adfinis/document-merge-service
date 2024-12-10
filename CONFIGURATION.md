@@ -72,8 +72,9 @@ environment variables:
 
 ## Cache
 
-- `CACHE_BACKEND`: [cache backend](https://docs.djangoproject.com/en/1.11/ref/settings/#backend) to use (default: django.core.cache.backends.locmem.LocMemCache)
-- `CACHE_LOCATION`: [location](https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-CACHES-LOCATION) of cache to use
+- `CACHE_BACKEND`: [cache backend](https://docs.djangoproject.com/en/4.2/ref/settings/#backend) to use (default: django.core.cache.backends.locmem.LocMemCache)
+- `CACHE_LOCATION`: [location](https://docs.djangoproject.com/en/4.2/ref/settings/#location) of cache to use
+- `CACHE_OPTIONS`: [options](https://docs.djangoproject.com/en/4.2/ref/settings/#options) for cache library
 
 ## CORS
 
