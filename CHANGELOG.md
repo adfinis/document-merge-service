@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.3 (10 December 2024)
+
+### Fix
+
+* **cache:** Add environment variable to configure cache options ([`6b45365`](https://github.com/adfinis/document-merge-service/commit/6b45365ac6cbc60b1739c75982f54934d57638bc))
+
 ## 7.3.2 (29 November 2024)
 
 ### Fix
