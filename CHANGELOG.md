@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.4 (12 December 2024)
+
+### Fix
+
+* **cache:** Cast common options for memcached cache ([`59f1727`](https://github.com/adfinis/document-merge-service/commit/59f1727b872f34da51757c894db5385170ff4fb4))
+
 ## 7.3.3 (10 December 2024)
 
 ### Fix
