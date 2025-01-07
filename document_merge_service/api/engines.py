@@ -183,7 +183,7 @@ class DocxMailmergeEngine(DocxValidator):
     def _get_placeholders(self, document):
         return [
             field.attrib.get("name")
-            for part in document.parts.values()
+            for part in document.docx.parts.values()
             for field in part["part"].findall(".//MergeField")
         ]
 
