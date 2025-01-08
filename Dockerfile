@@ -41,7 +41,7 @@ USER document-merge-service
 
 ARG ENV=docker
 COPY pyproject.toml poetry.lock $APP_HOME/
-RUN if [ "$ENV" = "dev" ]; then poetry install --all-extras; else poetry install --all-extras --without dev; fi
+RUN if [ "$ENV" = "dev" ]; then poetry install --no-root --all-extras; else poetry install --no-root --all-extras --without dev; fi
 
 COPY . $APP_HOME
 
