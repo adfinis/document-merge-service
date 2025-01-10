@@ -70,7 +70,7 @@ ruff = "0.8.6"
 syrupy = "4.8.0"
 types-python-dateutil = "2.9.0.20241206"
 types-requests = "2.32.0.20241016"
-types-setuptools = "75.6.0.20241223"
+types-setuptools = "75.8.0.20250110"
 types-toml = "0.10.8.20240310"
 
 [tool.poetry.extras]
