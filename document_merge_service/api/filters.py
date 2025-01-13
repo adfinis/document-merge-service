@@ -41,7 +41,7 @@ class JSONValueFilter(Filter):
                 raise ValidationError(
                     f'Lookup expression "{lookup_expr}" not allowed for field '
                     f'"{self.field_name}". Valid expressions: '
-                    f'{", ".join(valid_lookups.keys())}'
+                    f"{', '.join(valid_lookups.keys())}"
                 )
             # "contains" behaves differently on JSONFields as it does on TextFields.
             # That's why we annotate the queryset with the value.
