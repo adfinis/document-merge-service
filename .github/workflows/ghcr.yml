@@ -25,7 +25,7 @@ jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/build/ci/github-actions/
   container-registry:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       packages: write
       contents: read

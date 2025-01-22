@@ -17,7 +17,7 @@ concurrency:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       ENV: dev
     steps:
@@ -47,7 +47,7 @@ jobs:
   docker-tests:
     name: Docker tests
     needs: [lint]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       ENV: dev
     steps:
@@ -66,7 +66,7 @@ jobs:
   compatibility-tests:
     name: Compatibility tests
     needs: [lint]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
