@@ -661,7 +661,7 @@ sftp = ["paramiko (>=1.15)"]
 type = "git"
 url = "https://github.com/adfinis-forks/django-storages"
 reference = "s3-head-object-sse-c"
-resolved_reference = "b6555067f7114f254defbf6bd3002abecb75181f"
+resolved_reference = "76dcb64acf2007b229493a28319d72f7af4f9bfa"
 
 [[package]]
 name = "django-stubs"
