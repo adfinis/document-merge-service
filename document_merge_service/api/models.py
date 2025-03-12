@@ -1,4 +1,5 @@
 from django.core.files.storage import DefaultStorage
+from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.dispatch import receiver
 
@@ -69,5 +70,5 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
 
     if old_file:
         new_file = instance.template
-        if not old_file == new_file:
+        if issubclass(new_file.file.__class__, UploadedFile):
             DefaultStorage().delete(old_file.name)
