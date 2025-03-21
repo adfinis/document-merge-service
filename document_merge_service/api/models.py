@@ -1,4 +1,5 @@
 from django.core.files.storage import DefaultStorage
+from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.dispatch import receiver
 
@@ -60,7 +61,13 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
 
 @receiver(models.signals.pre_save, sender=Template)
 def auto_delete_file_on_change(sender, instance, **kwargs):
-    """Delete old template file from filesystem when `Template` is given a new template file."""
+    """
+    Delete old template file from filesystem when `Template` is given a new template file.
+
+    If a new template file is uploaded, we need to explicitly delete the old file
+    to prevent dangling files in the storage. If no new file is being uploaded (i.e.
+    only other, normal attributes are changed), we keep the file.
+    """
 
     try:
         old_file = Template.objects.get(pk=instance.pk).template
@@ -69,5 +76,5 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
 
     if old_file:
         new_file = instance.template
-        if not old_file == new_file:
+        if isinstance(new_file.file, UploadedFile):
             DefaultStorage().delete(old_file.name)
