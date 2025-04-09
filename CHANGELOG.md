@@ -1,5 +1,12 @@
 # Changelog
 
+## 7.3.6 (8 April 2025)
+
+### Fix
+
+* **deps:** Fix locked dependency on django-storages ([`bf085a9`](https://github.com/adfinis/document-merge-service/commit/bf085a9808bdb76bb70bb8e834b92b6290384c73))
+* **api:** Delete old file when updating template file ([`f98e38b`](https://github.com/adfinis/document-merge-service/commit/f98e38bdb1c1fff84e9e4f3c82d234250cd44c8d))
+
 ## 7.3.5 (13 January 2025)
 
 ### Fix
