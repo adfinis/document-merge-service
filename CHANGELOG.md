@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.7 (10 April 2025)
+
+### Fix
+
+* **ci:** Create container images also when pusblishing a draft release ([fb79d06](https://github.com/adfinis/document-merge-service/commit/fb79d06490661b06c66049b10d292b5ed92dcf55))
+
 ## 7.3.6 (8 April 2025)
 
 ### Fix
