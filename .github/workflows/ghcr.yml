@@ -2,7 +2,9 @@ name: Container image
 
 on:
   release:
-    types: [created]
+    types:
+      - created
+      - published
 
   # Run build for any PRs - we won't push in those however
   pull_request:
