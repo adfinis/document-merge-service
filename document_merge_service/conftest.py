@@ -101,12 +101,13 @@ def loadtest_data():
 
 
 @pytest.fixture
-def sentry_mock(monkeypatch, mocker):
+def sentry_mock(mocker):
     sentry_init("https://SomePublicKey@0.ingest.sentry.io/0", "test", 0.01, False)
-    sentry_client = sentry_sdk.Hub.current.client
-    transport = mocker.MagicMock()
-    monkeypatch.setattr(sentry_client, "transport", transport)
-    try:
-        yield transport
-    finally:
-        sentry_sdk.Hub.current.bind_client(None)
+
+    with sentry_sdk.isolation_scope() as scope:
+        client = scope.get_client()
+        transport = mocker.MagicMock()
+
+        mocker.patch.object(client, "transport", new=transport)
+
+        return transport
