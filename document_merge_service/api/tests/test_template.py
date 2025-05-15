@@ -153,20 +153,6 @@ def test_template_download_url(db, client, template):
             True,
         ),
         (
-            "docx-mailmerge.docx",
-            models.Template.DOCX_MAILMERGE,
-            status.HTTP_201_CREATED,
-            True,
-            True,
-        ),
-        (
-            "docx-mailmerge-syntax.docx",
-            models.Template.DOCX_MAILMERGE,
-            status.HTTP_400_BAD_REQUEST,
-            True,
-            True,
-        ),
-        (
             "docx-template-syntax.docx",
             models.Template.DOCX_TEMPLATE,
             status.HTTP_400_BAD_REQUEST,
@@ -432,60 +418,21 @@ def test_disable_validation(
             status.HTTP_400_BAD_REQUEST,
         ),
         (
-            "docx-mailmerge.docx",
-            None,
-            {
-                "foo": "hello",
-                "bar": {
-                    "some_attr": True,
-                    "list": [{"attribute": "value"}, {"attribute": "value2"}],
-                },
-            },
-            [],
-            ["test"],
-            models.Template.DOCX_MAILMERGE,
-            status.HTTP_400_BAD_REQUEST,
-        ),
-        (
-            "docx-mailmerge.docx",
-            None,
-            {
-                "foo": "hello",
-                "bar": {
-                    "some_attr": True,
-                    "list": [{"attribute": "value"}, {"attribute": "value2"}],
-                },
-            },
-            [],
-            ["test"],
-            models.Template.DOCX_MAILMERGE,
-            status.HTTP_400_BAD_REQUEST,
-        ),
-        (
-            "docx-mailmerge.docx",
-            None,
-            {"test": "hello"},
-            [],
-            [],
-            models.Template.DOCX_MAILMERGE,
-            status.HTTP_201_CREATED,
-        ),
-        (
-            "docx-mailmerge.docx",
+            "docx-template.docx",
             ["test", "blah"],
             {"test": "hello"},
             [],
             [],
-            models.Template.DOCX_MAILMERGE,
+            models.Template.DOCX_TEMPLATE,
             status.HTTP_400_BAD_REQUEST,
         ),
         (
-            "docx-mailmerge.docx",
+            "xlsx-template.xlsx",
             [],
             {"test": "hello"},
             [django_file("black.png").file],
             [],
-            models.Template.DOCX_MAILMERGE,
+            models.Template.XLSX_TEMPLATE,
             status.HTTP_400_BAD_REQUEST,
         ),
         (
@@ -548,7 +495,7 @@ def test_template_create_with_available_placeholders(
                 resp["non_field_errors"][0]
                 == "Only one of available_placeholders and sample_data is allowed"
             )
-        elif engine == models.Template.DOCX_MAILMERGE and files:
+        elif engine == models.Template.XLSX_TEMPLATE and files:
             assert (
                 resp["non_field_errors"][0]
                 == 'Files are only accepted with the "docx-template" engine'
@@ -614,11 +561,6 @@ def test_template_destroy(db, client, template):
             "TestNameTemplate",
             models.Template.DOCX_TEMPLATE,
             django_file("docx-template.docx"),
-        ),
-        (
-            "TestNameMailMerge",
-            models.Template.DOCX_MAILMERGE,
-            django_file("docx-mailmerge.docx"),
         ),
     ],
 )
