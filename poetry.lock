@@ -2478,6 +2478,18 @@ autocompletion = ["argcomplete (>=1.10.0,<3)"]
 yaml = ["PyYaml (>=5.2)"]
 
 [[package]]
+name = "python-magic"
+version = "0.4.27"
+description = "File type identification using libmagic"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+groups = ["main"]
+files = [
+    {file = "python-magic-0.4.27.tar.gz", hash = "sha256:c1ba14b08e4a5f5c31a302b7721239695b2f0f058d125bd5ce1ee36b9d9d3c3b"},
+    {file = "python_magic-0.4.27-py2.py3-none-any.whl", hash = "sha256:c212960ad306f700aa0d01e5d7a325d20548ff97eb9920dcd29513174f0294d3"},
+]
+
+[[package]]
 name = "python-memcached"
 version = "1.62"
 description = "Pure python memcached client"
@@ -3532,4 +3544,4 @@ s3 = ["boto3"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10.0,<3.13"
-content-hash = "76ddee395bb4b7b2b0b2969473319c3f363bda46dd03e6cb995ac0fdde7a6b2a"
+content-hash = "c52ee7d6fa87ef57ee1c0dfe9959ff592f2e824a6fa92a50ba8e397586bf8e88"

@@ -1,5 +1,4 @@
-import imghdr
-
+import magic
 from babel.dates import format_date, format_datetime, format_time
 from dateutil.parser import parse
 from django.conf import settings
@@ -79,7 +78,7 @@ def image(ctx, img_name, width=None, height=None, keep_aspect_ratio=False):
         return
 
     img.seek(0)  # needed in case image is referenced multiple times
-    if imghdr.what(img) not in ["png", "jpg", "jpeg"]:
+    if magic.from_buffer(img.read(), mime=True) not in ["image/png", "image/jpeg"]:
         raise ValidationError("Only png and jpg images are supported!")
 
     width = Mm(width) if width else None
