@@ -32,7 +32,7 @@ jobs:
           python-version: "3.12"
           cache: "poetry"
       - name: Install dependencies
-        run: poetry install --all-extras
+        run: poetry install --all-extras --with dev
       - name: Run gitlint
         run: poetry run gitlint --contrib contrib-title-conventional-commits
       - name: Run ruff check
@@ -61,7 +61,7 @@ jobs:
       - name: Build docker containers
         run: docker compose up -d --build
       - name: Run pytest
-        run: docker compose exec -T document-merge-service poetry run pytest --no-cov-on-fail --cov --create-db -vv
+        run: docker compose exec -T document-merge-service pytest --no-cov-on-fail --cov --create-db -vv
 
   compatibility-tests:
     name: Compatibility tests
@@ -121,7 +121,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends util-linux unoconv libreoffice-writer libmagic1
-          poetry install --all-extras
+          poetry install --all-extras --with dev
       - name: Set environment
         run: |
           echo "ENV=dev" >> .env
