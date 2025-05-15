@@ -140,3 +140,39 @@ Optional:
 - `DMS_S3_VERIFY`: Whether or not to verify the connection to S3. Can be set to False to not verify SSL/TLS certificates. (default: `None`)
 - `DMS_ENABLE_AT_REST_ENCRYPTION`: Whether to use SSEC to encrypt files uploaded to S3 (default: `False`)
 - `DMS_S3_STORAGE_SSEC_SECRET`: Secret key for SSEC encryption, has to be 32 bytes long (default: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`)
+
+## Gunicorn
+
+Document Merge Service uses [Gunicorn](https://gunicorn.org/) as its app server.
+A reasonable configuration is included in the docker image and can be customized
+using the following environment variables:
+
+- `GUNICORN_HOST`: IP address to bin gunicorn to (default `0.0.0.0`)
+- `GUNICORN_PORT`: Port to bin gunicorn to (default `8000`)
+- `GUNICORN_WORKERS`: Number of workers for handling requests (default `8`)
+- `GUNICORN_TIMEOUT`: Number of seconds until worker processing a request is killed and restarted (default `60`)
+- `GUNICORN_LIMIT_REQUEST_LINE`: Maximum size of HTTP request line in bytes (default `8190`)
+
+If you want to further customize your configuration, you may do that by
+overwriting the file [`document_merge_service/gunicorn.py`](document_merge_service/gunicorn.py)
+and add your own custom settings:
+
+```dockerfile
+FROM ghcr.io/adfinis/document-merge-service:latest
+
+COPY my_gunicorn_config.py /app/document_merge_service/gunicorn.py
+```
+
+Such a configuration file might look like this:
+
+```python
+# my_gunicorn_config.py
+
+wsgi_app = "document_merge_service.wsgi:application" # must not be changed
+bind = "0.0.0.0:80"
+workers = 16
+timeout = 120
+loglevel = "debug"
+```
+
+For more information on how to customize Gunicorn, please refer to [the official documentation](https://docs.gunicorn.org/en/latest/settings.html).
