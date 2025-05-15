@@ -33,7 +33,7 @@ django-filter = ">=24.2"
 django-generic-api-permissions = "^0.4.6"
 django-storages = {git = "https://github.com/adfinis-forks/django-storages", rev = "s3-head-object-sse-c"}
 djangorestframework = "^3.15.2"
-docxtpl = ">=0.17,<0.20"
+docxtpl = ">=0.17,<0.21"
 Jinja2 = "^3.1.4"
 mysqlclient = { version = "^2.2.4", optional = true }
 pillow = ">=10.3,<12"
