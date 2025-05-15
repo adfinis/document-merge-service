@@ -125,7 +125,6 @@ filterwarnings = [
     "error::PendingDeprecationWarning",
     "ignore:invalid escape sequence",  # xltpl
     "ignore:pkg_resources is deprecated as an API:DeprecationWarning",  # docxtpl
-    "ignore:'imghdr' is deprecated:DeprecationWarning",  # jinja
 ]
 env = [
     "ADMINS=Test Example <test@example.com>,Test2 <test2@example.com>",
