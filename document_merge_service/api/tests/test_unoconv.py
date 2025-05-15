@@ -90,7 +90,7 @@ def try_fork_load(arg):
 def test_fork_load(capsys, loadtest_data):
     count = 8
     test_files = []
-    test_files += [Path(loadtest_data.parent, "docx-mailmerge.docx")] * count
+    test_files += [Path(loadtest_data.parent, "docx-template.docx")] * count
     test_files += [Path(loadtest_data, "1.doc")] * count
     test_files += [Path(loadtest_data, "2.docx")] * count
     test_files += [Path(loadtest_data, "3.docx")] * count

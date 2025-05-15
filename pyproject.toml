@@ -33,7 +33,6 @@ django-filter = ">=24.2"
 django-generic-api-permissions = "^0.4.6"
 django-storages = {git = "https://github.com/adfinis-forks/django-storages", rev = "s3-head-object-sse-c"}
 djangorestframework = "^3.15.2"
-docx-mailmerge2 = "^0.9.0"
 docxtpl = ">=0.17,<0.20"
 Jinja2 = "^3.1.4"
 mysqlclient = { version = "^2.2.4", optional = true }
@@ -121,7 +120,7 @@ filterwarnings = [
     "error::DeprecationWarning",
     "error::PendingDeprecationWarning",
     "ignore:invalid escape sequence",  # xltpl
-    "ignore:pkg_resources is deprecated as an API:DeprecationWarning",  # docx-mailmerge2
+    "ignore:pkg_resources is deprecated as an API:DeprecationWarning",  # docxtpl
     "ignore:'imghdr' is deprecated:DeprecationWarning",  # jinja
 ]
 env = [

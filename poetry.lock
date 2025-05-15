@@ -778,21 +778,6 @@ files = [
 ]
 
 [[package]]
-name = "docx-mailmerge2"
-version = "0.9.0"
-description = "Performs a Mail Merge on docx (Microsoft Office Word) files"
-optional = false
-python-versions = ">=3.7"
-groups = ["main"]
-files = [
-    {file = "docx_mailmerge2-0.9.0-py3-none-any.whl", hash = "sha256:8d51f2813371d0566023678cd72e44c316f0699fafc8f82223418610518c7a53"},
-    {file = "docx_mailmerge2-0.9.0.tar.gz", hash = "sha256:ecef30db22d1dc8dec3a897fcbc02e92c51b61e3e233ba5a6652885ad31ecd90"},
-]
-
-[package.dependencies]
-lxml = ">=3.1.0"
-
-[[package]]
 name = "docxcompose"
 version = "1.4.0"
 description = "Compose .docx documents"
@@ -3547,4 +3532,4 @@ s3 = ["boto3"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10.0,<3.13"
-content-hash = "b0d57545aef159de0c2e5ac982c55f65ee4ded525c3571d8bea89ece8cb0ceee"
+content-hash = "76ddee395bb4b7b2b0b2969473319c3f363bda46dd03e6cb995ac0fdde7a6b2a"

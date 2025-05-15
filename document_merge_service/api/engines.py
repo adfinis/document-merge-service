@@ -8,7 +8,6 @@ import xltpl.writerx as writerx
 from docx import Document
 from docxtpl import DocxTemplate
 from jinja2.exceptions import TemplateSyntaxError
-from mailmerge import MailMerge
 from rest_framework import exceptions
 
 from document_merge_service.api.data import django_file
@@ -176,43 +175,6 @@ class DocxTemplateEngine(DocxValidator):
         return buf
 
 
-class DocxMailmergeEngine(DocxValidator):
-    def __init__(self, template):
-        self.template = template
-
-    def _get_placeholders(self, document):
-        return [
-            field.attrib.get("name")
-            for part in document.docx.parts.values()
-            for field in part["part"].findall(".//MergeField")
-        ]
-
-    def validate_template_syntax(self, available_placeholders=None, sample_data=None):
-        document = MailMerge(self.template)
-        # syntax can't be invalid as it's validated by office
-        # suites. However we need to have *some* placeholders
-        self.template.seek(0)
-        used_placeholders = self._get_placeholders(document)
-        self.validate_available_placeholders(
-            used_placeholders=used_placeholders,
-            available_placeholders=available_placeholders,
-        )
-
-        if sample_data:
-            buffer = io.BytesIO()
-            self.merge(sample_data, buffer)
-            self.template.seek(0)
-
-        if not len(used_placeholders):
-            raise exceptions.ValidationError("Template has no merge fields")
-
-    def merge(self, data, buf):
-        with MailMerge(self.template) as document:
-            document.merge(**data)
-            document.write(buf)
-            return buf
-
-
 _placeholder_match = re.compile(r"^\s*{{\s*([^{}]+)\s*}}\s*$")
 
 
@@ -313,7 +275,6 @@ class XlsxTemplateEngine:
 
 ENGINES = {
     models.Template.DOCX_TEMPLATE: DocxTemplateEngine,
-    models.Template.DOCX_MAILMERGE: DocxMailmergeEngine,
     models.Template.XLSX_TEMPLATE: XlsxTemplateEngine,
 }
 

@@ -21,12 +21,6 @@ which in turn uses Jinja2 syntax. You can read more about them here:
 
 - [xlsx-template](https://github.com/zhangyu836/xltpl/blob/master/README_EN.md)
 - [docx-template](https://github.com/elapouya/python-docx-template)
-- [docx-mailmerge](https://github.com/Bouke/docx-mailmerge)
-
-Mail Merge uses placeholders in the office format. This means that the
-placeholders are defined using the features of your office suite via
-the mail merge functionality. If you only need to fill in some values,
-and don't need conditional values, this is the format for you.
 
 The DocxTpl format enables you to put the placeholders directly in
 text. This has several advantages and disadvantages:
@@ -65,12 +59,12 @@ Upload templates using the following example code:
 >>> resp = requests.post(
 ...     'http://localhost:8000/api/v1/template/',
 ...     data={
-...         'engine': 'docx-mailmerge',
+...         'engine': 'docx-template',
 ...         'slug': 'my-template',
 ...         'name': 'test template'
 ...     },
 ...     files={
-...         'template': open('docx-mailmerge.docx', 'rb')
+...         'template': open('docx-template.docx', 'rb')
 ...     }
 ... )
 >>> print(resp.status_code)
@@ -81,7 +75,7 @@ The upload is using the `Content-Disposition: form-data` format, commonly used
 in traditional forms when uploading files from a browser.
 Make sure you pass in all required fields:
 
-- `engine`: either `docx-mailmerge`, `docx-template` or `xlsx-template`,
+- `engine`: either `docx-template` or `xlsx-template`,
   depending on your template type
 - `slug`: Identifier of your template. May only be used once and is your
   primary key for accessing the templates later on.
@@ -160,7 +154,7 @@ upload is using the `Content-Disposition: form-data` format.
 >>> resp = requests.post(
 ...     'http://localhost:8000/api/v1/template/',
 ...     data={
-...         'engine': 'docx-mailmerge',
+...         'engine': 'docx-template',
 ...         'slug': 'my-validated-template',
 ...         'name': 'test template',
 ...         'sample_data': json.dumps({
@@ -169,15 +163,15 @@ upload is using the `Content-Disposition: form-data` format.
 ...         })
 ...     },
 ...     files={
-...         'template': open('docx-mailmerge.docx', 'rb')
+...         'template': open('docx-template.docx', 'rb')
 ...     }
 ... )
 >>> print(resp.status_code)
 201
 >>> print(resp.json())
 {'slug': 'my-validated-template', 'description': '', 'template':
-'http://localhost:8000/api/v1/template/docx-mailmerge_uZCLTeY.docx', 'engine':
-'docx-mailmerge', 'group': '[]', 'available_placeholders': None, 'sample_data':
+'http://localhost:8000/api/v1/template/docx-template_uZCLTeY.docx', 'engine':
+'docx-template', 'group': '[]', 'available_placeholders': None, 'sample_data':
 None}
 ```
 
@@ -191,7 +185,7 @@ in the example above would become something like:
 
 ```python
 ...     files=(
-...         ("template", open('docx-mailmerge.docx', 'rb'))),
+...         ("template", open('docx-template.docx', 'rb'))),
 ...         ("files", ("sunset1.png", open('sunset1.png', 'rb'))),
 ...         ("files", ("sunset2.png", open('sunset2.png', 'rb'))),
 ...     ),
