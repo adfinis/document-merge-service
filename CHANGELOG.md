@@ -1,5 +1,28 @@
 # Changelog
 
+## 8.0.0 (16. May 2025)
+
+### Feature
+
+* **docker:** Add image variants ([`72fb354`](https://github.com/adfinis/document-merge-service/commit/72fb354aef0f2b4dbd9d1249d2cc6d8df4f30aba))
+* **docker:** Replace uwsgi with gunicorn as app server ([`aa3f24b`](https://github.com/adfinis/document-merge-service/commit/aa3f24b7f49c30a4b969ba83f89c522a4779929d))
+* **build:** Use multi stage docker build for smaller images ([`73b9e43`](https://github.com/adfinis/document-merge-service/commit/73b9e4351636da53629acd4fe54eb9fba0c2855a))
+* **docker:** Use python 3.13 for docker image ([`e38f4a4`](https://github.com/adfinis/document-merge-service/commit/e38f4a4fca21be43d93196ac1675ab223cd1bbdf))
+* **deps:** Add python 3.13 to compatibility matrix ([`05e9268`](https://github.com/adfinis/document-merge-service/commit/05e9268dc28d209f9099ad2ea889b0b9b9f14cb9))
+* **engine:** Remove obsolete docx mailmerge engine ([`698da36`](https://github.com/adfinis/document-merge-service/commit/698da3682b5657f3290ed274c4caf312c2e489f7))
+
+### Fix
+
+* **settings:** Make DOCXTEMPLATE_JINJA_EXTENSIONS setting optional ([`2ec2b63`](https://github.com/adfinis/document-merge-service/commit/2ec2b63b455792e4c586fc51f311f9cbc901d3f0))
+* **deps:** Replace imghdr with python-magic ([`b6a4ca2`](https://github.com/adfinis/document-merge-service/commit/b6a4ca211a2aef19aefac7cc0bc4ce6998f86f0b))
+
+### Breaking
+
+* Remove dependency on MySQL. If you need to use mysql as a database, you may install the required dependency on top of the standard docker image. ([`08d909d`](https://github.com/adfinis/document-merge-service/commit/08d909db0adf7e32b0ed04fb4c00cc88c302be01))
+* `document-merge-service` now uses Gunicorn as its app server instead of uWSGI. If you are using a custom uWSGI configuration via the `UWSGI_INI` env variable, replace it with a custom Gunicorn configuration as explained in [the documentation](CONFIGURATION.md#gunicorn). ([`aa3f24b`](https://github.com/adfinis/document-merge-service/commit/aa3f24b7f49c30a4b969ba83f89c522a4779929d))
+* This will remove poetry entirely from the production image. If you customized the command, make sure to remove `poetry run` as the binaries are now globally available without using poetry. ([`73b9e43`](https://github.com/adfinis/document-merge-service/commit/73b9e4351636da53629acd4fe54eb9fba0c2855a))
+* This fully removes the support of the docx mailmerge engine as the used library is quite inactive and there is no current use case for this engine. For more information, check issue #570. ([`698da36`](https://github.com/adfinis/document-merge-service/commit/698da3682b5657f3290ed274c4caf312c2e489f7))
+
 ## 7.3.7 (10 April 2025)
 
 ### Fix
