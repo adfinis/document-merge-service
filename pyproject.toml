@@ -36,7 +36,6 @@ djangorestframework = "^3.15.2"
 docxtpl = ">=0.17,<0.21"
 gunicorn = "^23.0.0"
 Jinja2 = "^3.1.4"
-mysqlclient = { version = "^2.2.4", optional = true }
 pillow = ">=10.3,<12"
 psycopg = { version = "^3.1.19", optional = true, extras = ["binary"] }
 pymemcache = { version = "^4.0.0", optional = true }
@@ -78,9 +77,7 @@ types-setuptools = "80.7.0.20250516"
 types-toml = "0.10.8.20240310"
 
 [tool.poetry.extras]
-mysql = ["mysqlclient"]
 pgsql = ["psycopg"]
-databases = ["mysqlclient", "psycopg"]
 memcache = ["pymemcache"]
 s3 = ["boto3"]
 
