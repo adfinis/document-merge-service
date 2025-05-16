@@ -1786,25 +1786,6 @@ files = [
 ]
 
 [[package]]
-name = "mysqlclient"
-version = "2.2.7"
-description = "Python interface to MySQL"
-optional = true
-python-versions = ">=3.8"
-groups = ["main"]
-markers = "extra == \"mysql\" or extra == \"databases\""
-files = [
-    {file = "mysqlclient-2.2.7-cp310-cp310-win_amd64.whl", hash = "sha256:2e3c11f7625029d7276ca506f8960a7fd3c5a0a0122c9e7404e6a8fe961b3d22"},
-    {file = "mysqlclient-2.2.7-cp311-cp311-win_amd64.whl", hash = "sha256:a22d99d26baf4af68ebef430e3131bb5a9b722b79a9fcfac6d9bbf8a88800687"},
-    {file = "mysqlclient-2.2.7-cp312-cp312-win_amd64.whl", hash = "sha256:4b4c0200890837fc64014cc938ef2273252ab544c1b12a6c1d674c23943f3f2e"},
-    {file = "mysqlclient-2.2.7-cp313-cp313-win_amd64.whl", hash = "sha256:201a6faa301011dd07bca6b651fe5aaa546d7c9a5426835a06c3172e1056a3c5"},
-    {file = "mysqlclient-2.2.7-cp39-cp39-win_amd64.whl", hash = "sha256:199dab53a224357dd0cb4d78ca0e54018f9cee9bf9ec68d72db50e0a23569076"},
-    {file = "mysqlclient-2.2.7-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:92af368ed9c9144737af569c86d3b6c74a012a6f6b792eb868384787b52bb585"},
-    {file = "mysqlclient-2.2.7-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:977e35244fe6ef44124e9a1c2d1554728a7b76695598e4b92b37dc2130503069"},
-    {file = "mysqlclient-2.2.7.tar.gz", hash = "sha256:24ae22b59416d5fcce7e99c9d37548350b4565baac82f95e149cac6ce4163845"},
-]
-
-[[package]]
 name = "nh3"
 version = "0.2.21"
 description = "Python binding to Ammonia HTML sanitizer Rust crate"
@@ -2132,7 +2113,7 @@ description = "PostgreSQL database adapter for Python"
 optional = true
 python-versions = ">=3.8"
 groups = ["main"]
-markers = "extra == \"pgsql\" or extra == \"databases\""
+markers = "extra == \"pgsql\""
 files = [
     {file = "psycopg-3.2.9-py3-none-any.whl", hash = "sha256:01a8dadccdaac2123c916208c96e06631641c0566b22005493f09663c7a8d3b6"},
     {file = "psycopg-3.2.9.tar.gz", hash = "sha256:2fbb46fcd17bc81f993f28c47f1ebea38d66ae97cc2dbc3cad73b37cefbff700"},
@@ -2158,7 +2139,7 @@ description = "PostgreSQL database adapter for Python -- C optimisation distribu
 optional = true
 python-versions = ">=3.8"
 groups = ["main"]
-markers = "(extra == \"pgsql\" or extra == \"databases\") and implementation_name != \"pypy\""
+markers = "extra == \"pgsql\" and implementation_name != \"pypy\""
 files = [
     {file = "psycopg_binary-3.2.9-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:528239bbf55728ba0eacbd20632342867590273a9bacedac7538ebff890f1093"},
     {file = "psycopg_binary-3.2.9-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:e4978c01ca4c208c9d6376bd585e2c0771986b76ff7ea518f6d2b51faece75e8"},
@@ -3561,13 +3542,11 @@ cffi = {version = ">=1.11", markers = "platform_python_implementation == \"PyPy\
 cffi = ["cffi (>=1.11)"]
 
 [extras]
-databases = ["mysqlclient", "psycopg"]
 memcache = ["pymemcache"]
-mysql = ["mysqlclient"]
 pgsql = ["psycopg"]
 s3 = ["boto3"]
 
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10.0,<3.14"
-content-hash = "ead1bff779a86c04c20d0c227887f9882cc77c5ea1d4842b354ff58d4f9ae827"
+content-hash = "4af881ee1f52da610b4942c4053ac24f2c10e0d6d4e3c8a69ca7e8d94b175994"
