@@ -32,6 +32,14 @@ jobs:
       packages: write
       contents: read
 
+    strategy:
+      matrix:
+        include:
+          - variant: slim
+            suffix: -slim
+          - variant: full
+            suffix:
+
     steps:
       - uses: actions/checkout@v4
 
@@ -52,10 +60,10 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}
           tags: |
-            type=raw,value=dev,enable={{is_default_branch}}
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
+            type=raw,value=dev${{ matrix.suffix }},enable={{is_default_branch}}
+            type=semver,pattern={{version}}${{ matrix.suffix }}
+            type=semver,pattern={{major}}.{{minor}}${{ matrix.suffix }}
+            type=semver,pattern={{major}}${{ matrix.suffix }}
           labels: |
             org.opencontainers.image.title=document-merge-service
             org.opencontainers.image.description=${{ github.event.repository.description }}
@@ -74,3 +82,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: VARIANT=${{ matrix.variant }}

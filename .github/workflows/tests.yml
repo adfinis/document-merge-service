@@ -32,7 +32,7 @@ jobs:
           python-version: "3.12"
           cache: "poetry"
       - name: Install dependencies
-        run: poetry install --all-extras --with dev
+        run: poetry install --with dev
       - name: Run gitlint
         run: poetry run gitlint --contrib contrib-title-conventional-commits
       - name: Run ruff check
@@ -106,7 +106,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends util-linux unoconv libreoffice-writer libmagic1
-          poetry install --all-extras --with dev
+          poetry install --extras full --with dev
       - name: Set environment
         run: |
           echo "ENV=dev" >> .env
