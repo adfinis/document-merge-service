@@ -34,6 +34,9 @@ ENV DJANGO_SETTINGS_MODULE=document_merge_service.settings
 ENV MEDIA_ROOT=/var/lib/document-merge-service/media
 ENV DATABASE_DIR=/var/lib/document-merge-service/data
 
+# Suppress noisy warning caused by xltpl: https://github.com/zhangyu836/xltpl/issues/27
+ENV PYTHONWARNINGS="ignore:invalid escape sequence:SyntaxWarning"
+
 RUN mkdir -p $APP_HOME $DATABASE_DIR/tmp $MEDIA_ROOT /var/www/static \
   && useradd -u $UID -r document-merge-service --create-home \
   && mkdir $HOME/.config \
