@@ -2,6 +2,7 @@ FROM python:3.13 AS build
 
 ARG ENV=docker
 ARG APP_HOME=/app
+ARG VARIANT=slim
 
 ENV PYTHONUNBUFFERED=1
 ENV POETRY_VIRTUALENVS_CREATE=false
@@ -15,7 +16,7 @@ RUN pip install --no-cache-dir -U poetry
 COPY pyproject.toml poetry.lock $APP_HOME/
 RUN \
   --mount=type=cache,target=.cache/pypoetry \
-  poetry install --no-root --all-extras $(test "$ENV" = "dev" && echo "--with dev")
+  poetry install --no-root --extras $VARIANT $(test "$ENV" = "dev" && echo "--with dev")
 
 # Install project itself
 COPY . $APP_HOME

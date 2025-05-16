@@ -77,9 +77,8 @@ types-setuptools = "80.7.0.20250516"
 types-toml = "0.10.8.20240310"
 
 [tool.poetry.extras]
-pgsql = ["psycopg"]
-memcache = ["pymemcache"]
-s3 = ["boto3"]
+full = ["psycopg", "pymemcache", "boto3"]
+slim = []
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
