@@ -214,9 +214,7 @@ UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
 
 
 # Jinja2
-DOCXTEMPLATE_JINJA_EXTENSIONS = env.list(
-    "DOCXTEMPLATE_JINJA_EXTENSIONS", default=default([])
-)
+DOCXTEMPLATE_JINJA_EXTENSIONS = env.list("DOCXTEMPLATE_JINJA_EXTENSIONS", default=[])
 
 # Authentication
 
