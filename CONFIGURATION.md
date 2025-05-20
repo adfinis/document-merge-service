@@ -147,8 +147,8 @@ Document Merge Service uses [Gunicorn](https://gunicorn.org/) as its app server.
 A reasonable configuration is included in the docker image and can be customized
 using the following environment variables:
 
-- `GUNICORN_HOST`: IP address to bin gunicorn to (default `0.0.0.0`)
-- `GUNICORN_PORT`: Port to bin gunicorn to (default `8000`)
+- `GUNICORN_HOST`: IP address to pin gunicorn to (default `0.0.0.0`)
+- `GUNICORN_PORT`: Port to pin gunicorn to (default `8000`)
 - `GUNICORN_WORKERS`: Number of workers for handling requests (default `8`)
 - `GUNICORN_TIMEOUT`: Number of seconds until worker processing a request is killed and restarted (default `60`)
 - `GUNICORN_LIMIT_REQUEST_LINE`: Maximum size of HTTP request line in bytes (default `8190`)
