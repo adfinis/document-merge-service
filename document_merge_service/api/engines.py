@@ -163,6 +163,14 @@ class DocxTemplateEngine(DocxValidator):
             arg_str = ";".join(exc.args)
             raise exceptions.ValidationError(f"Syntax error in template: {arg_str}")
 
+        except TypeError as exc:
+            if "unsupported operand type(s) for -" in exc.args[0]:
+                raise exceptions.ValidationError(
+                    'Syntax error in template: "-" is not allowed in placeholders'
+                )
+            else:
+                raise exceptions.ValidationError(*exc.args)
+
         finally:
             self.template.seek(0)
 
