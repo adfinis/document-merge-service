@@ -9,7 +9,7 @@ import pytest
 from django.urls import reverse
 from docx import Document
 from lxml import etree
-from rest_framework import status
+from rest_framework import exceptions, status
 from syrupy import filters
 
 from document_merge_service.api.authentication import AnonymousUser
@@ -886,3 +886,33 @@ def test_template_merge_missing_data(
     assert response.json() == [
         "Placeholder from template not found in data: 'bar' is undefined"
     ]
+
+
+@pytest.mark.parametrize(
+    "template_fragment,expected_error",
+    [
+        (
+            "{{E-BAU_NUMBER}}",
+            'Syntax error in template: "-" is not allowed in placeholders',
+        ),
+        (
+            "{{E*BAU_NUMBER}}",
+            "can't multiply sequence by non-int of type '_MagicPlaceholder'",
+        ),
+        ("{{E?BAU_NUMBER}}", "Syntax error in template: unexpected char '?' at 1033"),
+    ],
+)
+def test_placeholder_with_unsupported_operand(
+    db, client, docx_template_with_placeholder, template_fragment, expected_error
+):
+    template = docx_template_with_placeholder(template_fragment)
+
+    Request = namedtuple("Request", ["user"])
+    serializer = serializers.TemplateSerializer(
+        context={"request": Request(AnonymousUser())}
+    )
+    serializer.instance = template
+
+    with pytest.raises(exceptions.ValidationError) as exc_info:
+        serializer.validate({"data": {"E_BAU_NUMBER": 12345}})
+    assert exc_info.value.args[0] == expected_error
