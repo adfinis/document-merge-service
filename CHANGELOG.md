@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.0.2 (25. July 2025)
+
+### Feature
+
+* **placeholders:** add specific error messages if a "-" is used in a placeholder ([e75252f](https://github.com/adfinis/document-merge-service/commit/e75252fc9d57c4732b23fde8e0143c5908d3bbf5))
+
+### Fix
+
+* **docs:** Correct typo ([58e2d05](https://github.com/adfinis/document-merge-service/commit/58e2d05eb081c397eb0c76494ca6ff7833544e8c))
+
 ## 8.0.0 (16. May 2025)
 
 ### Feature
