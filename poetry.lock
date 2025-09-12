@@ -667,14 +667,14 @@ Django = ">=4.2"
 
 [[package]]
 name = "django-generic-api-permissions"
-version = "0.4.7"
+version = "1.0.1"
 description = "Generic API permissions and visibilities for Django"
 optional = false
 python-versions = ">=3.8.1"
 groups = ["main"]
 files = [
-    {file = "django_generic_api_permissions-0.4.7-py3-none-any.whl", hash = "sha256:56ea2098042234f07a5b16b9373d652ef894a5e8f321d0ced0065c63a6f80122"},
-    {file = "django_generic_api_permissions-0.4.7.tar.gz", hash = "sha256:76fbcaca96d6643a9d6974ac7965a5873b71b56f052aee908dc5bdc45426df01"},
+    {file = "django_generic_api_permissions-1.0.1-py3-none-any.whl", hash = "sha256:53ae7207b3313835ec60c58fbf4dfcb2ec742e7a327d3c76ddfd2b136365bb05"},
+    {file = "django_generic_api_permissions-1.0.1.tar.gz", hash = "sha256:4428d2389741e02fad33c210ed6623999157658ec04c842a9bb5dcca8f8e9bce"},
 ]
 
 [package.dependencies]
@@ -3567,4 +3567,4 @@ slim = []
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10.0,<3.14"
-content-hash = "19c748900ece4a71b4923ede0b70394f832c23c48a2805af30b51429ea2c662d"
+content-hash = "1bdafa9e5ffe38d784274a9228a14ab33daa562e54ca6a562f41effced218716"
