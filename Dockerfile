@@ -1,4 +1,4 @@
-FROM python:3.13 AS build
+FROM python:3.13-bookworm AS build
 
 ARG ENV=docker
 ARG APP_HOME=/app
@@ -24,7 +24,7 @@ RUN \
   --mount=type=cache,target=.cache/pypoetry \
   poetry install --only-root
 
-FROM python:3.13-slim
+FROM python:3.13-slim-bookworm
 
 ARG UID=901
 ARG APP_HOME=/app
