@@ -42,6 +42,7 @@ pymemcache = { version = "^4.0.0", optional = true }
 python-dateutil = "^2.9.0"
 python-magic = "^0.4.27"
 python-memcached = "^1.59"
+unoserver = "^3.3.2"
 requests = "^2.32.3"
 sentry-sdk = ">=2.7,<2.35"
 tqdm = "^4.66.4"
@@ -150,6 +151,7 @@ omit = [
     "document_merge_service/settings_*.py",
     "document_merge_service/wsgi.py",
     "document_merge_service/document_merge_service_metadata.py",
+    "document_merge_service/gunicorn.py",
 ]
 show_missing = true
 
