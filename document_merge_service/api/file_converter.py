@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 from django.conf import settings
 from django.http import HttpResponse
 
-from .unoconv import Unoconv
+from .unoconv import UnoConverter
 
 
 class FileConverter:
@@ -14,10 +14,7 @@ class FileConverter:
 
         with NamedTemporaryFile("wb", dir=dir) as tmp:
             tmp.write(file_contents)
-            unoconv = Unoconv(
-                pythonpath=settings.UNOCONV_PYTHON,
-                unoconvpath=settings.UNOCONV_PATH,
-            )
+            unoconv = UnoConverter()
             result = unoconv.process(tmp.name, target_format)
 
         status = 200 if result.returncode == 0 else 500

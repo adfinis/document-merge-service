@@ -1,4 +1,4 @@
-FROM python:3.13-bookworm AS build
+FROM python:3.13-trixie AS build
 
 ARG ENV=docker
 ARG APP_HOME=/app
@@ -24,7 +24,7 @@ RUN \
   --mount=type=cache,target=.cache/pypoetry \
   poetry install --only-root
 
-FROM python:3.13-slim-bookworm
+FROM python:3.13-slim-trixie
 
 ARG UID=901
 ARG APP_HOME=/app
@@ -54,8 +54,7 @@ RUN \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get update && apt-get install -y --no-install-recommends \
     libmagic1 \
-    libreoffice-writer \
-    unoconv \
+    media-types \
     util-linux \
     wait-for-it \
   && rm -rf /var/lib/apt/lists/*

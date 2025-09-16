@@ -57,7 +57,6 @@ jobs:
       - name: Set UID
         run: |
           echo "UID=$(id --user)" > .env
-          echo "ISOLATE_UNOCONV=true" >> .env
       - name: Build docker containers
         run: docker compose up -d --build
       - name: Run pytest
@@ -71,8 +70,6 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - "3.10"
-          - "3.11"
           - "3.12"
           - "3.13"
         database:
@@ -91,6 +88,10 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+      unoserver:
+        image: ghcr.io/unoconv/unoserver-docker:0.4.3
+        ports:
+          - 2003:2003
     steps:
       - uses: actions/checkout@v5
       - name: Install poetry
@@ -105,23 +106,23 @@ jobs:
       - name: Install dependendies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends util-linux unoconv libreoffice-writer libmagic1
+          sudo apt-get install -y --no-install-recommends libmagic1 media-types util-linux wait-for-it
           poetry install --extras full --with dev
       - name: Set environment
         run: |
           echo "ENV=dev" >> .env
           echo "UID=$(id --user)" >> .env
-          echo "ISOLATE_UNOCONV=true" >> .env
           echo "DATABASE_DIR=${{ runner.temp }}/document-merge-service/data" >> .env
           echo "MEDIA_ROOT=${{ runner.temp }}/document-merge-service/media" >> .env
+          echo "UNOSERVER_HOST=localhost" >> .env
       - name: Configure postgres
         if: ${{ matrix.database == 'postgres' }}
         run: |
-          echo "DATABASE_ENGINE=django.db.backends.postgresql"
-          echo "DATABASE_HOST=localhost"
-          echo "DATABASE_PORT=5432"
-          echo "DATABASE_NAME=document-merge-service"
-          echo "DATABASE_USER=document-merge-service"
-          echo "DATABASE_PASSWORD=document-merge-service"
+          echo "DATABASE_ENGINE=django.db.backends.postgresql" >> .env
+          echo "DATABASE_HOST=localhost" >> .env
+          echo "DATABASE_PORT=5432" >> .env
+          echo "DATABASE_NAME=document-merge-service" >> .env
+          echo "DATABASE_USER=document-merge-service" >> .env
+          echo "DATABASE_PASSWORD=document-merge-service" >> .env
       - name: Run tests
         run: poetry run pytest --no-cov-on-fail --cov --create-db -vv

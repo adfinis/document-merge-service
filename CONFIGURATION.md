@@ -21,11 +21,13 @@ To scale the service a different database storage is needed. Any database suppor
 - `DATABASE_USER`: Username to use when connecting to the database
 - `DATABASE_PASSWORD`: Password to use when connecting to database
 
-## Unoconv
+## Unoconv/Unoserver
 
-- `UNOCONV_ALLOWED_TYPES`: List of types allowed to convert to. See `unoconv --show` (default: ['pdf'])
-- `UNOCONV_PYTHON`: String, defaults to "/usr/bin/python3.5"
-- `UNOCONV_PATH`: String, defaults to "/usr/bin/unoconv"
+Unoserver runs separately in a container. You can configure the connection by the following env variables:
+
+- `UNOSERVER_HOST`: String, defaults to "unoserver"
+- `UNOSERVER_PORT`: Integer, defaults to 2003
+- `UNOCONV_ALLOWED_TYPES`: List of types allowed to convert to. Defaults to  ['pdf']
 
 ## python-docx-template
 

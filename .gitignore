@@ -78,3 +78,4 @@ target/
 .idea/
 
 /.dmypy.json
+.aider*

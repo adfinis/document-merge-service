@@ -23,7 +23,8 @@ def default(default_dev=env.NOTSET, default_prod=env.NOTSET):
 
 
 # Unoconv
-ISOLATE_UNOCONV = env.bool("ISOLATE_UNOCONV", default=False)
+UNOSERVER_HOST = env.str("UNOSERVER_HOST", "unoserver")
+UNOSERVER_PORT = env.int("UNOSERVER_PORT", 2003)
 SECRET_KEY = env.str("SECRET_KEY", default=default("uuuuuuuuuu"))
 DEBUG = env.bool("DEBUG", default=default(True, False))
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=default(["*"]))
@@ -209,8 +210,6 @@ if (
 
 # unoconv
 UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
-UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3")
-UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
 
 
 # Jinja2
