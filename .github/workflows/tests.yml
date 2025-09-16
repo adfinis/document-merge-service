@@ -118,11 +118,11 @@ jobs:
       - name: Configure postgres
         if: ${{ matrix.database == 'postgres' }}
         run: |
-          echo "DATABASE_ENGINE=django.db.backends.postgresql"
-          echo "DATABASE_HOST=localhost"
-          echo "DATABASE_PORT=5432"
-          echo "DATABASE_NAME=document-merge-service"
-          echo "DATABASE_USER=document-merge-service"
-          echo "DATABASE_PASSWORD=document-merge-service"
+          echo "DATABASE_ENGINE=django.db.backends.postgresql" >> .env
+          echo "DATABASE_HOST=localhost" >> .env
+          echo "DATABASE_PORT=5432" >> .env
+          echo "DATABASE_NAME=document-merge-service" >> .env
+          echo "DATABASE_USER=document-merge-service" >> .env
+          echo "DATABASE_PASSWORD=document-merge-service" >> .env
       - name: Run tests
         run: poetry run pytest --no-cov-on-fail --cov --create-db -vv
