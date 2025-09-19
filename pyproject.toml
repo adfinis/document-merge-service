@@ -26,7 +26,7 @@ exclude = ["document-merge-service/**/tests"]
 python = ">=3.10.0,<3.14"
 boto3 = { version = "^1.34.143", optional = true }
 Babel = "^2.15.0"
-Django = "~4.2.15"
+Django = "~5.2.7"
 django-cors-headers = "^4.4.0"
 django-environ = ">=0.11.2"
 django-filter = ">=24.2"
