@@ -2,7 +2,9 @@ import io
 import json
 import os
 import re
-from collections import namedtuple
+import tempfile
+import zipfile
+from collections import Counter, namedtuple
 
 import openpyxl
 import pytest
@@ -916,3 +918,36 @@ def test_placeholder_with_unsupported_operand(
     with pytest.raises(exceptions.ValidationError) as exc_info:
         serializer.validate({"data": {"E_BAU_NUMBER": 12345}})
     assert exc_info.value.args[0] == expected_error
+
+
+def test_template_merge_docx_libreoffice_bug(
+    db, client, mock_filefield_name_validation, template, snapshot
+):
+    """Verify a certain docx corruption bug does not occur.
+
+    Certain versions of python-docx and python-docxtemplate cause corruption
+    of files that were originally created with LibreOffice. One effect of that
+    corruption is a duplicate entry in the document-internal files; there
+    are two docProps/core.xml files in the resulting document.
+    """
+    file = django_file("created_with_libreoffice.docx")
+    template.template.save(os.path.basename(file.name), file)
+    template.engine = "docx-template"
+    template.save()
+    url = reverse("template-merge", args=[template.pk])
+
+    response = client.post(url, data={"data": {"test": "Test input"}}, format="json")
+
+    with tempfile.NamedTemporaryFile(suffix=".docx") as tmp:
+        tmp.write(response.content)
+        tmp.seek(0)
+
+        zzz = zipfile.ZipFile(tmp.name)
+        name_counter = Counter()
+        name_counter.update([f.filename for f in zzz.filelist])
+
+    problematic_names = {
+        name: count for name, count in name_counter.most_common() if count > 1
+    }
+
+    assert problematic_names == {}, "Duplicate entry in docx file's internal structure"
