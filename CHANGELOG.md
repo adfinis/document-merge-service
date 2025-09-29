@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.3 (29 September 2025)
+
+### Fix
+
+* **docx-template:** Corruption of libreoffice-originated templates ([`d7b3cec`](https://github.com/adfinis-sygroup/document-merge-service/commit/d7b3cec727457e1f75d1e67d385c9c5d962cca64))
+
 ## 8.0.2 (25. July 2025)
 
 ### Feature
