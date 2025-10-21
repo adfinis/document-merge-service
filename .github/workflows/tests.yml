@@ -32,7 +32,7 @@ jobs:
           python-version: "3.12"
           cache: "poetry"
       - name: Install dependencies
-        run: poetry install --with dev
+        run: poetry install --extras full --with dev
       - name: Run gitlint
         run: poetry run gitlint --contrib contrib-title-conventional-commits
       - name: Run ruff check
