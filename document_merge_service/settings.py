@@ -192,19 +192,23 @@ S3_STORAGE_OPTIONS = {
     "use_ssl": env.bool("DMS_S3_USE_SSL", default=True),
     "verify": env.bool("DMS_S3_VERIFY", default=None),
 }
-
-if DMS_ENABLE_AT_REST_ENCRYPTION:  # pragma: no cover
-    S3_STORAGE_OPTIONS["object_parameters"] = {
-        "SSECustomerKey": env.str(
-            "DMS_S3_STORAGE_SSEC_SECRET",
-            default=default("x" * 32),
-        ),
-        "SSECustomerAlgorithm": "AES256",
-    }
-
 if (
     STORAGES["default"]["BACKEND"] == "storages.backends.s3.S3Storage"
 ):  # pragma: no cover
+    from botocore.config import Config as BotoConfig
+
+    S3_STORAGE_OPTIONS["client_config"] = BotoConfig(
+        **env.dict("DMS_S3_CLIENT_CONFIG", default={})
+    )
+
+    if DMS_ENABLE_AT_REST_ENCRYPTION:
+        S3_STORAGE_OPTIONS["object_parameters"] = {
+            "SSECustomerKey": env.str(
+                "DMS_S3_STORAGE_SSEC_SECRET",
+                default=default("x" * 32),
+            ),
+            "SSECustomerAlgorithm": "AES256",
+        }
     STORAGES["default"]["OPTIONS"] = S3_STORAGE_OPTIONS
 
 # unoconv
