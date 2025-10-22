@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.1.0 (22 October 2025)
+### Feature
+
+* **s3:** Add setting for CLIENT_CONFIG ([`658f1d7`](https://github.com/adfinis/document-merge-service/commit/658f1d7a3b324a51efc69473946f1b6e2337509f))
+* **deps:** Update django to v5.2 LTS ([`f91a39f`](https://github.com/adfinis/document-merge-service/commit/f91a39f4a35f0b21fd360a3a860bea340893bb11))
+
 ## 8.0.3 (29 September 2025)
 
 ### Fix
