@@ -1,27 +1,22 @@
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-
+import requests
 from django.conf import settings
 from django.http import HttpResponse
-
-from .unoconv import Unoconv
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
 
 
 class FileConverter:
-    def convert(file_contents, target_format):
-        dir = Path(settings.DATABASE_DIR, "tmp")
-        dir.mkdir(parents=True, exist_ok=True)
+    def convert(file_contents, filename):
+        response = requests.post(
+            f"{settings.GOTENBERG_HOST}:{settings.GOTENBERG_PORT}/forms/libreoffice/convert",
+            files={"files": (filename, file_contents)},
+        )
 
-        with NamedTemporaryFile("wb", dir=dir) as tmp:
-            tmp.write(file_contents)
-            unoconv = Unoconv(
-                pythonpath=settings.UNOCONV_PYTHON,
-                unoconvpath=settings.UNOCONV_PATH,
-            )
-            result = unoconv.process(tmp.name, target_format)
-
-        status = 200 if result.returncode == 0 else 500
+        if response.status_code != status.HTTP_200_OK:
+            raise ValidationError(f"Failed to convert {filename} to a PDF")
 
         return HttpResponse(
-            content=result.stdout, status=status, content_type=result.content_type
+            content=response.content,
+            status=status.HTTP_200_OK,
+            content_type="application/pdf",
         )

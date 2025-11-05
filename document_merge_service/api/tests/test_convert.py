@@ -47,3 +47,18 @@ def test_incorrect_file_type(db, client):
     response = client.post(url, data=data, format="multipart")
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_gotenberg_error(db, client, requests_mock, settings):
+    requests_mock.post(
+        f"{settings.GOTENBERG_HOST}:{settings.GOTENBERG_PORT}/forms/libreoffice/convert",
+        status_code=502,
+    )
+
+    response = client.post(
+        reverse("convert"),
+        data={"file": django_file("docx-template.docx").file, "target_format": "pdf"},
+        format="multipart",
+    )
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST

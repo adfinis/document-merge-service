@@ -1,7 +1,6 @@
 import json
 from functools import singledispatch
 
-from django.conf import settings
 from django.urls import reverse
 from generic_permissions.validation import ValidatorMixin
 from rest_framework import exceptions, serializers
@@ -174,7 +173,7 @@ class TemplateMergeSerializer(serializers.Serializer):
     convert = serializers.ChoiceField(
         allow_null=True,
         required=False,
-        choices=settings.UNOCONV_ALLOWED_TYPES,
+        choices=["pdf"],
         help_text="Optionally convert result document to this type.",
     )
     files = serializers.ListField(
