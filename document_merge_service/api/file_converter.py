@@ -1,28 +1,41 @@
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-
 from django.conf import settings
 from django.http import HttpResponse
-
-from .unoconv import Unoconv
+from django.utils.timezone import now
+from gotenberg_client import GotenbergClient
+from gotenberg_client.options import PdfAFormat
+from httpx import HTTPStatusError
+from rest_framework import status
+from rest_framework.exceptions import ParseError
 
 
 class FileConverter:
-    def convert(file_contents, target_format):
-        dir = Path(settings.DATABASE_DIR, "tmp")
-        dir.mkdir(parents=True, exist_ok=True)
+    @staticmethod
+    def convert(file_contents, filename):
+        with GotenbergClient(settings.GOTENBERG_URL) as client:
+            with client.libre_office.to_pdf() as route:
+                try:
+                    timestamp = now()
+                    response = (
+                        route.convert_in_memory_file(file_contents, name=filename)
+                        .metadata(
+                            creator="document-merge-service",
+                            creation_date=timestamp,
+                            modification_date=timestamp,
+                        )
+                        .metadata(**settings.GOTENBERG_PDF_METADATA)
+                        .universal_access(universal_access=settings.GOTENBERG_PDF_UA)
+                        .flatten(flatten=settings.GOTENBERG_PDF_FLATTEN)
+                    )
 
-        with NamedTemporaryFile("wb", dir=dir) as tmp:
-            tmp.write(file_contents)
-            tmp.flush()
-            unoconv = Unoconv(
-                pythonpath=settings.UNOCONV_PYTHON,
-                unoconvpath=settings.UNOCONV_PATH,
-            )
-            result = unoconv.process(tmp.name, target_format)
+                    if format := settings.GOTENBERG_PDF_A_FORMAT:
+                        response = response.pdf_format(getattr(PdfAFormat, format))
 
-        status = 200 if result.returncode == 0 else 500
+                    result = response.run()
 
-        return HttpResponse(
-            content=result.stdout, status=status, content_type=result.content_type
-        )
+                    return HttpResponse(
+                        content=result.content,
+                        status=status.HTTP_200_OK,
+                        content_type="application/pdf",
+                    )
+                except HTTPStatusError as exc:
+                    raise ParseError(f"Failed to convert {filename} to a PDF") from exc

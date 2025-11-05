@@ -31,12 +31,24 @@ can be used.
 - `DATABASE_USER`: Username to use when connecting to the database
 - `DATABASE_PASSWORD`: Password to use when connecting to database
 
-## Unoconv
+## Gotenberg
 
-- `UNOCONV_ALLOWED_TYPES`: List of types allowed to convert to. See
-  `unoconv --show` (default: ['pdf'])
-- `UNOCONV_PYTHON`: String, defaults to "/usr/bin/python3.5"
-- `UNOCONV_PATH`: String, defaults to "/usr/bin/unoconv"
+Gotenberg runs separately in a container. You can configure the connection using the following env variables:
+
+- `GOTENBERG_HOST`: Hostname of the Gotenberg service, including scheme
+  (default: `http://gotenberg`)
+- `GOTENBERG_PORT`: Port of the Gotenberg service (default: `3000`)
+- `GOTENBERG_PDF_METADATA`: Comma-separated `Key=Value` pairs written into PDF
+  metadata. Keys are **case-sensitive** and must match the PDF spec
+  (`Author`, `Title`, `Subject`, `Creator`, `Keywords`, ...). Example in
+  `.env`: `GOTENBERG_PDF_METADATA=Author=Acme,Title=Report` (default: `{}`)
+- `GOTENBERG_PDF_A_FORMAT`: PDF/A conformance level for generated PDF. Valid
+  values: `A1a`, `A2b`, `A3b`. If unset, no PDF/A conversion is applied.
+  (default: `None`)
+- `GOTENBERG_PDF_UA`: Boolean, enable PDF/UA (Universal Accessibility)
+  conformance for generated PDF (default: `False`)
+- `GOTENBERG_PDF_FLATTEN`: Boolean, flatten generated PDF (merge form fields
+  and annotations into page content) (default: `False`)
 
 ## python-docx-template
 
