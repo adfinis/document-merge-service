@@ -7,10 +7,6 @@ services:
         - ENV=dev
         - UID=$UID
         - VARIANT=full
-    cap_add:
-      - CAP_SYS_ADMIN
-    security_opt:
-      - apparmor:unconfined
     user: "${UID:?Set UID env variable to your user id}"
     volumes:
       - ./:/app
@@ -22,4 +18,10 @@ services:
       ]
     environment:
       - ENV=dev
-      - ISOLATE_UNOCONV=true
+
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    environment:
+      - CHROMIUM_DISABLE_ROUTES=true
+      - PDFENGINES_DISABLE_ROUTES=true
+      - WEBHOOK_DISABLE=true

@@ -21,11 +21,12 @@ To scale the service a different database storage is needed. Any database suppor
 - `DATABASE_USER`: Username to use when connecting to the database
 - `DATABASE_PASSWORD`: Password to use when connecting to database
 
-## Unoconv
+## Gotenberg
 
-- `UNOCONV_ALLOWED_TYPES`: List of types allowed to convert to. See `unoconv --show` (default: ['pdf'])
-- `UNOCONV_PYTHON`: String, defaults to "/usr/bin/python3.5"
-- `UNOCONV_PATH`: String, defaults to "/usr/bin/unoconv"
+Gotenberg runs separately in a container. You can configure the connection using the following env variables:
+
+- `GOTENBERG_HOST`: String, defaults to "http://gotenberg"
+- `GOTENBERG_PORT`: Integer, defaults to 3000
 
 ## python-docx-template
 

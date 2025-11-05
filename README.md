@@ -21,21 +21,6 @@ docker-compose up -d
 
 You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/) which includes a browsable api.
 
-### Workaround LibreOffice lockup
-
-The workaround has a setting called `ISOLATE_UNOCONV`, it is only enabled in the
-development environment. If `ISOLATE_UNOCONV` is enabled the container needs
-`CAP_SYS_ADMIN`. See docker-compose.override.yml.
-
-```yaml
-cap_add:
-  - CAP_SYS_ADMIN
-security_opt:
-  - apparmor:unconfined
-environment:
-  - ISOLATE_UNOCONV=true
-```
-
 ## Getting started
 
 ### Uploading templates
@@ -55,12 +40,12 @@ curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}
 ```
 
 ### Converting a template
+
 To convert a standalone Docx file the following call can be used:
 
 ```bash
 curl -X POST --form file=@my-test-file.docx --form target_format="pdf" http://localhost:8000/api/v1/convert > example.pdf
 ```
-
 
 ## Further reading
 
