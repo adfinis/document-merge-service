@@ -34,6 +34,7 @@ django-generic-api-permissions = "^3.0.0"
 django-storages = "^1.14.6"
 djangorestframework = "^3.15.2"
 docxtpl = ">=0.17,<0.21"
+gotenberg-client = "^0.14.0"
 gunicorn = ">=23,<26"
 hiredis = {version = "^3.3.1", optional = true}
 Jinja2 = "^3.1.4"
@@ -69,6 +70,8 @@ pytest-cov = "7.1.0"
 pytest-django = "4.12.0"
 pytest-env = "1.6.0"
 pytest-factoryboy = "2.8.1"
+pytest-freezer = "0.4.9"
+pytest-httpx = "0.36.2"
 pytest-mock = "3.15.1"
 pytest-randomly = "4.1.0"
 python-semantic-release = "7.34.6"
@@ -154,6 +157,7 @@ omit = [
     "document_merge_service/settings_*.py",
     "document_merge_service/wsgi.py",
     "document_merge_service/document_merge_service_metadata.py",
+    "document_merge_service/gunicorn.py",
 ]
 show_missing = true
 

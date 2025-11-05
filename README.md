@@ -21,39 +21,6 @@ docker-compose up -d
 
 You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/) which includes a browsable api.
 
-### Workaround LibreOffice lockup
-
-The workaround has a setting called `ISOLATE_UNOCONV`, it is only enabled in the
-development environment. If `ISOLATE_UNOCONV` is enabled the container needs
-`CAP_SYS_ADMIN`. See docker-compose.override.yml.
-
-```yaml
-cap_add:
-  - CAP_SYS_ADMIN
-security_opt:
-  - apparmor:unconfined
-environment:
-  - ISOLATE_UNOCONV=true
-```
-
-#### Sysctl caveat
-
-Depending on your system configuration (e.g. on Ubuntu versions >= 23.10), you might run into the following error (because unprivileged user namespaces are restricted by default):
-
-> unoconv failed with returncode: 1 stderr: b'unshare: write failed /proc/self/uid_map: Operation not permitted
-
-To work around this you can set the following sysctl parameters to allow unprivileged user namespaces.
-
-Create the following file `/etc/sysctl.d/99-userns.conf`
-
-```
-kernel.unprivileged_userns_clone=1
-user.max_user_namespaces=28633
-kernel.apparmor_restrict_unprivileged_userns=0
-```
-
-And apply with `sudo sysctl -p` (additionally reboot, and/or recreate the docker container).
-
 ## Getting started
 
 ### Uploading templates
@@ -73,12 +40,12 @@ curl -H "Content-Type: application/json" --data '{"data": {"test": "Test Input"}
 ```
 
 ### Converting a template
+
 To convert a standalone Docx file the following call can be used:
 
 ```bash
 curl -X POST --form file=@my-test-file.docx --form target_format="pdf" http://localhost:8000/api/v1/convert > example.pdf
 ```
-
 
 ## Further reading
 

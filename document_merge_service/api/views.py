@@ -56,7 +56,7 @@ class TemplateView(VisibilityViewMixin, PermissionViewMixin, viewsets.ModelViewS
         convert = serializer.data.get("convert")
 
         if convert:
-            response = FileConverter.convert(response.content, convert)
+            response = FileConverter.convert(response.content, template.template.name)
 
         extension = mimetypes.guess_extension(response.headers["Content-Type"])
         filename = f"{template.slug}{extension}"
@@ -83,9 +83,8 @@ class ConvertView(APIView):
         serializer.is_valid(raise_exception=True)
 
         file = serializer.data["file"]
-        target_format = serializer.data["target_format"]
 
-        content_type, foo = mimetypes.guess_type(file.name)
+        content_type, _ = mimetypes.guess_type(file.name)
 
         if content_type not in [
             "application/vnd.oasis.opendocument.text",
@@ -95,8 +94,8 @@ class ConvertView(APIView):
                 "Incorrect file format. Only docx and odt files are supported for conversion."
             )
 
-        response = FileConverter.convert(file.read(), target_format)
+        response = FileConverter.convert(file.read(), file.name)
 
-        filename = f"{splitext(file.name)[0]}.{target_format}"
+        filename = f"{splitext(file.name)[0]}.pdf"
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
