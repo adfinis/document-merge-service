@@ -665,18 +665,12 @@ def test_validate_expression(
     serializer.validate({"data": template_content})
 
 
-# This needs a strange parametrization. If `unoconv_local` is in a separate
-# `parametrize()`, the template filename in the second test will be appended with a
-# hash and the test fails
 @pytest.mark.parametrize(
-    "template__engine,template__template,unoconv_local",
-    [
-        (models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"), True),
-        (models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"), False),
-    ],
+    "template__engine,template__template",
+    [(models.Template.DOCX_TEMPLATE, django_file("docx-template.docx"))],
 )
 def test_template_merge_as_pdf(
-    db, settings, unoconv_local, client, mock_filefield_name_validation, template
+    db, settings, client, mock_filefield_name_validation, template
 ):
     url = reverse("template-merge", args=[template.pk])
 
