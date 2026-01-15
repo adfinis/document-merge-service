@@ -111,6 +111,9 @@ class DocxTemplateEngine(DocxValidator):
         document body.
         """
 
+        # Initialize docx on template to prepare for the XML parsing below
+        doc.init_docx()
+
         body_xml = doc.get_xml()
         body_xml = doc.patch_xml(body_xml)
 
