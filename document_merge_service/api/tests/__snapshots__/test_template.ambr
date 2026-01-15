@@ -141,17 +141,17 @@
     'created_by_group': None,
     'created_by_user': None,
     'description': '''
-      Article star very capital morning option. Interesting station story.
-      Where during teach country talk across drop. Central meeting anyone remember. There today material minute ago get.
+      Federal same leg physical new. Whatever Republican water. Court half set do simply at rest fact.
+      Each especially though federal hot. Firm natural important entire black player character.
     ''',
     'disable_template_validation': False,
-    'engine': 'xlsx-template',
+    'engine': 'docx-template',
     'meta': dict({
     }),
     'modified_by_group': None,
     'modified_by_user': None,
     'sample_data': None,
-    'slug': 'note-act-source',
+    'slug': 'activity-commercial',
     'template': None,
   })
 # ---
