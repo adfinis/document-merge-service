@@ -1,4 +1,4 @@
-FROM python:3.13-bookworm AS build
+FROM python:3.14-bookworm AS build
 
 ARG ENV=docker
 ARG APP_HOME=/app
@@ -24,7 +24,7 @@ RUN \
   --mount=type=cache,target=.cache/pypoetry \
   poetry install --only-root
 
-FROM python:3.13-slim-bookworm
+FROM python:3.14-slim-bookworm
 
 ARG UID=901
 ARG APP_HOME=/app
@@ -62,7 +62,7 @@ RUN \
 
 USER document-merge-service
 
-COPY --from=build /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
+COPY --from=build /usr/local/lib/python3.14/site-packages/ /usr/local/lib/python3.14/site-packages/
 COPY --from=build /usr/local/bin/ /usr/local/bin/
 
 EXPOSE 8000
