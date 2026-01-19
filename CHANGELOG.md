@@ -1,6 +1,21 @@
 # Changelog
 
+## 9.0.0 (19 January 2026)
+
+### Feature
+
+* **docker:** Update to python v3.14 ([`28df1b3`](https://github.com/adfinis/document-merge-service/commit/28df1b3e5230120c7dbda7cabf0256cb0ad9e5a4))
+
+### Fix
+
+* **deps:** Update dependencies ([`90e7202`](https://github.com/adfinis/document-merge-service/commit/90e72025076601d60aea27f3deac559a0c3e5770))
+
+### Breaking
+
+* This removes support for python < 3.12. ([`90e7202`](https://github.com/adfinis/document-merge-service/commit/90e72025076601d60aea27f3deac559a0c3e5770))
+
 ## 8.1.0 (22 October 2025)
+
 ### Feature
 
 * **s3:** Add setting for CLIENT_CONFIG ([`658f1d7`](https://github.com/adfinis/document-merge-service/commit/658f1d7a3b324a51efc69473946f1b6e2337509f))
