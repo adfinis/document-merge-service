@@ -57,7 +57,6 @@ jobs:
       - name: Set UID
         run: |
           echo "UID=$(id --user)" > .env
-          echo "ISOLATE_UNOCONV=true" >> .env
       - name: Build docker containers
         run: docker compose up -d --build
       - name: Run pytest
@@ -90,6 +89,10 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+      gotenberg:
+        image: gotenberg/gotenberg:8
+        ports:
+          - 3000:3000
     steps:
       - uses: actions/checkout@v6
       - name: Install poetry
@@ -104,15 +107,15 @@ jobs:
       - name: Install dependendies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends util-linux unoconv libreoffice-writer libmagic1
+          sudo apt-get install -y --no-install-recommends util-linux libmagic1 media-types
           poetry install --extras full --with dev
       - name: Set environment
         run: |
           echo "ENV=dev" >> .env
           echo "UID=$(id --user)" >> .env
-          echo "ISOLATE_UNOCONV=true" >> .env
           echo "DATABASE_DIR=${{ runner.temp }}/document-merge-service/data" >> .env
           echo "MEDIA_ROOT=${{ runner.temp }}/document-merge-service/media" >> .env
+          echo "GOTENBERG_HOST=http://localhost" >> .env
       - name: Configure postgres
         if: ${{ matrix.database == 'postgres' }}
         run: |

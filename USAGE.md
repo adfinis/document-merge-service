@@ -229,7 +229,7 @@ data.
 Merging works the same for both engines, so this is basically all you need to
 know about how to use the DMS.
 
-Additionally, you can also convert output to pdf or other types supported by unoconv:
+Additionally, you can also convert output to pdf.
 
 ```python
 >>> resp = requests.post(

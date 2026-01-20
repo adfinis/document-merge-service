@@ -22,8 +22,6 @@ def default(default_dev=env.NOTSET, default_prod=env.NOTSET):
     return default_prod if ENV == "production" else default_dev
 
 
-# Unoconv
-ISOLATE_UNOCONV = env.bool("ISOLATE_UNOCONV", default=False)
 SECRET_KEY = env.str("SECRET_KEY", default=default("uuuuuuuuuu"))
 DEBUG = env.bool("DEBUG", default=default(True, False))
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=default(["*"]))
@@ -211,10 +209,15 @@ if (
         }
     STORAGES["default"]["OPTIONS"] = S3_STORAGE_OPTIONS
 
-# unoconv
-UNOCONV_ALLOWED_TYPES = env.list("UNOCOV_ALLOWED_TYPES", default=["pdf"])
-UNOCONV_PYTHON = env.str("UNOCONV_PYTHON", default="/usr/bin/python3")
-UNOCONV_PATH = env.str("UNOCONV_PATH", default="/usr/bin/unoconv")
+# Gotenberg
+GOTENBERG_HOST = env.str("GOTENBERG_HOST", default="http://gotenberg")
+GOTENBERG_PORT = env.int("GOTENBERG_PORT", default=3000)
+GOTENBERG_URL = f"{GOTENBERG_HOST}:{GOTENBERG_PORT}"
+
+GOTENBERG_PDF_METADATA = env.dict("GOTENBERG_PDF_METADATA", default={})
+GOTENBERG_PDF_A_FORMAT = env.str("GOTENBERG_PDF_A_FORMAT", default=None)
+GOTENBERG_PDF_UA = env.bool("GOTENBERG_PDF_UA", default=False)
+GOTENBERG_PDF_FLATTEN = env.bool("GOTENBERG_PDF_FLATTEN", default=False)
 
 
 # Jinja2
