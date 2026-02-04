@@ -3908,23 +3908,25 @@ test = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "xltpl"
-version = "0.21"
-description = "A python module to generate xls/x files from a xls/x template"
+version = "0.0.0"
+description = "Module to render xls{,x} files from templates"
 optional = false
-python-versions = "*"
+python-versions = ">=3.12"
 groups = ["main"]
-files = [
-    {file = "xltpl-0.21-py3-none-any.whl", hash = "sha256:422a84235f25df389815788eb4f4bcf33414fcf4f665cf5545c0186ba6896c2c"},
-    {file = "xltpl-0.21.tar.gz", hash = "sha256:b1970cd64f64ef18cf8deeedd9cbf6ad13de92d71ddffbff4cc70eaad20d61d0"},
-]
+files = []
+develop = false
 
 [package.dependencies]
-jinja2 = "*"
-lxml = "*"
-openpyxl = ">=3.1.0"
-six = "*"
-xlrd = ">=1.2.0"
+jinja2 = ">=3.1.6"
+openpyxl = ">=3.1.5"
+xlrd = ">=2.0.2"
 xlwt = ">=1.3.0"
+
+[package.source]
+type = "git"
+url = "https://github.com/adfinis/xltpl"
+reference = "v0.1.2"
+resolved_reference = "159c9051cfa882e5a132329c5c47949fc5121e5c"
 
 [[package]]
 name = "xlwt"
@@ -4077,4 +4079,4 @@ slim = []
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12.0,<3.15"
-content-hash = "ed2d17f469f284c25b0c1e19e1932206d3de0686513ecd79bb26dfe51286ef6c"
+content-hash = "2c83c88c2934200a8705233dfe083917beeeced2d854117dc4fc5489f8936142"
