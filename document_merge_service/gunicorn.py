@@ -6,3 +6,5 @@ workers = os.environ.get("GUNICORN_WORKERS", 8)
 proc_name = "document-merge-service"
 timeout = os.environ.get("GUNICORN_TIMEOUT", 60)
 limit_request_line = os.environ.get("GUNICORN_LIMIT_REQUEST_LINE", 8190)
+max_requests = os.environ.get("GUNICORN_MAX_REQUESTS", 1000)
+max_requests_jitter = os.environ.get("GUNICORN_MAX_REQUESTS_JITTER", 100)
