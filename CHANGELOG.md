@@ -1,5 +1,15 @@
 # Changelog
 
+## 9.1.0 (13 February 2026)
+
+### Feature
+
+* **gunicorn:** Add max-requets and max-requests-jitter env support ([`c90939a`](https://github.com/adfinis/document-merge-service/commit/c90939a4cce24e1f767c8edcf7a29290861d0aa8))
+
+### Fix
+
+* Use our fork of xltpl ([#1098](https://github.com/adfinis/document-merge-service/issues/1098)) ([`df78a42`](https://github.com/adfinis/document-merge-service/commit/df78a42c2436a4a3eddf571bb979668826047ed4))
+
 ## 9.0.0 (19 January 2026)
 
 ### Feature
