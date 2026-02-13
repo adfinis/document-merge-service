@@ -34,6 +34,9 @@ ENV HOME=/home/document-merge-service
 ENV DJANGO_SETTINGS_MODULE=document_merge_service.settings
 ENV MEDIA_ROOT=/var/lib/document-merge-service/media
 ENV DATABASE_DIR=/var/lib/document-merge-service/data
+# Compat setup: setuptools to take over the 'distutils' namespace
+# TODO: remove when migrated away from unoconv
+ENV SETUPTOOLS_USE_DISTUTILS=local
 
 # Suppress noisy warning caused by xltpl: https://github.com/zhangyu836/xltpl/issues/27
 ENV PYTHONWARNINGS="ignore:invalid escape sequence:SyntaxWarning"
