@@ -76,7 +76,7 @@ ruff = "0.14.13"
 syrupy = "5.0.0"
 types-python-dateutil = "2.9.0.20251115"
 types-requests = "2.32.4.20260107"
-types-setuptools = "80.9.0.20251223"
+types-setuptools = "82.0.0.20260210"
 types-toml = "0.10.8.20240310"
 types-boto3 = "^1.40.55"
 
