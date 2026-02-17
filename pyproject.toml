@@ -51,7 +51,7 @@ tqdm = "^4.66.4"
 urllib3 = "^2.2.1"
 whitenoise = "^6.9.0"
 xltpl = { git = "https://github.com/adfinis/xltpl", tag="v0.1.2" }
-poetry = "^2.0.0"
+poetry = "^2.2.0"
 
 [tool.poetry.group.dev]
 optional = true
