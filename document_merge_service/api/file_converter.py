@@ -14,6 +14,7 @@ class FileConverter:
 
         with NamedTemporaryFile("wb", dir=dir) as tmp:
             tmp.write(file_contents)
+            tmp.flush()
             unoconv = Unoconv(
                 pythonpath=settings.UNOCONV_PYTHON,
                 unoconvpath=settings.UNOCONV_PATH,
