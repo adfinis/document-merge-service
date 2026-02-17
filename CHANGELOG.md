@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.1.1 (17 February 2026)
+
+### Fix
+
+* Force write to disk before call to unoconv ([`785e1e8`](https://github.com/adfinis/document-merge-service/commit/785e1e8f73b025472d0c80ae60bec5286305f653))
+
 ## 9.1.0 (13 February 2026)
 
 ### Feature
