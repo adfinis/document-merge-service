@@ -57,7 +57,7 @@ poetry = "^2.2.0"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-django-stubs = "5.2.8"
+django-stubs = "5.2.9"
 factory-boy = "3.3.3"
 gitlint = "0.19.1"
 mypy = "1.19.1"
