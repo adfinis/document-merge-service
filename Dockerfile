@@ -14,6 +14,15 @@ RUN pip install --no-cache-dir -U poetry
 
 # Install project dependencies
 COPY pyproject.toml poetry.lock $APP_HOME/
+
+# necessary for git dependency (forked xltpl)
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get update && apt-get install -y --no-install-recommends \
+    git \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN \
   --mount=type=cache,target=.cache/pypoetry \
   poetry install --no-root --extras $VARIANT $(test "$ENV" = "dev" && echo "--with dev")
@@ -58,6 +67,7 @@ RUN \
   apt-get update && apt-get install -y --no-install-recommends \
     libmagic1 \
     libreoffice-writer \
+    git \
     unoconv \
     util-linux \
     wait-for-it \
