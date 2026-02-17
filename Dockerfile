@@ -67,7 +67,6 @@ RUN \
   apt-get update && apt-get install -y --no-install-recommends \
     libmagic1 \
     libreoffice-writer \
-    git \
     unoconv \
     util-linux \
     wait-for-it \
