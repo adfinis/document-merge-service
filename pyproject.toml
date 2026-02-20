@@ -34,7 +34,7 @@ django-generic-api-permissions = "^3.0.0"
 django-storages = "^1.14.6"
 djangorestframework = "^3.15.2"
 docxtpl = ">=0.17,<0.21"
-gunicorn = "^23.0.0"
+gunicorn = ">=23,<26"
 Jinja2 = "^3.1.4"
 pillow = ">=10.3,<13"
 psycopg = { version = "^3.1.19", optional = true, extras = ["binary"] }
