@@ -36,6 +36,24 @@ environment:
   - ISOLATE_UNOCONV=true
 ```
 
+#### Sysctl caveat
+
+Depending on your system configuration (e.g. on Ubuntu versions >= 23.10), you might run into the following error (because unprivileged user namespaces are restricted by default):
+
+> unoconv failed with returncode: 1 stderr: b'unshare: write failed /proc/self/uid_map: Operation not permitted
+
+To work around this you can set the following sysctl parameters to allow unprivileged user namespaces.
+
+Create the following file `/etc/sysctl.d/99-userns.conf`
+
+```
+kernel.unprivileged_userns_clone=1
+user.max_user_namespaces=28633
+kernel.apparmor_restrict_unprivileged_userns=0
+```
+
+And apply with `sudo sysctl -p` (additionally reboot, and/or recreate the docker container).
+
 ## Getting started
 
 ### Uploading templates
