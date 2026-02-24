@@ -284,6 +284,11 @@ LOGGING = {
     "loggers": {"django": {"handlers": ["console"], "level": "WARNING"}},
 }
 
+DEFAULT_EXCEPTION_REPORTER_FILTER = env.str(
+    "DEFAULT_EXCEPTION_REPORTER_FILTER",
+    "document_merge_service.api.logging.CensoredExceptionReporterFilter",
+)
+
 URL_PREFIX = env.str("URL_PREFIX", default="")
 
 # Email settings
