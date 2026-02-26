@@ -43,7 +43,7 @@ python-dateutil = "^2.9.0"
 python-magic = "^0.4.27"
 python-memcached = "^1.59"
 requests = "^2.32.3"
-sentry-sdk = ">=2.7,<2.50"
+sentry-sdk = ">=2.7,<2.54"
 # Python 3.13+ compatibility via distutils shim
 # TODO: remove when migrated away from unoconv
 setuptools = "^81.0.0"
