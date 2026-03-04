@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.2.0 (04 March 2026)
+
+### Feature
+
+* **security:** Add censored exception report filter ([`1868fbe`](https://github.com/adfinis/document-merge-service/commit/1868fbef83bd218d9681aa971d9c18b19bf33df1))
+
 ## 9.1.1 (17 February 2026)
 
 ### Fix
