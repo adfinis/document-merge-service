@@ -78,7 +78,7 @@ jobs:
           - "postgres"
     services:
       postgres:
-        image: postgres:alpine
+        image: postgres:alpine@sha256:54451ecb8ab38c24c3ec123f2fd501303a3a1856a5c66e98cecf2460d5e1e9d7
         env:
           POSTGRES_USER: document-merge-service
           POSTGRES_PASSWORD: document-merge-service
@@ -90,7 +90,7 @@ jobs:
         ports:
           - 5432:5432
       gotenberg:
-        image: gotenberg/gotenberg:8-libreoffice
+        image: gotenberg/gotenberg:8-libreoffice@sha256:db97d06951a584d21cff7b44f5304e9f69c927dbcbc99d8e1c9ae38a60c5a4fd
         ports:
           - 3000:3000
     steps:
