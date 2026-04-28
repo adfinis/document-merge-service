@@ -1,4 +1,4 @@
-FROM python:3.14 AS build
+FROM python:3.14@sha256:0ba001803c72c128063cfa88863755f905cefabe73c026c66a5a86d8f1d63e98 AS build
 
 ARG ENV=docker
 ARG APP_HOME=/app
@@ -35,7 +35,7 @@ RUN \
   --mount=type=cache,target=.cache/pypoetry \
   poetry install --only-root
 
-FROM python:3.14-slim
+FROM python:3.14-slim@sha256:5b3879b6f3cb77e712644d50262d05a7c146b7312d784a18eff7ff5462e77033
 
 ARG UID=901
 ARG APP_HOME=/app

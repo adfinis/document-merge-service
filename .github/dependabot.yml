@@ -26,6 +26,13 @@ updates:
       - dependency-name: python
         versions:
           - ">3.14"
+  - package-ecosystem: docker-compose
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: friday
+      time: "12:00"
+      timezone: "Europe/Zurich"
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
