@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.2.1 (28 April 2026)
+
+### Fix
+
+* **cache:** Add missing redis packages to allow redis caching ([`159364c`](https://github.com/adfinis/document-merge-service/commit/159364c5cae3dac18744d6a42c2e4da514f95a32))
+
 ## 9.2.0 (04 March 2026)
 
 ### Feature
