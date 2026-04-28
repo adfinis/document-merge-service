@@ -41,7 +41,6 @@ psycopg = { version = "^3.1.19", optional = true, extras = ["binary"] }
 pymemcache = { version = "^4.0.0", optional = true }
 python-dateutil = "^2.9.0"
 python-magic = "^0.4.27"
-python-memcached = "^1.59"
 requests = "^2.32.3"
 sentry-sdk = ">=2.7,<2.59"
 # Python 3.13+ compatibility via distutils shim
