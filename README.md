@@ -11,12 +11,12 @@ A document template merge service providing an API to manage templates and merge
 **Requirements**
 
 - docker
-- docker-compose
+- docker compose
 
 After installing and configuring those, download [docker-compose.yml](https://raw.githubusercontent.com/adfinis/document-merge-service/master/docker-compose.yml) and run the following command:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/) which includes a browsable api.
@@ -28,7 +28,7 @@ You can now access the api at [http://localhost:8000/api/v1/](http://localhost:8
 Upload templates using the following:
 
 ```bash
-curl --form template=@docx-template.docx --form name="Test Template" --form engine=docx-template http://localhost:8000/api/v1/template/
+curl --form template=@docx-template.docx --form slug="test-template" --form name="Test Template" --form engine=docx-template http://localhost:8000/api/v1/template/
 ```
 
 ### Merging a template
