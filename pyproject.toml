@@ -35,7 +35,7 @@ django-storages = "^1.14.6"
 djangorestframework = "^3.15.2"
 docxtpl = ">=0.17,<0.21"
 gotenberg-client = "^0.14.0"
-gunicorn = ">=23,<26"
+gunicorn = ">=23,<27"
 hiredis = {version = "^3.3.1", optional = true}
 Jinja2 = "^3.1.4"
 pillow = ">=10.3,<13"
