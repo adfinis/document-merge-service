@@ -102,13 +102,19 @@ CACHES = {
             default={},
             cast={
                 "value": str,
-                # Common options for PyMemcacheCache which need to have the
+                # Common options for Memcache and Redis which need to have the
                 # proper datatype in order to work
                 "cast": {
+                    # Memcache
+                    # https://pymemcache.readthedocs.io/en/latest/apidoc/pymemcache.client.base.html#module-pymemcache.client.base
                     "connect_timeout": float,
                     "timeout": float,
                     "no_delay": bool,
                     "ignore_exc": bool,
+                    # Redis
+                    # https://redis.readthedocs.io/en/latest/connections.html#generic-client
+                    "socket_connect_timeout": float,
+                    "socket_timeout": float,
                 },
             },
         ),
