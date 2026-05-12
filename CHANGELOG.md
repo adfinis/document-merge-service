@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.2.2 (12 May 2026)
+
+### Fix
+
+* **cache:** Add casing of common redis cache options ([`1565604`](https://github.com/adfinis/document-merge-service/commit/1565604d5d5b7b59d38cdae2200d8d86ad29b552))
+
 ## 9.2.1 (28 April 2026)
 
 ### Fix
