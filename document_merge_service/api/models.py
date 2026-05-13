@@ -64,12 +64,14 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     only other, normal attributes are changed), we keep the file.
     """
 
-    try:
-        old_file = Template.objects.get(pk=instance.pk).template
-    except Template.DoesNotExist:
+    # Check if new file is being uploaded:
+    new_template = instance.template
+    if not new_template or not isinstance(new_template.file, UploadedFile):
         return
 
-    if old_file:
-        new_file = instance.template
-        if isinstance(new_file.file, UploadedFile):
+    # New file is being uploaded, delete old file if there's any:
+    try:
+        if old_file := Template.objects.get(pk=instance.pk).template:
             DefaultStorage().delete(old_file.name)
+    except Template.DoesNotExist:
+        pass
