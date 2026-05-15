@@ -612,7 +612,7 @@ files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
-markers = {main = "platform_system == \"Windows\" or os_name == \"nt\""}
+markers = {main = "os_name == \"nt\" or platform_system == \"Windows\""}
 
 [[package]]
 name = "coverage"
@@ -3666,14 +3666,14 @@ files = [
 
 [[package]]
 name = "types-boto3"
-version = "1.43.6"
-description = "Type annotations for boto3 1.43.6 generated with mypy-boto3-builder 8.12.0"
+version = "1.43.8"
+description = "Type annotations for boto3 1.43.8 generated with mypy-boto3-builder 8.12.0"
 optional = false
 python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "types_boto3-1.43.6-py3-none-any.whl", hash = "sha256:aa1657b7b7a834d06c1a2c34d6ddfa4421acca835644d9d89c4e2b4a0eebb49b"},
-    {file = "types_boto3-1.43.6.tar.gz", hash = "sha256:9ddbdd129fb948ac24729d8314461c9a8e8fc4a9a6cd7bff332f6ed629bd7d20"},
+    {file = "types_boto3-1.43.8-py3-none-any.whl", hash = "sha256:b6032b01a4636900c60a64382ef6143bf8fc73ef7ee2351c3e8419041d50026e"},
+    {file = "types_boto3-1.43.8.tar.gz", hash = "sha256:3e55d17212ca9ce20214c0ee6911f9fd415ab1569619f658e84a2c0949f95090"},
 ]
 
 [package.dependencies]
@@ -3733,7 +3733,7 @@ bedrock-data-automation-runtime = ["types-boto3-bedrock-data-automation-runtime 
 bedrock-runtime = ["types-boto3-bedrock-runtime (>=1.43.0,<1.44.0)"]
 billing = ["types-boto3-billing (>=1.43.0,<1.44.0)"]
 billingconductor = ["types-boto3-billingconductor (>=1.43.0,<1.44.0)"]
-boto3 = ["boto3 (==1.43.6)"]
+boto3 = ["boto3 (==1.43.8)"]
 braket = ["types-boto3-braket (>=1.43.0,<1.44.0)"]
 budgets = ["types-boto3-budgets (>=1.43.0,<1.44.0)"]
 ce = ["types-boto3-ce (>=1.43.0,<1.44.0)"]
@@ -4420,4 +4420,4 @@ slim = []
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12.0,<3.15"
-content-hash = "080c972c9045b60ac91411c48db1e78d87d1a9e4f24d72dee25c8575e0770016"
+content-hash = "3747f922552be8168b486c0aba5b838eefc7f7d6dd6efeaf41bd0cfec382c6b6"
