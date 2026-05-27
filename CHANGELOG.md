@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.2.3 (27 May 2026)
+
+### Fix
+
+* **api:** Ignore missing storage objects for raw additions ([`c640d9a`](https://github.com/adfinis/document-merge-service/commit/c640d9aa6410614be713f1a1988a9cf502abd701))
+
 ## 9.2.2 (12 May 2026)
 
 ### Fix
