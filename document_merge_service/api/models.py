@@ -55,7 +55,7 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
 
 
 @receiver(models.signals.pre_save, sender=Template)
-def auto_delete_file_on_change(sender, instance, **kwargs):
+def auto_delete_file_on_change(sender, instance, raw, **kwargs):
     """
     Delete old template file from filesystem when `Template` is given a new template file.
 
@@ -64,12 +64,22 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     only other, normal attributes are changed), we keep the file.
     """
 
+    # Check if new file is being uploaded:
     try:
-        old_file = Template.objects.get(pk=instance.pk).template
-    except Template.DoesNotExist:
-        return
+        new_template = instance.template
+        if not new_template or not isinstance(new_template.file, UploadedFile):
+            return
+    except FileNotFoundError as e:
+        # For raw additions (e.g. loading fixtures), we cannot guarantee that the
+        # corresponding file is present in the storage, so we ignore this error.
+        # For non-raw additions (i.e. regular uploads), this is an error that should be
+        # handled further up.
+        if not raw:
+            raise e
 
-    if old_file:
-        new_file = instance.template
-        if isinstance(new_file.file, UploadedFile):
+    # New file is being uploaded, delete old file if there's any:
+    try:
+        if old_file := Template.objects.get(pk=instance.pk).template:
             DefaultStorage().delete(old_file.name)
+    except Template.DoesNotExist:
+        pass
