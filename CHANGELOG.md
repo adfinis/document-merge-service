@@ -1,5 +1,19 @@
 # Changelog
 
+## 10.0.0 (03 June 2026)
+
+### Feature
+
+- **convert:** Use gotenberg for PDF conversion ([`7e3b51b`](https://github.com/adfinis/document-merge-service/commit/7e3b51bd5026488421b658ab622b969efa8c5b72))
+
+### Fix
+
+- **security:** Pin all images to digests ([`063e21d`](https://github.com/adfinis/document-merge-service/commit/063e21d1f78c00f30a61570a68f843d69e6b4423))
+
+### Breaking
+
+- This removes unoconv and libreoffice from this project in favor of using gotenberg as PDF conversion service. Please consult the [migration docs](docs/migration-to-v10.md). ([`7e3b51b`](https://github.com/adfinis/document-merge-service/commit/7e3b51bd5026488421b658ab622b969efa8c5b72))
+
 ## 9.2.3 (27 May 2026)
 
 ### Fix
