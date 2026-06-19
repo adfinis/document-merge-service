@@ -264,7 +264,6 @@ class XlsxTemplateEngine:
         writer.jinja_env.filters.update(get_jinja_filters())
         if is_test_merge:
             writer.jinja_env.undefined = self._undefined_factory
-        writer.jinja_env.globals.update(dir=dir, getattr=getattr)
 
         payloads = []
         sheets = writer.sheet_resource_map.sheet_state_list
