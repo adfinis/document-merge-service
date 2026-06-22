@@ -66,9 +66,11 @@ def multiline(value):
 
 def create_image_filter(doc_instance):
     """
-    Factory that binds the 'doc' instance safely inside a Python closure.
+    Bins the 'doc' instance safely inside a Python closure.
+
     The template engine never sees the 'doc_instance' variable.
     """
+
     @pass_context
     def image(ctx, img_name, width=None, height=None, keep_aspect_ratio=False):
         if img_name not in ctx:

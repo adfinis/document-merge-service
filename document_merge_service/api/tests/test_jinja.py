@@ -4,11 +4,11 @@ from docx.shared import Mm
 from document_merge_service.api.data import django_file
 
 from ..jinja import (
+    create_image_filter,
     dateformat,
     datetimeformat,
     emptystring,
     getwithdefault,
-    create_image_filter,
     timeformat,
 )
 
