@@ -64,34 +64,39 @@ def multiline(value):
     return Listing(value)
 
 
-@pass_context
-def image(ctx, img_name, width=None, height=None, keep_aspect_ratio=False):
-    tpl = ctx["_tpl"]
+def create_image_filter(doc_instance):
+    """
+    Factory that binds the 'doc' instance safely inside a Python closure.
+    The template engine never sees the 'doc_instance' variable.
+    """
+    @pass_context
+    def image(ctx, img_name, width=None, height=None, keep_aspect_ratio=False):
+        if img_name not in ctx:
+            raise ValidationError(f'No file for image "{img_name}" provided!')
 
-    if img_name not in ctx:
-        raise ValidationError(f'No file for image "{img_name}" provided!')
+        img = ctx.get(img_name)
 
-    img = ctx.get(img_name)
+        if not img:
+            # Fallback to no image
+            return
 
-    if not img:
-        # Fallback to no image
-        return
+        img.seek(0)  # needed in case image is referenced multiple times
+        if magic.from_buffer(img.read(), mime=True) not in ["image/png", "image/jpeg"]:
+            raise ValidationError("Only png and jpg images are supported!")
 
-    img.seek(0)  # needed in case image is referenced multiple times
-    if magic.from_buffer(img.read(), mime=True) not in ["image/png", "image/jpeg"]:
-        raise ValidationError("Only png and jpg images are supported!")
+        width = Mm(width) if width else None
+        height = Mm(height) if height else None
 
-    width = Mm(width) if width else None
-    height = Mm(height) if height else None
+        if width and height and keep_aspect_ratio:
+            w, h = Image.open(img).size
+            width, height = get_size_with_aspect_ratio(width, height, w / h)
 
-    if width and height and keep_aspect_ratio:
-        w, h = Image.open(img).size
-        width, height = get_size_with_aspect_ratio(width, height, w / h)
+        return InlineImage(doc_instance, img, width=width, height=height)
 
-    return InlineImage(tpl, img, width=width, height=height)
+    return image
 
 
-def get_jinja_filters():
+def get_jinja_filters(doc):
     return {
         "date": dateformat,
         "datetime": datetimeformat,
@@ -99,13 +104,13 @@ def get_jinja_filters():
         "emptystring": emptystring,
         "getwithdefault": getwithdefault,
         "multiline": multiline,
-        "image": image,
+        "image": create_image_filter(doc),
     }
 
 
-def get_jinja_env():
+def get_jinja_env(doc):
     jinja_env = SandboxedEnvironment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
-    jinja_env.filters.update(get_jinja_filters())
+    jinja_env.filters.update(get_jinja_filters(doc))
     return jinja_env
 
 
