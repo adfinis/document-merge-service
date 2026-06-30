@@ -57,3 +57,4 @@ curl -X POST --form file=@my-test-file.docx --form target_format="pdf" http://lo
 ## License
 
 Code released under the [GPL-3.0-or-later license](LICENSE).
+Code in `document_merge_service/third_party/` is released under/with its own licensing.
