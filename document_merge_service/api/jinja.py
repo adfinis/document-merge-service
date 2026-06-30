@@ -4,11 +4,13 @@ from dateutil.parser import parse
 from django.conf import settings
 from django.utils.translation import to_locale
 from docx.shared import Mm
-from docxtpl import InlineImage, Listing
+from docxtpl import Listing
 from jinja2 import pass_context
 from jinja2.sandbox import SandboxedEnvironment
 from PIL import Image
 from rest_framework.exceptions import ValidationError
+
+from document_merge_service.third_party.docxtpl import InlineImage
 
 
 def parse_string(value):
