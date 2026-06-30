@@ -78,7 +78,7 @@ syrupy = "5.3.1"
 types-python-dateutil = "2.9.0.20260508"
 types-requests = "2.33.0.20260508"
 types-setuptools = "82.0.0.20260508"
-types-toml = "0.10.8.20260508"
+types-toml = "0.10.8.20260518"
 types-boto3 = "1.43.22"
 
 [tool.poetry.extras]
