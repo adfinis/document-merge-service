@@ -140,7 +140,7 @@ class DocxTemplateEngine(DocxValidator):
         try:
             doc = DocxTemplate(self.template)
             root = _MagicPlaceholder()
-            env = get_jinja_env()
+            env = get_jinja_env(doc)
             ph = {
                 name: root[name] for name in doc.get_undeclared_template_variables(env)
             }
@@ -149,12 +149,9 @@ class DocxTemplateEngine(DocxValidator):
                 cleaned_image = image.strip('"').strip("'")
                 ph[root[cleaned_image]] = django_file("black.png").file
 
-            ph["_tpl"] = doc
-
             doc.render(ph, env)
 
             if sample_data:
-                sample_data["_tpl"] = doc
                 doc.render(sample_data, env)
 
             self.validate_available_placeholders(
@@ -179,9 +176,8 @@ class DocxTemplateEngine(DocxValidator):
 
     def merge(self, data, buf):
         doc = DocxTemplate(self.template)
-        data["_tpl"] = doc
 
-        doc.render(data, get_jinja_env(), autoescape=True)
+        doc.render(data, get_jinja_env(doc), autoescape=True)
         doc.save(buf)
         return buf
 
@@ -261,10 +257,9 @@ class XlsxTemplateEngine:
         self.writer = writer = writerx.BookWriter(self.template)
         self._current_data = data
 
-        writer.jinja_env.filters.update(get_jinja_filters())
+        writer.jinja_env.filters.update(get_jinja_filters(self.template))
         if is_test_merge:
             writer.jinja_env.undefined = self._undefined_factory
-        writer.jinja_env.globals.update(dir=dir, getattr=getattr)
 
         payloads = []
         sheets = writer.sheet_resource_map.sheet_state_list

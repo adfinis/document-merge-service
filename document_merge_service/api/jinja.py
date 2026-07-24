@@ -4,11 +4,13 @@ from dateutil.parser import parse
 from django.conf import settings
 from django.utils.translation import to_locale
 from docx.shared import Mm
-from docxtpl import InlineImage, Listing
+from docxtpl import Listing
 from jinja2 import pass_context
 from jinja2.sandbox import SandboxedEnvironment
 from PIL import Image
 from rest_framework.exceptions import ValidationError
+
+from document_merge_service.third_party.docxtpl import InlineImage
 
 
 def parse_string(value):
@@ -64,34 +66,41 @@ def multiline(value):
     return Listing(value)
 
 
-@pass_context
-def image(ctx, img_name, width=None, height=None, keep_aspect_ratio=False):
-    tpl = ctx["_tpl"]
+def create_image_filter(doc_instance):
+    """
+    Bins the 'doc' instance safely inside a Python closure.
 
-    if img_name not in ctx:
-        raise ValidationError(f'No file for image "{img_name}" provided!')
+    The template engine never sees the 'doc_instance' variable.
+    """
 
-    img = ctx.get(img_name)
+    @pass_context
+    def image(ctx, img_name, width=None, height=None, keep_aspect_ratio=False):
+        if img_name not in ctx:
+            raise ValidationError(f'No file for image "{img_name}" provided!')
 
-    if not img:
-        # Fallback to no image
-        return
+        img = ctx.get(img_name)
 
-    img.seek(0)  # needed in case image is referenced multiple times
-    if magic.from_buffer(img.read(), mime=True) not in ["image/png", "image/jpeg"]:
-        raise ValidationError("Only png and jpg images are supported!")
+        if not img:
+            # Fallback to no image
+            return
 
-    width = Mm(width) if width else None
-    height = Mm(height) if height else None
+        img.seek(0)  # needed in case image is referenced multiple times
+        if magic.from_buffer(img.read(), mime=True) not in ["image/png", "image/jpeg"]:
+            raise ValidationError("Only png and jpg images are supported!")
 
-    if width and height and keep_aspect_ratio:
-        w, h = Image.open(img).size
-        width, height = get_size_with_aspect_ratio(width, height, w / h)
+        width = Mm(width) if width else None
+        height = Mm(height) if height else None
 
-    return InlineImage(tpl, img, width=width, height=height)
+        if width and height and keep_aspect_ratio:
+            w, h = Image.open(img).size
+            width, height = get_size_with_aspect_ratio(width, height, w / h)
+
+        return InlineImage(doc_instance, img, width=width, height=height)
+
+    return image
 
 
-def get_jinja_filters():
+def get_jinja_filters(doc):
     return {
         "date": dateformat,
         "datetime": datetimeformat,
@@ -99,13 +108,13 @@ def get_jinja_filters():
         "emptystring": emptystring,
         "getwithdefault": getwithdefault,
         "multiline": multiline,
-        "image": image,
+        "image": create_image_filter(doc),
     }
 
 
-def get_jinja_env():
+def get_jinja_env(doc):
     jinja_env = SandboxedEnvironment(extensions=settings.DOCXTEMPLATE_JINJA_EXTENSIONS)
-    jinja_env.filters.update(get_jinja_filters())
+    jinja_env.filters.update(get_jinja_filters(doc))
     return jinja_env
 
 

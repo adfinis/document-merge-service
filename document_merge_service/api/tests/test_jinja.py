@@ -4,11 +4,11 @@ from docx.shared import Mm
 from document_merge_service.api.data import django_file
 
 from ..jinja import (
+    create_image_filter,
     dateformat,
     datetimeformat,
     emptystring,
     getwithdefault,
-    image,
     timeformat,
 )
 
@@ -66,9 +66,10 @@ def test_getwithdefault(inp, default, expected):
     ],
 )
 def test_image(width, height, keep_aspect_ratio, expected_size):
-    # The size of "black.png" is 32x32 pixels which is an aspect ratio of 1
-    inline_image = image(
-        {"_tpl": None, "black.png": django_file("black.png").file},
+    # The size of "black.png" is 32x32 pixels, which is an aspect ratio of 1
+    image_filter = create_image_filter(None)
+    inline_image = image_filter(
+        {"black.png": django_file("black.png").file},
         "black.png",
         width,
         height,

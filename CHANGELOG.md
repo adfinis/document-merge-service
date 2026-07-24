@@ -1,5 +1,13 @@
 # Changelog
 
+## 9.2.4 (24 July 2026)
+
+### Fix
+
+- **security:** Remove `_tpl` from context ([`84115a2`](https://github.com/adfinis/document-merge-service/commit/84115a2f186fb9a106244390c416870527accaa0))
+- **security:** Remove dir and getattr globals ([`6196391`](https://github.com/adfinis/document-merge-service/commit/6196391d5b9764be79ba5820036c0d6a5dd268d7))
+- **security(docx):** Don't allow accessing the template via `InlinedImage.tpl` ([`bf8c3f2`](https://github.com/adfinis/document-merge-service/commit/bf8c3f210ca73d11cd0db0a5f69af9156f90ef12))
+
 ## 9.2.3 (27 May 2026)
 
 ### Fix
