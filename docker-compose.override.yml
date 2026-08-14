@@ -20,7 +20,7 @@ services:
       - ENV=dev
 
   gotenberg:
-    image: gotenberg/gotenberg:8-libreoffice@sha256:3c23aeb3a027a63d7c71745fc9d83724bd58cf9dfa470396ac82c0896028db2a
+    image: gotenberg/gotenberg:8-libreoffice@sha256:956e0bdd7cedbe39fcdc9bc928e613db2c717b0b25d2d7e7d43c51b0f4a30068
     environment:
       - CHROMIUM_DISABLE_ROUTES=true
       - PDFENGINES_DISABLE_ROUTES=true
