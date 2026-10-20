@@ -90,7 +90,7 @@ jobs:
         ports:
           - 5432:5432
       gotenberg:
-        image: gotenberg/gotenberg:8-libreoffice@sha256:db97d06951a584d21cff7b44f5304e9f69c927dbcbc99d8e1c9ae38a60c5a4fd
+        image: gotenberg/gotenberg:8.38.1-libreoffice@sha256:2098722190575dbd975d8abf02e4ce83ffe20783114c5cc56f1b2ac309e6a083
         ports:
           - 3000:3000
     steps:
