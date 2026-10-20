@@ -85,7 +85,8 @@ class CustomVisibility:
     @filter_queryset_for(Template)
     def filter_templates(self, queryset, request):
         queryset = queryset.filter(
-            Q(meta__group__in=self.request.user.groups or []) | Q(meta__group__isnull=True)
+            Q(meta__group__in=self.request.user.groups or [])
+            | Q(meta__group__isnull=True)
         )
 
         return queryset
