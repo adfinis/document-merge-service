@@ -1,5 +1,19 @@
 # Changelog
 
+## 10.1.0 (20 October 2026)
+
+### Feature
+
+* Add management command to clean up unreferenced bucket objects ([`e658477`](https://github.com/adfinis/document-merge-service/commit/e658477734aba0ee4a9ea3354a1bac5bb3be1b2f))
+
+### Fix
+
+* **deps:** Update dependencies ([`7861eda`](https://github.com/adfinis/document-merge-service/commit/7861eda8b8adfba9d91c0fb4f8d540d6dfc1e3af))
+
+### Documentation
+
+* **configuration:** Fix wrongly documented default values for sentry ([`1fd4cc5`](https://github.com/adfinis/document-merge-service/commit/1fd4cc5a9645351c09a185a1f733f86801bea3c1))
+
 ## 10.0.1 (24 July 2026)
 
 ### Fix
