@@ -176,9 +176,9 @@ attempt authentication.
 - `SENTRY_ENVIRONMENT`: which app environment sent an event to sentry (default:
   `development`)
 - `SENTRY_TRACES_SAMPLE_RATE`: percentage chance a given transaction will be
-  sent to Sentry (default: `1.0`)
+  sent to Sentry (default: `0.01`)
 - `SENTRY_SEND_DEFAULT_PII`: enable send PII data that associates users to
-  errors (default: `True`)
+  errors (default: `False`)
 
 ## Template storage
 
