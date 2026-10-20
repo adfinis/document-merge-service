@@ -1,9 +1,8 @@
 from django.conf import settings
 from django.http import HttpResponse
 from django.utils.timezone import now
-from gotenberg_client import GotenbergClient
+from gotenberg_client import GotenbergClient, HttpStatusError
 from gotenberg_client.options import PdfAFormat
-from httpx import HTTPStatusError
 from rest_framework import status
 from rest_framework.exceptions import ParseError
 
@@ -11,7 +10,7 @@ from rest_framework.exceptions import ParseError
 class FileConverter:
     @staticmethod
     def convert(file_contents, filename):
-        with GotenbergClient(settings.GOTENBERG_URL) as client:
+        with GotenbergClient(settings.GOTENBERG_URL, backend="requests") as client:
             with client.libre_office.to_pdf() as route:
                 try:
                     timestamp = now()
@@ -37,5 +36,5 @@ class FileConverter:
                         status=status.HTTP_200_OK,
                         content_type="application/pdf",
                     )
-                except HTTPStatusError as exc:
+                except HttpStatusError as exc:
                     raise ParseError(f"Failed to convert {filename} to a PDF") from exc

@@ -9,13 +9,13 @@ from rest_framework import status
 from document_merge_service.api.data import django_file
 
 
-def parse_httpx_request(request):
+def parse_request(request):
     return MultiPartParser(
         {
             "CONTENT_TYPE": request.headers["content-type"],
             "CONTENT_LENGTH": request.headers["content-length"],
         },
-        io.BytesIO(request.content),
+        io.BytesIO(request.body),
         [],
         "utf-8",
     ).parse()
@@ -40,7 +40,7 @@ def test_convert(
     client,
     filename,
     gotenberg_url,
-    httpx_mock,
+    requests_mock,
     target_filename,
     settings,
     with_options,
@@ -54,11 +54,10 @@ def test_convert(
         settings.GOTENBERG_PDF_UA = True
         settings.GOTENBERG_PDF_FLATTEN = True
 
-    httpx_mock.add_response(
-        method="POST",
-        url=gotenberg_url,
+    requests_mock.post(
+        gotenberg_url,
         status_code=status.HTTP_200_OK,
-        content=django_file("test-pdf.pdf"),
+        content=django_file("test-pdf.pdf").read(),
     )
 
     response = client.post(
@@ -74,7 +73,7 @@ def test_convert(
         == f'attachment; filename="{target_filename}"'
     )
 
-    data, _ = parse_httpx_request(httpx_mock.get_request())
+    data, _ = parse_request(requests_mock.last_request)
     data = data.dict()
     metadata = json.loads(data["metadata"])
 
@@ -113,12 +112,8 @@ def test_incorrect_file_type(db, client):
     "gotenberg_status",
     [status.HTTP_400_BAD_REQUEST, status.HTTP_502_BAD_GATEWAY],
 )
-def test_gotenberg_error(db, client, gotenberg_url, httpx_mock, gotenberg_status):
-    httpx_mock.add_response(
-        method="POST",
-        url=gotenberg_url,
-        status_code=gotenberg_status,
-    )
+def test_gotenberg_error(db, client, gotenberg_url, requests_mock, gotenberg_status):
+    requests_mock.post(gotenberg_url, status_code=gotenberg_status)
 
     response = client.post(
         reverse("convert"),

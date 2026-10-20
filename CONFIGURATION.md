@@ -255,7 +255,7 @@ Such a configuration file might look like this:
 ```python
 # my_gunicorn_config.py
 
-wsgi_app = "document_merge_service.wsgi:application" # must not be changed
+wsgi_app = "document_merge_service.wsgi:application"  # must not be changed
 bind = "0.0.0.0:80"
 workers = 16
 timeout = 120
