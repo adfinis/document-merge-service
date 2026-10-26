@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.1.1 (26 October 2026)
+
+### Fix
+
+* **build:** Update python to v3.14.9 ([`d9d0e2d`](https://github.com/adfinis/document-merge-service/commit/d9d0e2d41fa4ab92f2a8968ddf6485131a830094))
+
 ## 10.1.0 (20 October 2026)
 
 ### Feature
