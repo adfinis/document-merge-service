@@ -78,7 +78,7 @@ types-python-dateutil = "2.9.0.20261021"
 types-requests = "2.33.0.20261006"
 types-setuptools = "84.0.0.20261006"
 types-toml = "0.10.8.20260518"
-types-boto3 = "1.43.115"
+types-boto3 = "1.43.118"
 
 [tool.poetry.extras]
 full = ["psycopg", "pymemcache", "boto3", "redis", "hiredis"]
