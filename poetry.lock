@@ -702,7 +702,7 @@ files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
-markers = {main = "platform_system == \"Windows\" or os_name == \"nt\""}
+markers = {main = "os_name == \"nt\" or platform_system == \"Windows\""}
 
 [[package]]
 name = "coverage"
@@ -3211,14 +3211,14 @@ docs = ["sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "pytest-env"
-version = "1.8.1"
-description = "pytest plugin that allows you to add environment variables."
+version = "1.8.2"
+description = "Set environment variables for pytest sessions."
 optional = false
 python-versions = ">=3.11"
 groups = ["dev"]
 files = [
-    {file = "pytest_env-1.8.1-py3-none-any.whl", hash = "sha256:753d3f0c646dd43f292a6d664099d1cafce39dda08217510ec5e9b6a681628a0"},
-    {file = "pytest_env-1.8.1.tar.gz", hash = "sha256:996f86ad78b6c7b5335e0d493f9e9ecd3e421174e056742856f91da439e1cbd9"},
+    {file = "pytest_env-1.8.2-py3-none-any.whl", hash = "sha256:eb78670f4410157cf0dc33519d45e2fea2b7cae2dc36136d0d246553410a9384"},
+    {file = "pytest_env-1.8.2.tar.gz", hash = "sha256:a68e0973f204de3988645bb0a3e2ce8b23d2bfc13c3abac9992bb3b047cf7415"},
 ]
 
 [package.dependencies]
@@ -4727,4 +4727,4 @@ slim = []
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12.0,<3.15"
-content-hash = "4e01386d4e6b1bbebe7b8a41a532efad9702a2713407ab07b828b01c0ea91281"
+content-hash = "a8a0199801f9101ccdf4c5ca31443d6e07115764d8006be0df29c2aeaf119a7b"
