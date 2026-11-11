@@ -22,6 +22,9 @@ class FileConverter:
                             modification_date=timestamp,
                         )
                         .metadata(**settings.GOTENBERG_PDF_METADATA)
+                        .export_form_fields(
+                            export_form_fields=settings.GOTENBERG_EXPORT_FORM_FIELDS
+                        )
                         .universal_access(universal_access=settings.GOTENBERG_PDF_UA)
                         .flatten(flatten=settings.GOTENBERG_PDF_FLATTEN)
                     )
