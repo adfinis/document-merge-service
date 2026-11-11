@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.2.0 (11 November 2026)
+
+### Feature
+
+* **gotenberg:** Add flag to control export form fields option ([`93c4b21`](https://github.com/adfinis/document-merge-service/commit/93c4b2185cf2a1d02c1fc2fa9478dd41aeea3be6))
+
 ## 10.1.1 (26 October 2026)
 
 ### Fix
