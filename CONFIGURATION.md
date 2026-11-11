@@ -38,6 +38,8 @@ Gotenberg runs separately in a container. You can configure the connection using
 - `GOTENBERG_HOST`: Hostname of the Gotenberg service, including scheme
   (default: `http://gotenberg`)
 - `GOTENBERG_PORT`: Port of the Gotenberg service (default: `3000`)
+- `GOTENBERG_EXPORT_FORM_FIELDS`: Boolean, export interactive PDF form fields.
+  Set to `False` to render form fields as static content (default: `True`).
 - `GOTENBERG_PDF_METADATA`: Comma-separated `Key=Value` pairs written into PDF
   metadata. Keys are **case-sensitive** and must match the PDF spec
   (`Author`, `Title`, `Subject`, `Creator`, `Keywords`, ...). Example in

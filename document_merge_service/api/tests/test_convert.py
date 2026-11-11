@@ -53,6 +53,7 @@ def test_convert(
         settings.GOTENBERG_PDF_A_FORMAT = "A2b"
         settings.GOTENBERG_PDF_UA = True
         settings.GOTENBERG_PDF_FLATTEN = True
+        settings.GOTENBERG_EXPORT_FORM_FIELDS = False
 
     requests_mock.post(
         gotenberg_url,
@@ -87,6 +88,7 @@ def test_convert(
         assert data["pdfa"] == "PDF/A-2b"
         assert data["pdfua"] == "true"
         assert data["flatten"] == "true"
+        assert data["exportFormFields"] == "false"
     else:
         assert metadata == {
             "CreationDate": "2026-01-16T14:43:00+00:00",
@@ -96,6 +98,7 @@ def test_convert(
         assert "pdfa" not in data
         assert data["pdfua"] == "false"
         assert data["flatten"] == "false"
+        assert data["exportFormFields"] == "true"
 
 
 def test_incorrect_file_type(db, client):
